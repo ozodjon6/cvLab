@@ -1,0 +1,143 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    @apply text-navy-800 bg-white antialiased;
+  }
+}
+
+@layer components {
+  /* ── Buttons ── */
+  .btn-primary {
+    @apply inline-flex items-center gap-2 bg-blue-brand text-white px-6 py-3 rounded-lg
+           font-semibold text-sm transition-all duration-200
+           hover:bg-navy-800 hover:-translate-y-0.5
+           shadow-[0_4px_18px_rgba(26,86,219,.3)] border-0 cursor-pointer;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+  .btn-ghost {
+    @apply inline-flex items-center gap-2 border-[1.5px] border-gray-200 text-navy-800
+           px-5 py-2 rounded-lg text-sm font-semibold cursor-pointer
+           transition-all duration-200 hover:border-blue-brand hover:text-blue-brand;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+  .btn-bmc {
+    @apply flex items-center gap-1.5 bg-[#FFDD00] text-black
+           px-3.5 py-[7px] rounded-lg text-[13px] font-bold no-underline
+           transition-all duration-200 border-[1.5px] border-black/10
+           hover:-translate-y-px hover:shadow-[3px_3px_0_rgba(0,0,0,.12)];
+  }
+
+  /* ── Form fields ── */
+  .field-label {
+    @apply block text-[12px] font-semibold text-navy-800 mb-1;
+  }
+  .field-label-req::after {
+    content: ' *';
+    @apply text-blue-brand;
+  }
+  .input-base {
+    @apply w-full px-3 py-2 border-[1.5px] border-gray-200 rounded-lg text-[13px]
+           text-navy-800 bg-white transition-all duration-200 outline-none
+           focus:border-blue-brand focus:shadow-[0_0_0_3px_rgba(26,86,219,.08)]
+           disabled:bg-gray-50 disabled:text-gray-400 disabled:cursor-not-allowed;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+  .input-err {
+    @apply border-red-400 shadow-[0_0_0_3px_rgba(239,68,68,.1)];
+  }
+
+  /* ── Cards ── */
+  .feature-card {
+    @apply bg-white rounded-2xl p-7 border border-gray-100 transition-all duration-300
+           relative overflow-hidden hover:-translate-y-1 hover:shadow-[0_14px_36px_rgba(10,37,64,.09)];
+  }
+  .feature-card::before {
+    content: '';
+    @apply absolute top-0 left-0 right-0 h-[3px]
+           bg-gradient-to-r from-blue-brand to-blue-accent
+           scale-x-0 origin-left transition-transform duration-300;
+  }
+  .feature-card:hover::before { @apply scale-x-100; }
+
+  /* ── Section labels ── */
+  .section-label {
+    @apply text-[11px] font-bold tracking-[.12em] uppercase text-blue-brand mb-2.5;
+  }
+  .section-title {
+    @apply font-display font-extrabold tracking-[-1.5px] leading-[1.05];
+  }
+
+  /* ── CV paper ── */
+  .cv-paper {
+    background: #fff;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 12.5px;
+    line-height: 1.55;
+    color: #0A2540;
+  }
+  .cv-sec-title {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 9px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: #1A56DB;
+    border-bottom: 1px solid #E8F0FE;
+    padding-bottom: 4px;
+    margin-bottom: 8px;
+  }
+
+  /* ── Builder blocks ── */
+  .data-block {
+    @apply border-[1.5px] border-gray-200 rounded-[10px] p-3.5 mb-2.5
+           transition-colors duration-200 hover:border-blue-brand/30;
+  }
+  .add-btn {
+    @apply w-full py-2 border-[1.5px] border-dashed border-gray-200 rounded-[9px]
+           text-blue-brand text-[12px] font-semibold transition-all duration-200
+           hover:border-blue-brand hover:bg-blue-light flex items-center justify-center gap-1.5;
+  }
+}
+
+/* ── Grid lines for hero ── */
+.grid-h { stroke: rgba(26,86,219,.07); stroke-width: 1; }
+.grid-v { stroke: rgba(26,86,219,.07); stroke-width: 1; }
+.glow-line {
+  stroke: rgba(26,86,219,.5);
+  stroke-width: 1.5;
+  stroke-dasharray: 80 400;
+  filter: drop-shadow(0 0 4px rgba(26,86,219,.6));
+}
+.glow-h { animation: glowH 6s linear infinite; }
+.glow-v { animation: glowV 8s linear infinite; }
+.glow-dot {
+  fill: rgba(59,130,246,.7);
+  filter: drop-shadow(0 0 6px rgba(59,130,246,.9));
+  animation: dotPulse 3s ease-in-out infinite;
+}
+
+/* ── Keyframes ── */
+@keyframes glowH { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -480; } }
+@keyframes glowV { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -600; } }
+@keyframes dotPulse { 0%,100% { opacity: .8; } 50% { opacity: 1; } }
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: #F7F9FC; }
+::-webkit-scrollbar-thumb { background: #E2E8F0; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #CBD5E0; }
+
+/* ── Toast transitions ── */
+.toast-enter-active { animation: toastIn .25s ease; }
+.toast-leave-active { animation: toastOut .25s ease forwards; }
+@keyframes toastIn  { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+@keyframes toastOut { from { opacity:1; transform:translateY(0); } to { opacity:0; transform:translateY(10px); } }
+
+/* ── Block list transitions ── */
+.block-enter-active, .block-leave-active { transition: all .22s ease; }
+.block-enter-from, .block-leave-to { opacity: 0; transform: translateY(-6px); }
