@@ -1,7 +1,7 @@
 <template>
-  <div v-if="items.length" class="mb-3">
+  <div v-if="experience.length" class="mb-3">
     <div class="cv-sec-title">Ish tajribasi</div>
-    <div v-for="exp in items" :key="exp.id" class="mb-2.5">
+    <div v-for="exp in experience" :key="exp.id" class="mb-2.5">
       <div class="font-bold text-[12.5px]">{{ exp.jobTitle }}</div>
       <div class="flex justify-between text-[11px] mt-0.5 mb-1 flex-wrap gap-1" style="color:#6B7A90">
         <span>{{ exp.company }}{{ exp.location ? ' · ' + exp.location : '' }}</span>

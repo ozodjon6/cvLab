@@ -6,7 +6,7 @@
       <!-- ══ MODERN ══ -->
       <template v-if="tpl === 'modern'">
         <div class="flex items-center gap-3.5 px-7 py-5" style="background:#0A2540;color:#fff">
-          <CvAvatar :photo="p.photoUrl" :initials="store.inits" :size="56" />
+          <CvAvatar :photo="p.photoUrl" :initials="store.initials" :size="56" />
           <div class="min-w-0">
             <div class="font-display font-bold text-[19px] mb-0.5 truncate">{{ fullName }}</div>
             <div class="text-[10px] uppercase tracking-[.07em]" style="opacity:.5">{{ p.jobTitle || 'Kasb / Lavozim' }}</div>
@@ -76,7 +76,7 @@
       <!-- ══ MINIMAL ══ -->
       <template v-else>
         <div class="px-7 py-5 flex items-center gap-3.5" style="border-bottom:1px solid #E2E8F0">
-          <CvAvatar :photo="p.photoUrl" :initials="store.inits" :size="48" light />
+          <CvAvatar :photo="p.photoUrl" :initials="store.initials" :size="48" light />
           <div class="min-w-0">
             <div class="font-display font-bold text-[18px] tracking-[-0.5px] truncate">{{ fullName }}</div>
             <div class="text-[11px] font-medium mt-0.5" style="color:#1A56DB">{{ p.jobTitle || 'Kasb / Lavozim' }}</div>

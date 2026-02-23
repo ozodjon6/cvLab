@@ -61,10 +61,10 @@ export interface BuilderStep {
 }
 
 export const BUILDER_STEPS: BuilderStep[] = [
-  { id: 1, label: 'Shablon',    description: 'Shablon tanlang' },
-  { id: 2, label: 'Shaxsiy',   description: "Shaxsiy ma'lumotlar" },
-  { id: 3, label: 'Tajriba',   description: 'Ish tajribasi' },
-  { id: 4, label: "Ta'lim",    description: "Ta'lim" },
+  { id: 1, label: 'Shablon', description: 'Shablon tanlang' },
+  { id: 2, label: 'Shaxsiy', description: "Shaxsiy ma'lumotlar" },
+  { id: 3, label: 'Tajriba', description: 'Ish tajribasi' },
+  { id: 4, label: "Ta'lim", description: "Ta'lim" },
   { id: 5, label: "Ko'nikmalar", description: "Ko'nikmalar & Tillar" },
 ]
 
@@ -79,17 +79,17 @@ export interface ValidationError { field: string; message: string }
 export function validateStep(step: StepId, data: CVData): ValidationError[] {
   const errors: ValidationError[] = []
   if (step === 2) {
-    if (!data.personal.firstName.trim())  errors.push({ field: 'firstName',  message: 'Ism kiritilishi shart' })
-    if (!data.personal.lastName.trim())   errors.push({ field: 'lastName',   message: 'Familiya kiritilishi shart' })
-    if (!data.personal.jobTitle.trim())   errors.push({ field: 'jobTitle',   message: 'Kasb kiritilishi shart' })
-    if (!data.personal.email.trim())      errors.push({ field: 'email',      message: 'Email kiritilishi shart' })
+    if (!data.personal.firstName.trim()) errors.push({ field: 'firstName', message: 'Ism kiritilishi shart' })
+    if (!data.personal.lastName.trim()) errors.push({ field: 'lastName', message: 'Familiya kiritilishi shart' })
+    if (!data.personal.jobTitle.trim()) errors.push({ field: 'jobTitle', message: 'Kasb kiritilishi shart' })
+    if (!data.personal.email.trim()) errors.push({ field: 'email', message: 'Email kiritilishi shart' })
   }
   if (step === 3) {
     if (data.experience.length === 0)
       errors.push({ field: 'experience', message: "Kamida bitta ish tajribasini qo'shing" })
     else {
       if (!data.experience[0].jobTitle.trim()) errors.push({ field: 'exp-0-jobTitle', message: 'Lavozim kiritilishi shart' })
-      if (!data.experience[0].company.trim())  errors.push({ field: 'exp-0-company',  message: 'Kompaniya kiritilishi shart' })
+      if (!data.experience[0].company.trim()) errors.push({ field: 'exp-0-company', message: 'Kompaniya kiritilishi shart' })
     }
   }
   if (step === 4) {
@@ -123,8 +123,10 @@ export function emptyCV(): CVData {
 }
 
 export function newExp(): ExperienceItem {
-  return { id: genId(), jobTitle: '', company: '', location: '',
-           startDate: '', endDate: '', isCurrent: false, description: '' }
+  return {
+    id: genId(), jobTitle: '', company: '', location: '',
+    startDate: '', endDate: '', isCurrent: false, description: ''
+  }
 }
 
 export function newEdu(): EducationItem {
@@ -140,6 +142,12 @@ export function newLang(): LanguageItem {
 export function fmtDate(val: string): string {
   if (!val) return ''
   const d = new Date(val + 'T00:00:00')
-  const M = ['Yan','Fev','Mar','Apr','May','Iyn','Iyl','Avg','Sen','Okt','Noy','Dek']
+  const M = ['Yan', 'Fev', 'Mar', 'Apr', 'May', 'Iyn', 'Iyl', 'Avg', 'Sen', 'Okt', 'Noy', 'Dek']
   return `${M[d.getMonth()]} ${d.getFullYear()}`
+}
+
+export function fmtDob(val: string): string {
+  if (!val) return ''
+  const d = new Date(val)
+  return `${d.getDate().toString().padStart(2, '0')}.${(d.getMonth() + 1).toString().padStart(2, '0')}.${d.getFullYear()}`
 }
