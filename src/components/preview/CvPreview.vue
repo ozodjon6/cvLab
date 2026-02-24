@@ -9,25 +9,25 @@
     >
       <!-- ── MODERN ─────────────────────────────────────────── -->
       <template v-if="tpl === 'modern'">
-        <div class="flex items-center gap-3.5 px-7 py-5" style="background:#0A2540;color:#fff">
+        <div style="display:flex;align-items:flex-start;gap:14px;padding:20px 28px;background:#0A2540;color:#fff">
           <CvAvatar :photo="p.photoUrl" :initials="store.initials" :size="56" />
-          <div class="min-w-0">
+          <div style="min-width:0;padding-top:2px">
             <div class="font-display font-bold text-[19px] mb-0.5 truncate">{{ fullName }}</div>
             <div class="text-[10px] uppercase tracking-[.07em] opacity-50">{{ p.jobTitle || 'Kasb / Lavozim' }}</div>
-            <div class="flex gap-3 mt-1.5 flex-wrap">
+            <div style="display:flex;gap:12px;margin-top:6px;flex-wrap:wrap">
               <CvContact :value="p.email" light />
               <CvContact :value="p.phone" light />
               <CvContact :value="p.city"  light />
               <CvContact :value="dobStr"  light />
-              <CvContact :value="p.website" label="Veb-sayt" :href="toUrl(p.website)" light />
-              <CvContact :value="p.linkedin" label="LinkedIn" :href="toUrl(p.linkedin)" light />
-              <CvContact :value="p.github" label="GitHub" :href="toUrl(p.github)" light />
+              <CvContact :value="p.website" :href="toUrl(p.website)" light />
+              <CvContact :value="p.linkedin" :href="toUrl(p.linkedin)" light />
+              <CvContact :value="p.github" :href="toUrl(p.github)" light />
             </div>
           </div>
         </div>
         <!-- Two-column body -->
-        <div class="flex" style="min-height:calc(1123px - 102px)">
-          <div class="w-[190px] shrink-0 p-4" style="background:#F7F9FC;border-right:1px solid #E2E8F0">
+        <div style="display:flex;flex:1;min-height:0">
+          <div style="width:190px;flex-shrink:0;padding:16px;background:#F7F9FC;border-right:1px solid #E2E8F0;min-height:100%">
             <CvSkills :skills="cv.skills" />
             <CvLangs  :langs="cv.languages" />
             <CvEdu    :items="cv.education" />
@@ -49,9 +49,9 @@
             <CvContact :value="p.phone" />
             <CvContact :value="p.city"  />
             <CvContact :value="dobStr"  />
-            <CvContact :value="p.website" label="Veb-sayt" :href="toUrl(p.website)" />
-            <CvContact :value="p.linkedin" label="LinkedIn" :href="toUrl(p.linkedin)" />
-            <CvContact :value="p.github" label="GitHub" :href="toUrl(p.github)" />
+            <CvContact :value="p.website" :href="toUrl(p.website)" />
+            <CvContact :value="p.linkedin" :href="toUrl(p.linkedin)" />
+            <CvContact :value="p.github" :href="toUrl(p.github)" />
           </div>
         </div>
         <div class="px-7 py-5">
@@ -73,9 +73,9 @@
             <CvContact :value="p.phone" light />
             <CvContact :value="p.city"  light />
             <CvContact :value="dobStr"  light />
-            <CvContact :value="p.website" label="Veb-sayt" :href="toUrl(p.website)" light />
-            <CvContact :value="p.linkedin" label="LinkedIn" :href="toUrl(p.linkedin)" light />
-            <CvContact :value="p.github" label="GitHub" :href="toUrl(p.github)" light />
+            <CvContact :value="p.website" :href="toUrl(p.website)" light />
+            <CvContact :value="p.linkedin" :href="toUrl(p.linkedin)" light />
+            <CvContact :value="p.github" :href="toUrl(p.github)" light />
           </div>
         </div>
         <div class="px-7 py-5">
@@ -99,9 +99,9 @@
               <CvContact :value="p.phone" />
               <CvContact :value="p.city"  />
               <CvContact :value="dobStr"  />
-              <CvContact :value="p.website" label="Veb-sayt" :href="toUrl(p.website)" />
-              <CvContact :value="p.linkedin" label="LinkedIn" :href="toUrl(p.linkedin)" />
-              <CvContact :value="p.github" label="GitHub" :href="toUrl(p.github)" />
+              <CvContact :value="p.website" :href="toUrl(p.website)" />
+              <CvContact :value="p.linkedin" :href="toUrl(p.linkedin)" />
+              <CvContact :value="p.github" :href="toUrl(p.github)" />
             </div>
           </div>
         </div>
