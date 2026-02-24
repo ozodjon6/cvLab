@@ -20,31 +20,44 @@ export function usePdfExport() {
     exporting.value = true
     toast.info('PDF tayyorlanmoqda...')
 
-    // Clone without scale transform
+    // Create a hidden but layout-participating container
+    // (left:-9999px can cause html2canvas to produce blank output)
+    const container = document.createElement('div')
+    container.style.cssText =
+      'position:absolute;top:0;left:0;width:794px;z-index:-9999;pointer-events:none;opacity:0;'
+    document.body.appendChild(container)
+
+    // Clone the CV element with no scale transforms
     const clone = el.cloneNode(true) as HTMLElement
     clone.style.cssText =
       'transform:none!important;width:794px;min-height:auto;box-shadow:none;' +
-      'position:fixed;left:-9999px;top:0;font-family:"Plus Jakarta Sans",sans-serif;'
-    document.body.appendChild(clone)
+      'font-family:"Plus Jakarta Sans",sans-serif;'
+    container.appendChild(clone)
 
     try {
-      await h2p()
+      // Correct call: h2p(element).set(opts).save()
+      await h2p(clone)
         .set({
           margin: 0,
           filename,
           image: { type: 'jpeg', quality: 0.98 },
-          html2canvas: { scale: 2, useCORS: true, letterRendering: true },
+          html2canvas: {
+            scale: 2,
+            useCORS: true,
+            letterRendering: true,
+            scrollX: 0,
+            scrollY: 0,
+          },
           jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
           pagebreak: { mode: ['avoid-all', 'css', 'legacy'] },
         })
-        .from(clone)
         .save()
       toast.success('PDF muvaffaqiyatli yuklandi ✓')
     } catch (e) {
       console.error(e)
       toast.error('PDF yaratishda xatolik yuz berdi')
     } finally {
-      clone.parentNode?.removeChild(clone)
+      document.body.removeChild(container)
       exporting.value = false
     }
   }

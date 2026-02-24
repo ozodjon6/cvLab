@@ -30,12 +30,12 @@
     </nav>
 
     <!-- ── Main split ── -->
-    <div class="flex overflow-hidden" style="height:calc(100vh - 56px)">
+    <div class="builder-layout overflow-hidden" style="height:calc(100vh - 56px)">
 
       <!-- ── Form panel ── -->
       <div
-        class="bg-white border-r border-gray-200 flex flex-col overflow-hidden shrink-0"
-        :style="{ width: panelW + 'px', minWidth: '300px', maxWidth: '660px' }"
+        class="form-panel bg-white border-r border-gray-200 flex flex-col overflow-hidden shrink-0"
+        :style="desktopPanelStyle"
       >
         <!-- Scrollable form area -->
         <div class="flex-1 overflow-y-auto px-7 py-6">
@@ -85,9 +85,9 @@
         </div>
       </div>
 
-      <!-- ── Resize handle ── -->
+      <!-- ── Resize handle (desktop only) ── -->
       <div
-        class="w-1.5 cursor-col-resize relative shrink-0 transition-colors hover:bg-blue-brand/40 group"
+        class="resize-handle w-1.5 cursor-col-resize relative shrink-0 transition-colors hover:bg-blue-brand/40 group"
         :class="{ 'bg-blue-brand/60': resize.dragging.value }"
         @mousedown="resize.onDown"
       >
@@ -97,7 +97,7 @@
       </div>
 
       <!-- ── Preview panel ── -->
-      <div class="flex-1 overflow-y-auto bg-[#e8edf2] p-2 flex flex-col items-center min-w-0">
+      <div class="preview-panel flex-1 overflow-y-auto bg-[#e8edf2] p-2 flex flex-col items-center min-w-0">
         <!-- Live label -->
         <div class="self-start mb-1.5 flex items-center gap-1.5 text-[10px] font-bold tracking-[.1em]
                     uppercase text-gray-400 pl-0.5">
@@ -127,6 +127,7 @@
 </template>
 
 <script setup lang="ts">
+import { computed }         from 'vue'
 import { useCVStore }      from '@/stores/cv'
 import { useToast }        from '@/composables/useToast'
 import { usePdfExport }    from '@/composables/usePdfExport'
@@ -152,6 +153,12 @@ if (store.data.languages.length  === 0) store.addLang()
 
 const panelW = resize.width
 
+// Only apply fixed desktop panel width on wide screens
+const desktopPanelStyle = computed(() => {
+  if (typeof window !== 'undefined' && window.innerWidth < 768) return {}
+  return { width: panelW.value + 'px', minWidth: '300px', maxWidth: '660px' }
+})
+
 function onNext() {
   const ok = store.next()
   if (!ok) {
@@ -174,4 +181,37 @@ function onDownload() {
 .slide-leave-active { transition: all .22s ease; }
 .slide-enter-from   { opacity: 0; transform: translateX(12px); }
 .slide-leave-to     { opacity: 0; transform: translateX(-12px); }
+
+/* ── Responsive builder layout ── */
+.builder-layout {
+  display: flex;
+  flex-direction: row;
+}
+
+/* Mobile: stack vertically, allow full scroll */
+@media (max-width: 767px) {
+  .builder-layout {
+    flex-direction: column;
+    height: auto !important;
+    min-height: calc(100vh - 56px);
+    overflow-y: auto;
+  }
+  .form-panel {
+    width: 100% !important;
+    min-width: unset !important;
+    max-width: unset !important;
+    height: auto;
+    min-height: 320px;
+    overflow: visible;
+    border-right: none;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  .form-panel > .flex-1 { overflow-y: visible; }
+  .resize-handle { display: none; }
+  .preview-panel {
+    width: 100%;
+    overflow-y: visible;
+    padding-bottom: 1rem;
+  }
+}
 </style>

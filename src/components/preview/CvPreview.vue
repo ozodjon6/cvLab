@@ -1,6 +1,6 @@
 <template>
-  <!-- Outer wrapper matches scaled height -->
-  <div ref="wrapRef" class="w-full">
+  <!-- Outer wrapper: centers the scaled A4 paper, height tracks scaled content -->
+  <div ref="wrapRef" class="w-full flex justify-center overflow-x-hidden">
     <div
       id="cv-preview"
       ref="cvRef"
@@ -138,9 +138,10 @@ const scale   = ref(1)
 const paperStyle = computed(() => ({
   width: '794px',
   minHeight: '1123px',
-  transformOrigin: 'top left',
+  transformOrigin: 'top center',
   transform: `scale(${scale.value})`,
   boxShadow: '0 4px 24px rgba(0,0,0,.15)',
+  flexShrink: '0',
 }))
 
 function recalc() {
@@ -149,7 +150,9 @@ function recalc() {
   scale.value = Math.min(1, avail / 794)
   nextTick(() => {
     if (cvRef.value && wrapRef.value) {
-      wrapRef.value.style.height = cvRef.value.scrollHeight * scale.value + 'px'
+      // Use offsetHeight for accurate rendered height after transforms
+      const scaledH = cvRef.value.offsetHeight * scale.value
+      wrapRef.value.style.height = scaledH + 'px'
     }
   })
 }
