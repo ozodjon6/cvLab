@@ -28,10 +28,15 @@ export function usePdfExport() {
     document.body.appendChild(container)
 
     // Clone the CV element with no scale transforms
+    // IMPORTANT: min-height must be 0 so content-only CVs don't produce blank 2nd page
     const clone = el.cloneNode(true) as HTMLElement
     clone.style.cssText =
-      'transform:none!important;width:794px;min-height:auto;box-shadow:none;' +
+      'transform:none!important;width:794px;min-height:0!important;box-shadow:none;' +
       'font-family:"Plus Jakarta Sans",sans-serif;'
+    // Also reset min-height on any inner containers that might force A4 height
+    clone.querySelectorAll<HTMLElement>('[style]').forEach(child => {
+      if (child.style.minHeight) child.style.minHeight = '0'
+    })
     container.appendChild(clone)
 
     try {
@@ -49,7 +54,7 @@ export function usePdfExport() {
             scrollY: 0,
           },
           jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-          pagebreak: { mode: ['avoid-all', 'css', 'legacy'] },
+          pagebreak: { mode: ['css', 'legacy'] },
         })
         .save()
       toast.success('PDF muvaffaqiyatli yuklandi ✓')

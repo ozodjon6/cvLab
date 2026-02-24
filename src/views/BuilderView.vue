@@ -25,8 +25,11 @@
         />
       </div>
 
-      <!-- Logo -->
-      <router-link to="/" class="no-underline shrink-0"><Logo size="sm" /></router-link>
+      <!-- Logo + Version -->
+      <router-link to="/" class="no-underline shrink-0 flex items-center gap-1.5">
+        <Logo size="sm" />
+        <span class="text-[9px] font-semibold text-blue-brand/60 bg-blue-brand/8 rounded-full px-1.5 py-0.5 tracking-wide">v1.0</span>
+      </router-link>
     </nav>
 
     <!-- ── Main split ── -->

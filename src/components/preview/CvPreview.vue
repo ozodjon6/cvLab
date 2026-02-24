@@ -19,6 +19,9 @@
               <CvContact :value="p.phone" light />
               <CvContact :value="p.city"  light />
               <CvContact :value="dobStr"  light />
+              <CvContact :value="p.website" light />
+              <CvContact :value="p.linkedin" light />
+              <CvContact :value="p.github" light />
             </div>
           </div>
         </div>
@@ -46,6 +49,9 @@
             <CvContact :value="p.phone" />
             <CvContact :value="p.city"  />
             <CvContact :value="dobStr"  />
+            <CvContact :value="p.website" />
+            <CvContact :value="p.linkedin" />
+            <CvContact :value="p.github" />
           </div>
         </div>
         <div class="px-7 py-5">
@@ -67,6 +73,9 @@
             <CvContact :value="p.phone" light />
             <CvContact :value="p.city"  light />
             <CvContact :value="dobStr"  light />
+            <CvContact :value="p.website" light />
+            <CvContact :value="p.linkedin" light />
+            <CvContact :value="p.github" light />
           </div>
         </div>
         <div class="px-7 py-5">
@@ -90,6 +99,9 @@
               <CvContact :value="p.phone" />
               <CvContact :value="p.city"  />
               <CvContact :value="dobStr"  />
+              <CvContact :value="p.website" />
+              <CvContact :value="p.linkedin" />
+              <CvContact :value="p.github" />
             </div>
           </div>
         </div>
