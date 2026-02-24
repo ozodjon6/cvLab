@@ -19,9 +19,9 @@
               <CvContact :value="p.phone" light />
               <CvContact :value="p.city"  light />
               <CvContact :value="dobStr"  light />
-              <CvContact :value="p.website" light />
-              <CvContact :value="p.linkedin" light />
-              <CvContact :value="p.github" light />
+              <CvContact :value="p.website" label="Veb-sayt" :href="toUrl(p.website)" light />
+              <CvContact :value="p.linkedin" label="LinkedIn" :href="toUrl(p.linkedin)" light />
+              <CvContact :value="p.github" label="GitHub" :href="toUrl(p.github)" light />
             </div>
           </div>
         </div>
@@ -49,9 +49,9 @@
             <CvContact :value="p.phone" />
             <CvContact :value="p.city"  />
             <CvContact :value="dobStr"  />
-            <CvContact :value="p.website" />
-            <CvContact :value="p.linkedin" />
-            <CvContact :value="p.github" />
+            <CvContact :value="p.website" label="Veb-sayt" :href="toUrl(p.website)" />
+            <CvContact :value="p.linkedin" label="LinkedIn" :href="toUrl(p.linkedin)" />
+            <CvContact :value="p.github" label="GitHub" :href="toUrl(p.github)" />
           </div>
         </div>
         <div class="px-7 py-5">
@@ -73,9 +73,9 @@
             <CvContact :value="p.phone" light />
             <CvContact :value="p.city"  light />
             <CvContact :value="dobStr"  light />
-            <CvContact :value="p.website" light />
-            <CvContact :value="p.linkedin" light />
-            <CvContact :value="p.github" light />
+            <CvContact :value="p.website" label="Veb-sayt" :href="toUrl(p.website)" light />
+            <CvContact :value="p.linkedin" label="LinkedIn" :href="toUrl(p.linkedin)" light />
+            <CvContact :value="p.github" label="GitHub" :href="toUrl(p.github)" light />
           </div>
         </div>
         <div class="px-7 py-5">
@@ -99,9 +99,9 @@
               <CvContact :value="p.phone" />
               <CvContact :value="p.city"  />
               <CvContact :value="dobStr"  />
-              <CvContact :value="p.website" />
-              <CvContact :value="p.linkedin" />
-              <CvContact :value="p.github" />
+              <CvContact :value="p.website" label="Veb-sayt" :href="toUrl(p.website)" />
+              <CvContact :value="p.linkedin" label="LinkedIn" :href="toUrl(p.linkedin)" />
+              <CvContact :value="p.github" label="GitHub" :href="toUrl(p.github)" />
             </div>
           </div>
         </div>
@@ -141,6 +141,12 @@ const dobStr = computed(() => {
     day: '2-digit', month: '2-digit', year: 'numeric'
   })
 })
+
+// Ensure URL has protocol prefix
+function toUrl(val: string): string {
+  if (!val) return ''
+  return val.match(/^https?:\/\//) ? val : `https://${val}`
+}
 
 // ── Scale to fit wrapper ──────────────────────────────────
 const wrapRef = ref<HTMLElement | null>(null)

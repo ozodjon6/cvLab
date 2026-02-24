@@ -115,13 +115,13 @@
         <div class="mt-3 pb-3">
           <button
             class="btn-primary text-[12.5px] !py-2 !px-5"
-            :disabled="pdf.exporting.value"
+            :disabled="pdf.exporting.value || store.maxStep < 5"
             @click="onDownload"
           >
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
               <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/>
             </svg>
-            {{ pdf.exporting.value ? 'Tayyorlanmoqda...' : 'PDF yuklab olish' }}
+            {{ pdf.exporting.value ? 'Tayyorlanmoqda...' : store.maxStep < 5 ? 'Avval barcha qadamlarni to\'ldiring' : 'PDF yuklab olish' }}
           </button>
         </div>
       </div>
