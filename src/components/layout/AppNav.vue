@@ -9,7 +9,7 @@
     </router-link>
 
     <div class="flex items-center gap-3.5">
-      <a href="https://buymeacoffee.com" target="_blank" rel="noopener noreferrer" class="btn-bmc">
+      <a href="https://buymeacoffee.com/ozodbro" target="_blank" rel="noopener noreferrer" class="btn-bmc">
         ☕ Kofe olib ber
       </a>
       <router-link to="/builder" class="btn-primary !py-2 !px-5 !text-[13.5px]">

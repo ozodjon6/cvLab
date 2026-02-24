@@ -39,7 +39,7 @@
             <path d="M5 12h14M12 5l7 7-7 7"/>
           </svg>
         </router-link>
-        <a href="https://buymeacoffee.com" target="_blank" rel="noopener" class="btn-bmc !text-[14px] !px-5 !py-3.5 !border-2 !rounded-[9px]">
+        <a href="https://buymeacoffee.com/ozodbro" target="_blank" rel="noopener" class="btn-bmc !text-[14px] !px-5 !py-3.5 !border-2 !rounded-[9px]">
           ☕ Kofe olib ber
         </a>
       </div>
