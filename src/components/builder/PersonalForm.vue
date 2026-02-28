@@ -4,7 +4,7 @@
     <p class="text-xs text-gray-400 mb-4">Kontakt va bio ma'lumotlar</p>
 
     <!-- Photo -->
-    <div class="mb-4">
+    <div v-if="showPhoto" class="mb-4">
       <label class="field-label">Profil rasmi</label>
       <div class="border-2 border-dashed border-gray-200 rounded-[10px] p-4 text-center
                   cursor-pointer transition-all duration-200 hover:border-blue-brand hover:bg-blue-light relative"
@@ -59,9 +59,9 @@
           :value="p.city" @input="set('city', $event)" />
       </div>
       <div>
-        <label class="field-label">Tug'ilgan sana</label>
-        <input class="input-base" type="date"
-          :value="p.dateOfBirth" @input="set('dateOfBirth', $event)" />
+        <label class="field-label">Telegram</label>
+        <input class="input-base" type="text" placeholder="@username"
+          :value="p.telegram" @input="set('telegram', $event)" />
       </div>
     </div>
 
@@ -94,16 +94,19 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useCVStore } from '@/stores/cv'
 import { useToast } from '@/composables/useToast'
 import { usePhotoUpload } from '@/composables/usePhotoUpload'
+import { storeToRefs } from 'pinia'
 
 const store   = useCVStore()
 const toast   = useToast()
 const { read } = usePhotoUpload()
+const { template: tpl } = storeToRefs(store)
 const p       = store.data.personal
 const fileRef = ref<HTMLInputElement | null>(null)
+const showPhoto = computed(() => tpl.value === 'modern')
 
 function set(field: string, e: Event) {
   store.setPersonal(field as keyof typeof p, (e.target as HTMLInputElement).value)

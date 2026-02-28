@@ -11,7 +11,7 @@ export interface PersonalInfo {
   email: string
   phone: string
   city: string
-  dateOfBirth: string
+  telegram: string
   website: string
   linkedin: string
   github: string
@@ -111,7 +111,7 @@ export function emptyCV(): CVData {
   return {
     personal: {
       firstName: '', lastName: '', jobTitle: '',
-      email: '', phone: '', city: '', dateOfBirth: '',
+      email: '', phone: '', city: '', telegram: '',
       website: '', linkedin: '', github: '', bio: '',
       photoUrl: null,
     },

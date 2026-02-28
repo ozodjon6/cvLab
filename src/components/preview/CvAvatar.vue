@@ -24,8 +24,11 @@ const style = computed(() => ({
   border: props.light ? '2px solid #E2E8F0' : '2px solid rgba(255,255,255,.2)',
 }))
 const imgStyle = computed(() => ({
-  width: '100%',
-  height: '100%',
+  width: props.size + 'px',
+  height: props.size + 'px',
+  minWidth: props.size + 'px',
+  minHeight: props.size + 'px',
+  flexShrink: '0',
   objectFit: 'cover' as const,
   borderRadius: '50%',
   display: 'block',

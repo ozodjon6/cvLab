@@ -81,6 +81,7 @@
           <button
             v-else
             class="btn-primary text-[12.5px] !py-2 !px-5"
+            :class="{ 'btn-attention': store.step === 1 }"
             @click="onNext"
           >
             Keyingisi →
@@ -184,6 +185,15 @@ function onDownload() {
 .slide-leave-active { transition: all .22s ease; }
 .slide-enter-from   { opacity: 0; transform: translateX(12px); }
 .slide-leave-to     { opacity: 0; transform: translateX(-12px); }
+
+@keyframes soft-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(5, 74, 237, 0.6); }
+  70% { box-shadow: 0 0 0 8px rgba(26, 86, 219, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(26, 86, 219, 0); }
+}
+.btn-attention {
+  animation: soft-pulse 2s infinite;
+}
 
 /* ── Responsive builder layout ── */
 .builder-layout {

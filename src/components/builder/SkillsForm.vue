@@ -8,7 +8,7 @@
       <label class="field-label">Ko'nikma qo'shing</label>
       <div class="flex gap-2 mb-2.5">
         <input ref="skillRef" v-model="skillText" class="input-base flex-1"
-          type="text" placeholder="React, Python, Figma..."
+          type="text" placeholder="Vue"
           @keydown.enter="add" />
         <button class="bg-blue-brand text-white rounded-lg px-3.5 text-xl cursor-pointer
                        transition-colors hover:bg-navy-800 flex-shrink-0 flex items-center
@@ -39,14 +39,14 @@
           <div class="grid grid-cols-2 gap-2.5">
             <div>
               <label class="field-label">Til</label>
-              <input class="input-base" type="text" placeholder="O'zbek, Ingliz..."
+              <input class="input-base" type="text" placeholder="O'zbek"
                 :value="lang.name" @input="set(lang.id,'name',$event)" />
             </div>
             <div>
               <label class="field-label">Daraja</label>
               <select class="input-base"
                 :value="lang.level" @change="set(lang.id,'level',$event)">
-                <option v-for="lv in LANGUAGE_LEVELS" :key="lv" :value="lv">{{ lv }}</option>
+                <option v-for="lv in LANGUAGE_LEVELS" :key="lv" :value="lv">{{ levelMap[lv] || lv }}</option>
               </select>
             </div>
           </div>
@@ -80,5 +80,15 @@ function add() {
 
 function set(id: string, field: keyof LanguageItem, e: Event) {
   store.setLang(id, field, (e.target as HTMLInputElement | HTMLSelectElement).value)
+}
+
+const levelMap: Record<string, string> = {
+  'Ona tili': 'Ona tili',
+  'C2': 'C2 – Proficiency',
+  'C1': 'C1 – Advanced',
+  'B2': 'B2 – Upper-Intermediate',
+  'B1': 'B1 – Intermediate',
+  'A2': 'A2 – Elementary',
+  'A1': 'A1 – Beginner',
 }
 </script>
