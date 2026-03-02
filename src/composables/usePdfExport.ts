@@ -1,5 +1,6 @@
 import { ref } from 'vue'
 import { useToast } from './useToast'
+import { trackPdfExport } from './useAnalytics'
 
 function sanitizePdfTitle(filename: string): string {
   return (filename || 'cv')
@@ -119,13 +120,16 @@ export function usePdfExport() {
       const opened = await openPrintWindow(el, filename)
       if (!opened) {
         toast.error('Popup bloklandi. Iltimos popupga ruxsat bering va qayta urinib ko\'ring.')
+        trackPdfExport('error')
         return
       }
 
       toast.success('Print oynasi ochildi. "Save as PDF" ni tanlang.')
+      trackPdfExport('success')
     } catch (e) {
       console.error(e)
       toast.error('PDF oynasini ochishda xatolik yuz berdi')
+      trackPdfExport('error')
     } finally {
       exporting.value = false
     }

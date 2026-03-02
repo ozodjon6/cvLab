@@ -33,7 +33,7 @@
       </p>
 
       <div class="flex gap-3 flex-wrap animate-fade-up-d3">
-        <router-link to="/builder" class="btn-primary text-[14px] !px-7 !py-3.5">
+        <router-link to="/builder" class="btn-primary text-[14px] !px-7 !py-3.5" @click="trackBoshlashClick('hero')">
           Boshlash
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
             <path d="M5 12h14M12 5l7 7-7 7"/>
@@ -87,6 +87,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import MiniBar from './MiniBar.vue'
+import { trackBoshlashClick } from '@/composables/useAnalytics'
 
 const svgRef = ref<SVGElement | null>(null)
 

@@ -131,11 +131,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed }         from 'vue'
+import { computed, watch }  from 'vue'
 import { useCVStore }      from '@/stores/cv'
 import { useToast }        from '@/composables/useToast'
 import { usePdfExport }    from '@/composables/usePdfExport'
 import { useResizable }    from '@/composables/useResizable'
+import { trackBuilderStep }from '@/composables/useAnalytics'
 import Logo                from '@/components/layout/Logo.vue'
 import StepProgress        from '@/components/builder/StepProgress.vue'
 import TemplateSelector    from '@/components/builder/TemplateSelector.vue'
@@ -162,6 +163,11 @@ const desktopPanelStyle = computed(() => {
   if (typeof window !== 'undefined' && window.innerWidth < 768) return {}
   return { width: panelW.value + 'px', minWidth: '300px', maxWidth: '660px' }
 })
+
+// Analytics track
+watch(() => store.step, (newStep) => {
+  trackBuilderStep(newStep)
+}, { immediate: true })
 
 function onNext() {
   const ok = store.next()

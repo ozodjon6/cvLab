@@ -33,10 +33,17 @@ const router = createRouter({
   },
 })
 
+import { trackPageView } from '@/composables/useAnalytics'
+
 router.afterEach(to => {
-  if (to.meta.title)       document.title = to.meta.title as string
+  if (to.meta.title) document.title = to.meta.title as string
   const d = document.querySelector('meta[name="description"]')
   if (d && to.meta.description) d.setAttribute('content', to.meta.description as string)
+
+  // Track page view
+  if (typeof window !== 'undefined') {
+    trackPageView(to.path, (to.meta.title as string) || (to.name as string))
+  }
 })
 
 export default router

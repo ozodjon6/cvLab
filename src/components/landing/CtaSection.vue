@@ -13,9 +13,12 @@
              px-8 py-3.5 rounded-xl font-bold text-sm
              shadow-[0_4px_18px_rgba(0,0,0,.18)]
              transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_26px_rgba(0,0,0,.22)]"
+      @click="trackBoshlashClick('cta')"
     >
       Boshlash →
     </router-link>
   </div>
 </template>
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { trackBoshlashClick } from '@/composables/useAnalytics'
+</script>
