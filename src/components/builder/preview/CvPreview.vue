@@ -117,8 +117,7 @@ import CvLangs   from './CvLangs.vue'
 const store = useCVStore()
 const { data: cv, template: tpl, fullName } = storeToRefs(store)
 const p = computed(() => cv.value.personal)
-const dobFormatted = computed(() => fmtDob(p.value.dateOfBirth))
-
+const dobFormatted = computed(() => '') // Stumbbed since dateOfBirth no longer exists
 // ── Scale to fit wrapper ──
 const wrapRef = ref<HTMLElement | null>(null)
 const cvRef   = ref<HTMLElement | null>(null)

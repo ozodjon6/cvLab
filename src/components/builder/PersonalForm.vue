@@ -106,7 +106,7 @@ const { read } = usePhotoUpload()
 const { template: tpl } = storeToRefs(store)
 const p       = store.data.personal
 const fileRef = ref<HTMLInputElement | null>(null)
-const showPhoto = computed(() => tpl.value === 'modern')
+const showPhoto = computed(() => tpl.value === 'modern' || tpl.value === 'minimal')
 
 function set(field: string, e: Event) {
   store.setPersonal(field as keyof typeof p, (e.target as HTMLInputElement).value)

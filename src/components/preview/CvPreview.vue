@@ -16,8 +16,8 @@
             <div class="font-display font-bold text-[21px]" style="line-height:1.25;word-break:break-word;">{{ fullName }}</div>
             <div class="text-[10px] uppercase tracking-[.1em] opacity-50 mt-0.5">{{ p.jobTitle || 'Kasb / Lavozim' }}</div>
             <div style="margin-top:8px;">
-              <span style="display:inline-block;margin-right:16px;"><CvContact icon="email" :value="p.email" light /></span>
-              <span style="display:inline-block;"><CvContact icon="location" :value="p.city" light /></span>
+              <CvContact icon="email" :value="p.email" light />
+              <CvContact icon="location" :value="p.city" light />
             </div>
           </div>
         </div>
@@ -26,12 +26,12 @@
           <div style="width:220px;flex-shrink:0;background:#F7F9FC;border-right:1px solid #E2E8F0;padding:16px 14px">
             <div v-if="p.phone || p.telegram || p.website || p.linkedin || p.github" class="cv-sec mb-3">
               <div class="cv-sec-title">Kontaktlar</div>
-              <div>
-                <div style="margin-bottom:6px;"><CvContact icon="phone" :value="p.phone" /></div>
-                <div style="margin-bottom:6px;"><CvContact icon="telegram" :value="p.telegram" :href="p.telegram ? 'https://t.me/' + p.telegram.replace('@', '') : ''" /></div>
-                <div style="margin-bottom:6px;"><CvContact icon="website" :value="p.website" :href="toUrl(p.website)" label="Vebsayt" /></div>
-                <div style="margin-bottom:6px;"><CvContact icon="linkedin" :value="p.linkedin" :href="toUrl(p.linkedin)" label="LinkedIn" /></div>
-                <div style="margin-bottom:0;"><CvContact icon="github" :value="p.github" :href="toUrl(p.github)" label="GitHub" /></div>
+              <div style="display:flex; flex-direction:column;">
+                <CvContact icon="phone" :value="p.phone" />
+                <CvContact icon="telegram" :value="p.telegram" :href="p.telegram ? 'https://t.me/' + p.telegram.replace('@', '') : ''" />
+                <CvContact icon="website" :value="p.website" :href="toUrl(p.website)" label="Vebsayt" />
+                <CvContact icon="linkedin" :value="p.linkedin" :href="toUrl(p.linkedin)" label="LinkedIn" />
+                <CvContact icon="github" :value="p.github" :href="toUrl(p.github)" label="GitHub" />
               </div>
             </div>
             <CvSkills :skills="cv.skills" />
@@ -50,7 +50,7 @@
         <div class="px-7 pt-5 pb-3.5" style="border-bottom:2.5px solid #0A2540">
           <div class="font-display font-extrabold text-[22px] tracking-[-1px]" style="line-height:1.3;padding-bottom:2px;word-break:break-word;">{{ fullName }}</div>
           <div class="text-[12px] font-semibold mt-0.5" style="color:#1A56DB">{{ p.jobTitle }}</div>
-          <div class="flex gap-4 mt-2 flex-wrap">
+          <div class="flex items-center mt-2 flex-wrap">
             <CvContact icon="email" :value="p.email" />
             <CvContact icon="phone" :value="p.phone" />
             <CvContact icon="location" :value="p.city"  />
@@ -74,7 +74,7 @@
         <div class="px-7 py-6" style="background:#1A56DB;color:#fff">
           <div class="font-display font-extrabold text-[22px] tracking-[-1px] mb-0.5" style="line-height:1.3;padding-bottom:2px;word-break:break-word;">{{ fullName }}</div>
           <div class="text-[10px] uppercase tracking-[.07em] opacity-65 mb-2.5">{{ p.jobTitle }}</div>
-          <div class="flex gap-3 flex-wrap">
+          <div class="flex items-center flex-wrap">
             <CvContact icon="email" :value="p.email" light />
             <CvContact icon="phone" :value="p.phone" light />
             <CvContact icon="location" :value="p.city"  light />
@@ -100,7 +100,7 @@
           <div class="min-w-0">
             <div class="font-display font-bold text-[18px] tracking-[-0.5px]" style="line-height:1.3;padding-bottom:2px;word-break:break-word;">{{ fullName }}</div>
             <div class="text-[11px] font-medium mt-0.5" style="color:#1A56DB">{{ p.jobTitle }}</div>
-            <div class="flex gap-3 mt-1 flex-wrap">
+            <div class="flex items-center mt-1 flex-wrap">
               <CvContact icon="email" :value="p.email" />
               <CvContact icon="phone" :value="p.phone" />
               <CvContact icon="location" :value="p.city"  />
