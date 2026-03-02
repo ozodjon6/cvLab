@@ -6,7 +6,7 @@
       ? 'bg-navy-50 text-navy-500'
       : 'bg-white/10 border-2 border-white/20 text-white/70'"
   >
-    <img v-if="photo" :src="photo" class="w-full h-full object-cover" />
+    <img v-if="photo" :src="photo" class="w-full h-full object-cover"  alt="Avatar"/>
     <span v-else>{{ initials }}</span>
   </div>
 </template>
