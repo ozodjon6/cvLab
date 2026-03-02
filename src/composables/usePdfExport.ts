@@ -63,9 +63,25 @@ export function usePdfExport() {
     await new Promise(r => requestAnimationFrame(r))
     await new Promise(r => requestAnimationFrame(r))
 
+    // Collect all <a> link positions BEFORE rendering canvas
+    const linkData: { x: number; y: number; w: number; h: number; url: string }[] = []
+    const cloneRect = clone.getBoundingClientRect()
+    clone.querySelectorAll<HTMLAnchorElement>('a[href]').forEach(a => {
+      const href = a.getAttribute('href')
+      if (!href || href === '#') return
+      const r = a.getBoundingClientRect()
+      linkData.push({
+        x: r.left - cloneRect.left,
+        y: r.top - cloneRect.top,
+        w: r.width,
+        h: r.height,
+        url: href,
+      })
+    })
+
     try {
       const canvas = await html2canvas(clone, {
-        scale: 4, // 4x scale ensures text is ultra sharp (retina-like) even with JPEG
+        scale: 4,
         useCORS: true,
         allowTaint: true,
         windowWidth: 794,
@@ -80,6 +96,10 @@ export function usePdfExport() {
       const pageW = 210
       const pageH = 297
 
+      // Scaling factors: px → mm
+      const pxToMmX = pageW / 794
+      const pxToMmY = pageW / 794 // same aspect ratio
+
       // Total mm-height for the canvas content
       const imgW = pageW
       const imgH = (canvas.height * pageW) / canvas.width
@@ -92,15 +112,24 @@ export function usePdfExport() {
       })
 
       if (imgH <= pageH + 3) {
-        // Treat as single page (tolerance of 3mm for minHeight overshoot)
+        // Single page
         pdf.addImage(
           canvas.toDataURL('image/jpeg', 1.0),
           'JPEG', 0, 0, imgW, Math.min(imgH, pageH)
         )
+        // Add clickable links on single page
+        for (const link of linkData) {
+          const lx = link.x * pxToMmX
+          const ly = link.y * pxToMmY
+          const lw = link.w * pxToMmX
+          const lh = link.h * pxToMmY
+          pdf.link(lx, ly, lw, lh, { url: link.url })
+        }
       } else {
-        // Multi-page: slice canvas into A4-sized pixel chunks
+        // Multi-page
         const pxPerPage = Math.floor((pageH * canvas.width) / pageW)
         const totalPages = Math.ceil(canvas.height / pxPerPage)
+        const srcPxPerPage = pageH / pxToMmY // px height per page in source coords
 
         for (let i = 0; i < totalPages; i++) {
           if (i > 0) pdf.addPage()
@@ -108,7 +137,6 @@ export function usePdfExport() {
           const srcY = Math.floor(i * pxPerPage)
           const srcH = Math.min(pxPerPage, canvas.height - srcY)
 
-          // Guard: skip empty or zero-height slices
           if (srcH <= 0) break
 
           const pageCanvas = document.createElement('canvas')
@@ -129,6 +157,19 @@ export function usePdfExport() {
             pageCanvas.toDataURL('image/jpeg', 1.0),
             'JPEG', 0, 0, imgW, sliceH
           )
+
+          // Add links that fall on this page
+          const pageTopPx = i * srcPxPerPage
+          const pageBottomPx = pageTopPx + srcPxPerPage
+          for (const link of linkData) {
+            if (link.y + link.h > pageTopPx && link.y < pageBottomPx) {
+              const lx = link.x * pxToMmX
+              const ly = (link.y - pageTopPx) * pxToMmY
+              const lw = link.w * pxToMmX
+              const lh = link.h * pxToMmY
+              pdf.link(lx, ly, lw, lh, { url: link.url })
+            }
+          }
         }
       }
 
