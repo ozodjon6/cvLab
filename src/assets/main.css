@@ -92,6 +92,45 @@
     margin-bottom: 8px;
   }
 
+  /* PDF-safe alignment helpers used by preview components */
+  .cv-contact-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    line-height: 1;
+    white-space: nowrap;
+  }
+  .cv-contact-icon {
+    width: 12px;
+    height: 12px;
+    display: block;
+    flex: 0 0 auto;
+    vertical-align: middle;
+  }
+  .cv-contact-label {
+    display: inline-block;
+    line-height: 1;
+  }
+  .cv-skills-list {
+    line-height: 0;
+  }
+  .cv-skill-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 20px;
+    padding: 0 11px;
+    margin: 0 4px 5px 0;
+    border-radius: 100px;
+    background: #e8f0fe;
+    color: #1a56db;
+    font-size: 10.5px;
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
+    vertical-align: top;
+  }
+
   /* ── Builder blocks ── */
   .data-block {
     @apply border-[1.5px] border-gray-200 rounded-[10px] p-3.5 mb-2.5
@@ -102,6 +141,13 @@
            text-blue-brand text-[12px] font-semibold transition-all duration-200
            hover:border-blue-brand hover:bg-blue-light flex items-center justify-center gap-1.5;
   }
+}
+
+/* Extra hardening only for offscreen export clone */
+.pdf-export-clone .cv-contact-icon,
+.pdf-export-clone img.cv-contact-icon {
+  position: relative;
+  top: 0.6px;
 }
 
 /* ── Grid lines for hero ── */

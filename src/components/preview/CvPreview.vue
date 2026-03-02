@@ -105,6 +105,7 @@
               <CvContact icon="phone" :value="p.phone" />
               <CvContact icon="location" :value="p.city"  />
               <CvContact icon="website" :value="p.website" :href="toUrl(p.website)" label="Vebsayt" />
+              <CvContact icon="telegram" :value="p.telegram" :href="p.telegram ? 'https://t.me/' + p.telegram.replace('@', '') : ''" label="Telegram" />
               <CvContact icon="linkedin" :value="p.linkedin" :href="toUrl(p.linkedin)" label="LinkedIn" />
               <CvContact icon="github" :value="p.github" :href="toUrl(p.github)" label="GitHub" />
             </div>
