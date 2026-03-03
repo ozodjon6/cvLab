@@ -23,13 +23,12 @@
 
       <h1 class="font-display font-extrabold leading-[1.04] tracking-[-2.5px] mb-5
                  text-[clamp(38px,5vw,62px)] animate-fade-up-d1">
-        Professional<br>
-        resume, <em class="not-italic text-blue-brand font-light">daqiqada.</em>
+        Professional CV va<br>
+        resume yaratish, <em class="not-italic text-blue-brand font-light">daqiqada.</em>
       </h1>
 
       <p class="text-base text-gray-500 leading-relaxed mb-9 animate-fade-up-d2">
-        cvLab bilan professional rezyumengizni yarating. Zamonaviy shablonlar
-        va real-time preview bilan ish topish osonlashadi.
+        cvLab – O'zbekistondagi eng qulay bepul onlayn CV va resume yaratish platformasi. Professional rezyumeni qisqa vaqt ichida yarating, zamonaviy shablonlar bilan PDF shaklida yuklab oling va orzuingizdagi ishni toping.
       </p>
 
       <div class="flex gap-3 flex-wrap animate-fade-up-d3">

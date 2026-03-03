@@ -6,6 +6,7 @@
       <StatsSection />
       <FeaturesSection />
       <HowItWorks />
+      <FaqSection />
       <CtaSection />
     </main>
     <AppFooter />
@@ -19,5 +20,6 @@ import HeroSection  from '@/components/landing/HeroSection.vue'
 import StatsSection from '@/components/landing/StatsSection.vue'
 import FeaturesSection from '@/components/landing/FeaturesSection.vue'
 import HowItWorks   from '@/components/landing/HowItWorks.vue'
+import FaqSection   from '@/components/landing/FaqSection.vue'
 import CtaSection   from '@/components/landing/CtaSection.vue'
 </script>

@@ -2,8 +2,8 @@
   <section class="py-[90px] px-16 bg-gray-50">
     <div class="max-w-[1060px] mx-auto">
       <p class="section-label">Imkoniyatlar</p>
-      <h2 class="section-title text-[clamp(28px,3.5vw,42px)] mb-12 max-w-[480px]">
-        Hamma narsa bir joyda
+      <h2 class="section-title text-[clamp(28px,3.5vw,42px)] mb-12 max-w-[600px]">
+        Professional CV yaratish uchun barcha imkoniyatlar
       </h2>
 
       <div class="grid grid-cols-3 gap-5">

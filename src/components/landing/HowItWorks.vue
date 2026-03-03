@@ -2,7 +2,7 @@
   <section class="py-[72px] px-16">
     <div class="max-w-[1060px] mx-auto">
       <p class="section-label">Jarayon</p>
-      <h2 class="section-title text-[clamp(24px,3vw,38px)] mb-12">3 qadamda tayyor</h2>
+      <h2 class="section-title text-[clamp(24px,3vw,38px)] mb-12">3 qadamda tayyor CV va rezyume</h2>
 
       <div class="grid grid-cols-3 gap-8 relative">
         <!-- connector line -->
