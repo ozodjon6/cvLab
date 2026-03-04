@@ -68,5 +68,24 @@ const templates: { id: TemplateId; name: string; preview: string }[] = [
       ${pl('38%','#1A56DB')}${pl('93%')}${pl('76%')}${pl('40%','#1A56DB')}${pl('86%')}${pl('68%')}
     </div>`,
   },
+  {
+    id: 'academic', name: 'Academic',
+    preview: `<div style="background:#fff;padding:10px;font-family:serif;text-align:center">
+      <div style="margin:0 auto;margin-bottom:4px;display:flex;justify-content:center">${pl('80%','#0A2540','6px')}</div>
+      <div style="margin:0 auto;margin-bottom:4px;display:flex;justify-content:center">${pl('40%','#666','2px')}</div>
+      <div style="margin:0 auto;margin-bottom:4px;display:flex;justify-content:center;gap:4px">
+        ${pl('15%','#333','2px')}${pl('15%','#333','2px')}${pl('15%','#333','2px')}
+      </div>
+      <div style="text-align:left;border-bottom:1px solid #000;margin-bottom:4px;padding-bottom:2px">${pl('30%','#0A2540','4px')}</div>
+      <div style="text-align:left;margin-top:2px">${pl('100%','#666','2px')}</div>
+      <div style="text-align:left;margin-top:2px">${pl('80%','#666','2px')}</div>
+      <div style="text-align:left;border-bottom:1px solid #000;margin-top:6px;margin-bottom:4px;padding-bottom:2px">${pl('40%','#0A2540','4px')}</div>
+      <div style="display:flex;justify-content:space-between;margin-top:4px">
+        <div style="width:40%">${pl('100%','#333','2px')}</div>
+        <div style="width:20%">${pl('100%','#666','2px')}</div>
+      </div>
+      <div style="text-align:left;margin-top:3px">${pl('80%','#666','2px')}</div>
+    </div>`,
+  },
 ]
 </script>

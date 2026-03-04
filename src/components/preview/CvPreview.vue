@@ -94,7 +94,7 @@
       </template>
 
       <!-- ── MINIMAL ─────────────────────────────────────────── -->
-      <template v-else>
+      <template v-else-if="tpl === 'minimal'">
         <div class="px-7 py-5 flex items-center gap-3.5" style="border-bottom:1px solid #E2E8F0">
           <CvAvatar :photo="p.photoUrl" :initials="store.initials" :size="84" light />
           <div class="min-w-0">
@@ -119,6 +119,80 @@
           <CvEdu    :items="cv.education" />
         </div>
       </template>
+
+      <!-- ── ACADEMIC ─────────────────────────────────────────── -->
+      <template v-else>
+        <div class="academic-layout px-10 py-8" style="font-family: 'Times New Roman', Times, serif; color: #000;">
+          <div class="text-center">
+            <h1 class="uppercase tracking-[1px] mb-1" style="font-size: 28px; line-height: 1.2; padding-bottom: 2px;">{{ fullName }}</h1>
+            <div style="font-size: 14px; margin-bottom: 3px;" v-if="p.jobTitle || p.city">
+              <span v-if="p.jobTitle">{{ p.jobTitle }}</span>
+              <span v-if="p.jobTitle && p.city"> | </span>
+              <span v-if="p.city">{{ p.city }}</span>
+            </div>
+            <div class="flex items-center justify-center gap-x-4 gap-y-1 flex-wrap mt-2" style="font-size: 11.5px;">
+              <CvContact v-if="p.phone" icon="phone" :value="p.phone" />
+              <CvContact v-if="p.email" icon="email" :value="p.email" />
+              <CvContact v-if="p.linkedin" icon="linkedin" :value="p.linkedin" :href="toUrl(p.linkedin)" />
+              <CvContact v-if="p.github" icon="github" :value="p.github" :href="toUrl(p.github)" />
+              <CvContact v-if="p.website" icon="website" :value="p.website" :href="toUrl(p.website)" />
+              <CvContact v-if="p.telegram" icon="telegram" :value="p.telegram" :href="p.telegram ? 'https://t.me/' + p.telegram.replace('@', '') : ''" />
+            </div>
+          </div>
+
+          <!-- Profile -->
+          <div v-if="p.bio" class="mt-4">
+            <h2 class="font-bold text-[15px] mb-1" style="border-bottom: 1px solid #000; padding-bottom: 2px;">Profile</h2>
+            <p style="font-size: 11.5px; line-height: 1.5; white-space: pre-wrap; margin-top: 4px;">{{ p.bio }}</p>
+          </div>
+
+          <!-- Experience -->
+          <div v-if="cv.experience.filter(e => e.company || e.jobTitle).length" class="mt-4">
+            <h2 class="font-bold text-[15px] mb-1" style="border-bottom: 1px solid #000; padding-bottom: 2px;">Experience</h2>
+            <div v-for="e in cv.experience.filter(e => e.company || e.jobTitle)" :key="e.id" style="margin-top: 6px; margin-bottom: 8px;">
+              <div class="flex justify-between items-baseline" style="font-size: 12.5px;">
+                <span class="font-bold">{{ e.company }}</span>
+                <span class="font-bold" style="font-size: 11.5px;">
+                  {{ fmtDate(e.startDate) }}{{ fmtDate(e.startDate) && (e.isCurrent || e.endDate) ? ' – ' : '' }}{{ e.isCurrent ? 'hozir' : fmtDate(e.endDate) }}
+                </span>
+              </div>
+              <div class="flex justify-between items-baseline italic" style="font-size: 11.5px; margin-top: 1px;">
+                <span>{{ e.jobTitle }}</span>
+                <span>{{ e.location }}</span>
+              </div>
+              <div v-if="e.description" style="font-size: 11.5px; line-height: 1.4; margin-top: 3px; white-space: pre-wrap;">{{ e.description }}</div>
+            </div>
+          </div>
+
+          <!-- Technical Skills -->
+          <div v-if="cv.skills.length > 0 || cv.languages.length > 0" class="mt-4">
+            <h2 class="font-bold text-[15px] mb-1" style="border-bottom: 1px solid #000; padding-bottom: 2px;">Technical Skills</h2>
+            <div style="font-size: 11.5px; line-height: 1.5; margin-top: 4px;">
+              <div v-if="cv.languages.length" style="margin-bottom: 2px;">
+                <span class="font-bold">Languages:</span> {{ cv.languages.map(l => l.name).join(', ') }}
+              </div>
+              <div v-if="cv.skills.length" style="margin-bottom: 2px;">
+                <span class="font-bold">Technologies/Frameworks:</span> {{ cv.skills.join(', ') }}
+              </div>
+            </div>
+          </div>
+
+          <!-- Education -->
+          <div v-if="cv.education.filter(e => e.institution).length" class="mt-4">
+            <h2 class="font-bold text-[15px] mb-1" style="border-bottom: 1px solid #000; padding-bottom: 2px;">Education</h2>
+            <div v-for="e in cv.education.filter(e => e.institution)" :key="e.id" style="margin-top: 6px; margin-bottom: 8px;">
+              <div class="flex justify-between items-baseline" style="font-size: 12.5px;">
+                <span class="font-bold">{{ e.institution }}</span>
+                <span class="font-bold" style="font-size: 11.5px;">{{ e.years }}</span>
+              </div>
+              <div class="flex justify-between items-baseline italic" style="font-size: 11.5px; margin-top: 1px;">
+                <span>{{ e.degree }}</span>
+                <span>{{ e.notes }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </template>
     </div>
   </div>
 </template>
@@ -127,6 +201,7 @@
 import { ref, computed, watch, onMounted, nextTick } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useCVStore } from '@/stores/cv'
+import { fmtDate } from '@/types/cv'
 import CvAvatar  from './CvAvatar.vue'
 import CvContact from './CvContact.vue'
 import CvAbout   from './CvAbout.vue'
@@ -178,3 +253,12 @@ onMounted(() => {
 watch(cv, () => nextTick(recalc), { deep: true })
 watch(tpl, () => nextTick(recalc))
 </script>
+
+<style scoped>
+:deep(.academic-layout .cv-contact-item) {
+  color: #000 !important;
+}
+:deep(.academic-layout .cv-contact-icon) {
+  color: #000 !important;
+}
+</style>

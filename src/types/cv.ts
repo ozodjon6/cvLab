@@ -1,6 +1,6 @@
 // ── Core types ────────────────────────────────────────────
 
-export type TemplateId = 'modern' | 'clean' | 'bold' | 'minimal'
+export type TemplateId = 'modern' | 'clean' | 'bold' | 'minimal' | 'academic'
 export type StepId = 1 | 2 | 3 | 4 | 5
 export type LanguageLevel = 'Ona tili' | 'C2' | 'C1' | 'B2' | 'B1' | 'A2' | 'A1'
 
