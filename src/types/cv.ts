@@ -85,18 +85,10 @@ export function validateStep(step: StepId, data: CVData): ValidationError[] {
     if (!data.personal.email.trim()) errors.push({ field: 'email', message: 'Email kiritilishi shart' })
   }
   if (step === 3) {
-    if (data.experience.length === 0)
-      errors.push({ field: 'experience', message: "Kamida bitta ish tajribasini qo'shing" })
-    else {
-      if (!data.experience[0].jobTitle.trim()) errors.push({ field: 'exp-0-jobTitle', message: 'Lavozim kiritilishi shart' })
-      if (!data.experience[0].company.trim()) errors.push({ field: 'exp-0-company', message: 'Kompaniya kiritilishi shart' })
-    }
+    // Experience validation removed
   }
   if (step === 4) {
-    if (data.education.length === 0)
-      errors.push({ field: 'education', message: "Kamida bitta ta'lim ma'lumotini qo'shing" })
-    else if (!data.education[0].institution.trim())
-      errors.push({ field: 'edu-0-institution', message: "O'quv yurti kiritilishi shart" })
+    // Education validation removed
   }
   return errors
 }
