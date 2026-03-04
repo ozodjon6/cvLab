@@ -21,7 +21,7 @@
 
 <script setup lang="ts">
 const features = [
-  { icon: '✦', title: '4 ta professional shablon', desc: 'HR mutaxassislar tomonidan tasdiqlangan zamonaviy shablonlar.' },
+  { icon: '✦', title: '5 ta professional shablon', desc: 'HR mutaxassislar tomonidan tasdiqlangan zamonaviy shablonlar.' },
   { icon: '⬡', title: 'Real-time preview',         desc: "Har bir o'zgartirish bir zumda ko'rsatiladi." },
   { icon: '↗', title: "Ko'p tilli",                desc: "O'zbek, rus va ingliz tillarida professional rezyume yarating." },
   { icon: '⊡', title: 'PDF eksport',               desc: 'Professional PDF formatida yuklab oling.' },
