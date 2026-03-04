@@ -51,6 +51,10 @@ const faqs = [
   {
     question: "Yuklab olingan PDF faylni ATS (Avtomatik ishlov berish tizimlari) o'qiy oladimi?",
     answer: "Albatta. Bizning shablonlar standart matn oqimi va toza shriftlardan foydalanadi, bu esa kompaniyalarning ATS tizimlari sizning rezyumengizdagi matnlarni xatosiz tanib olishini ta'minlaydi."
+  },
+  {
+    question: "Qanday qilib cv maker orqali rezyumi tayyorlash va tayyor rezyumi namuna olish mumkin?",
+    answer: "cvLab - bu zamonaviy cv maker va cv online platformasi. Saytga kirganingizdan so'ng, sizga tayyor professional shablonlar va rezyumi namuna taqdim etiladi. Ma'lumotlaringizni to'ldirib, bepul rezyumi online shaklda tayyorlaysiz va 3 daqiqa ichida PDF yuklab olasiz."
   }
 ]
 
