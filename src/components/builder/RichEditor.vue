@@ -14,6 +14,7 @@
       contenteditable="true"
       @input="onInput"
       @blur="onBlur"
+      @paste="onPaste"
       v-html="initialValue"
     ></div>
   </div>
@@ -51,6 +52,16 @@ function onInput() {
 
 function onBlur() {
   emitValue()
+}
+
+function onPaste(e: ClipboardEvent) {
+  e.preventDefault()
+
+  const text = e.clipboardData?.getData('text/plain')
+
+  if (text) {
+    document.execCommand('insertText', false, text)
+  }
 }
 
 function emitValue() {

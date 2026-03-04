@@ -50,7 +50,7 @@
       <template v-else-if="tpl === 'clean'">
         <div class="px-7 pt-5 pb-3.5" style="border-bottom:2.5px solid #0A2540">
           <div class="font-display font-extrabold text-[22px] tracking-[-1px]" style="line-height:1.3;padding-bottom:2px;word-break:break-word;">{{ fullName }}</div>
-          <div class="text-[12px] font-semibold mt-0.5" style="color:#1A56DB">{{ p.jobTitle }}</div>
+          <div class="text-[12px] mt-0.5" style="color:#1A56DB">{{ p.jobTitle }}</div>
           <div class="flex items-center gap-4 mt-2 flex-wrap">
             <CvContact icon="email" :value="p.email" />
             <CvContact icon="phone" :value="p.phone" />
@@ -160,7 +160,7 @@
                   {{ fmtDate(e.startDate) }}{{ fmtDate(e.startDate) && (e.isCurrent || e.endDate) ? ' – ' : '' }}{{ e.isCurrent ? 'hozir' : fmtDate(e.endDate) }}
                 </span>
               </div>
-              <div class="flex justify-between items-baseline italic" style="font-size: 11.5px; margin-top: 1px;">
+              <div class="flex justify-between items-baseline italic text-xs mt-0.5">
                 <span>{{ e.jobTitle }}</span>
                 <span>{{ e.location }}</span>
               </div>
@@ -290,7 +290,6 @@ watch(tpl, () => nextTick(recalc))
 <style scoped>
 :deep(.academic-layout .cv-contact-item) {
   color: #000 !important;
-  font-weight: 600 !important;
 }
 :deep(.academic-layout .cv-contact-icon) {
   color: #000 !important;
