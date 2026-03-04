@@ -21,7 +21,7 @@
             'bg-gray-200 text-gray-400':  !isDone(s.id) && current !== s.id,
           }"
         >{{ isDone(s.id) ? '✓' : s.id }}</span>
-        <span class="hidden sm:inline">{{ s.label }}</span>
+        <span class="hidden md:inline">{{ s.label }}</span>
       </button>
 
       <div v-if="i < BUILDER_STEPS.length - 1"

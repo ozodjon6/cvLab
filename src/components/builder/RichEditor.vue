@@ -74,6 +74,16 @@ function emitValue() {
   padding: 6px 8px;
   background: #f9fafb;
   border-bottom: 1px solid #e5e7eb;
+  overflow-x: auto;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+}
+.editor-toolbar::-webkit-scrollbar {
+  height: 4px;
+}
+.editor-toolbar::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 4px;
 }
 .editor-toolbar button {
   padding: 4px 8px;

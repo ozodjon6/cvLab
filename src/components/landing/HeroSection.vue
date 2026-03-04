@@ -1,6 +1,6 @@
 <template>
-  <section class="min-h-screen flex items-center relative overflow-hidden
-                  pt-[calc(56px+60px)] pb-20 px-16">
+  <section class="min-h-[80vh] xl:min-h-screen flex items-center xl:items-center justify-center xl:justify-start relative overflow-hidden
+                  pt-[calc(56px+40px)] xl:pt-[calc(56px+60px)] pb-16 xl:pb-20 px-6 sm:px-10 xl:px-16">
 
     <!-- Gradient bg -->
     <div class="absolute inset-0 pointer-events-none"
@@ -13,25 +13,25 @@
     </div>
 
     <!-- Main content -->
-    <div class="relative z-10 max-w-[560px]">
-      <div class="inline-flex items-center gap-1.5 bg-blue-light text-blue-brand text-[11px]
+    <div class="relative z-10 max-w-[560px] xl:text-left">
+      <div class="inline-flex flex-wrap justify-center items-center gap-1.5 bg-blue-light text-blue-brand text-[10px] sm:text-[11px]
                   font-bold tracking-[.08em] uppercase px-3.5 py-[5px] rounded-full mb-6
                   animate-fade-up">
         <span class="w-[5px] h-[5px] bg-blue-brand rounded-full" />
         O'zbekistonning resume platformasi
       </div>
 
-      <h1 class="font-display font-extrabold leading-[1.04] tracking-[-2.5px] mb-5
-                 text-[clamp(38px,5vw,62px)] animate-fade-up-d1">
+      <h1 class="font-display font-extrabold leading-[1.04] tracking-[-1.5px] sm:tracking-[-2.5px] mb-5
+                 text-[32px] sm:text-[clamp(38px,5vw,62px)] animate-fade-up-d1">
         Professional CV va<br>
         resume yaratish, <em class="not-italic text-blue-brand font-light">daqiqada.</em>
       </h1>
 
-      <p class="text-base text-gray-500 leading-relaxed mb-9 animate-fade-up-d2">
+      <p class="text-sm sm:text-base text-gray-500 leading-relaxed mb-8 sm:mb-9 animate-fade-up-d2">
         cvLab – O'zbekistondagi eng qulay bepul onlayn CV va resume yaratish platformasi. Professional rezyumeni qisqa vaqt ichida yarating, zamonaviy shablonlar bilan PDF shaklida yuklab oling va orzuingizdagi ishni toping.
       </p>
 
-      <div class="flex gap-3 flex-wrap animate-fade-up-d3">
+      <div class="flex gap-3 flex-wrap animate-fade-up-d3 md:justify-center xl:justify-start">
         <router-link to="/builder" class="btn-primary text-[14px] !px-7 !py-3.5" @click="trackBoshlashClick('hero')">
           Boshlash
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">

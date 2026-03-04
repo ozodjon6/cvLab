@@ -1,8 +1,8 @@
 <template>
-  <div class="mx-12 my-12 bg-navy-800 rounded-[22px] py-[72px] px-16 text-center relative overflow-hidden">
-    <div class="absolute w-[500px] h-[500px] rounded-full -top-44 -right-36 pointer-events-none
+  <div class="mx-6 sm:mx-12 my-12 bg-navy-800 rounded-[22px] py-16 sm:py-[72px] px-8 sm:px-16 text-center relative overflow-hidden">
+    <div class="absolute w-[300px] h-[300px] md:w-[500px] md:h-[500px] rounded-full -top-32 -right-24 md:-top-44 md:-right-36 pointer-events-none
                 [background:radial-gradient(circle,rgba(59,130,246,.2)_0%,transparent_70%)]" />
-    <h2 class="font-display font-extrabold text-[clamp(28px,4vw,46px)] text-white tracking-[-2px] mb-3.5 relative z-10">
+    <h2 class="font-display font-extrabold text-[28px] md:text-[clamp(28px,4vw,46px)] text-white tracking-[-1px] md:tracking-[-2px] mb-3 md:mb-3.5 relative z-10 leading-[1.1]">
       Orzuingizdagi ishni<br>
       <span class="text-blue-300 font-light">bugun boshlang.</span>
     </h2>

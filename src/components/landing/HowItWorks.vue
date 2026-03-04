@@ -1,12 +1,12 @@
 <template>
-  <section class="py-[72px] px-16">
+  <section class="py-16 md:py-[72px] px-6 sm:px-16">
     <div class="max-w-[1060px] mx-auto">
-      <p class="section-label">Jarayon</p>
-      <h2 class="section-title text-[clamp(24px,3vw,38px)] mb-12">3 qadamda tayyor CV va rezyume</h2>
+      <p class="section-label text-center">Jarayon</p>
+      <h2 class="section-title text-center text-[28px] md:text-[clamp(24px,3vw,38px)] mb-10 md:mb-12 font-extrabold tracking-[-1px] leading-[1.1]">3 qadamda tayyor CV va rezyume</h2>
 
-      <div class="grid grid-cols-3 gap-8 relative">
-        <!-- connector line -->
-        <div class="absolute top-[26px] left-[17%] right-[17%] h-px
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+        <!-- connector line (desktop only) -->
+        <div class="hidden md:block absolute top-[26px] left-[17%] right-[17%] h-px
                     bg-gradient-to-r from-transparent via-blue-brand to-transparent" />
 
         <div v-for="s in steps" :key="s.n" class="text-center relative z-10">

@@ -1,8 +1,8 @@
 <template>
-  <section class="py-[90px] px-16 bg-white">
+  <section class="py-16 md:py-[90px] px-6 sm:px-16 bg-white">
     <div class="max-w-[800px] mx-auto">
       <p class="section-label text-center mb-2">Ko'p so'raladigan savollar</p>
-      <h2 class="section-title text-center text-[clamp(28px,3.5vw,42px)] mb-12">
+      <h2 class="section-title text-center text-[28px] md:text-[clamp(28px,3.5vw,42px)] mb-8 md:mb-12 font-extrabold tracking-[-1px] leading-[1.1]">
         CV va rezyume bo'yicha savollar
       </h2>
 

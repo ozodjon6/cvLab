@@ -2,18 +2,18 @@
   <div class="min-h-screen bg-gray-50" style="padding-top:56px">
 
     <!-- ── Top nav ── -->
-    <nav class="fixed top-0 inset-x-0 z-[300] h-14 flex items-center justify-between px-6
+    <nav class="fixed top-0 inset-x-0 z-[300] h-14 flex items-center justify-between px-3 sm:px-6
                 bg-white/72 backdrop-blur-[28px] border-b border-white/40
                 shadow-[0_1px_0_rgba(0,0,0,.06)]">
 
       <!-- Back -->
       <router-link to="/"
-        class="flex items-center gap-1.5 text-gray-400 hover:text-navy-800 text-[13px] font-medium
+        class="flex items-center gap-1 sm:gap-1.5 text-gray-400 hover:text-navy-800 text-[12px] sm:text-[13px] font-medium
                transition-colors no-underline shrink-0">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
           <path d="M19 12H5M12 19l-7-7 7-7"/>
         </svg>
-        Orqaga
+        <span class="hidden sm:inline">Orqaga</span>
       </router-link>
 
       <!-- Steps -->
@@ -26,7 +26,7 @@
       </div>
 
       <!-- Logo + Version -->
-      <router-link to="/" class="no-underline shrink-0 flex items-center gap-1.5">
+      <router-link to="/" class="no-underline shrink-0 flex items-center gap-1.5 hidden sm:flex">
         <Logo size="sm" />
         <span class="text-[9px] font-semibold text-blue-brand/60 bg-blue-brand/8 rounded-full px-1.5 py-0.5 tracking-wide">v1.0</span>
       </router-link>
@@ -37,11 +37,11 @@
 
       <!-- ── Form panel ── -->
       <div
-        class="form-panel bg-white border-r border-gray-200 flex flex-col overflow-hidden shrink-0"
+        class="form-panel bg-white border-r border-gray-200 flex flex-col shrink-0 overflow-y-auto md:overflow-hidden"
         :style="desktopPanelStyle"
       >
         <!-- Scrollable form area -->
-        <div class="flex-1 overflow-y-auto px-7 py-6">
+        <div class="flex-1 overflow-x-hidden md:overflow-y-auto px-4 sm:px-7 py-6">
           <Transition name="slide" mode="out-in">
             <TemplateSelector
               v-if="store.step === 1"
@@ -78,10 +78,10 @@
             {{ pdf.exporting.value ? 'Tayyorlanmoqda...' : 'PDF yuklab olish' }}
           </button>
 
-          <!-- Steps 1–4: next -->
+          <!-- Steps 1–5: next -->
           <button
             v-else
-            class="btn-primary text-[12.5px] !py-2 !px-5"
+            class="btn-primary text-[12.5px] !py-2 !px-4 sm:!px-5 shrink-0"
             :class="{ 'btn-attention': store.step === 1 }"
             @click="onNext"
           >
@@ -102,7 +102,7 @@
       </div>
 
       <!-- ── Preview panel ── -->
-      <div class="preview-panel flex-1 overflow-y-auto bg-[#e8edf2] p-2 flex flex-col items-center min-w-0">
+      <div class="preview-panel flex-1 overflow-y-auto bg-[#e8edf2] p-2 sm:p-4 flex flex-col items-center min-w-0">
         <!-- Live label -->
         <div class="self-start mb-1.5 flex items-center gap-1.5 text-[10px] font-bold tracking-[.1em]
                     uppercase text-gray-400 pl-0.5">

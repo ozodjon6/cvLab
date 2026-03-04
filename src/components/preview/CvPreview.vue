@@ -263,7 +263,11 @@ const paperStyle = computed(() => ({
 
 function recalc() {
   if (!wrapRef.value) return
-  const avail = wrapRef.value.clientWidth
+  // Find inner width and adjust padding for mobile
+  const style = window.getComputedStyle(wrapRef.value)
+  const pad = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight)
+  const avail = wrapRef.value.clientWidth - (isNaN(pad) ? 0 : pad)
+  
   scale.value = Math.min(1, avail / 794)
   nextTick(() => {
     if (cvRef.value && wrapRef.value) {
