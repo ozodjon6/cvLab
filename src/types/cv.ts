@@ -96,7 +96,6 @@ export function validateStep(step: StepId, data: CVData): ValidationError[] {
     if (!data.personal.firstName.trim()) errors.push({ field: 'firstName', message: 'Ism kiritilishi shart' })
     if (!data.personal.lastName.trim()) errors.push({ field: 'lastName', message: 'Familiya kiritilishi shart' })
     if (!data.personal.jobTitle.trim()) errors.push({ field: 'jobTitle', message: 'Kasb kiritilishi shart' })
-    if (!data.personal.email.trim()) errors.push({ field: 'email', message: 'Email kiritilishi shart' })
   }
   if (step === 3) {
     // Experience validation removed

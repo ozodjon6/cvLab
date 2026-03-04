@@ -41,7 +41,7 @@
 
     <div class="grid grid-cols-2 gap-2.5 mb-3">
       <div>
-        <label class="field-label field-label-req">Email</label>
+        <label class="field-label">Email</label>
         <input class="input-base" type="email" placeholder="email@example.com"
           :value="p.email" @input="set('email', $event)" />
       </div>
