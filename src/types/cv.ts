@@ -69,17 +69,17 @@ export interface CVData {
 
 export interface BuilderStep {
   id: StepId
-  label: string
-  description: string
+  labelKey: string
+  descKey: string
 }
 
 export const BUILDER_STEPS: BuilderStep[] = [
-  { id: 1, label: 'Shablon', description: 'Shablon tanlang' },
-  { id: 2, label: 'Shaxsiy', description: "Shaxsiy ma'lumotlar" },
-  { id: 3, label: 'Tajriba', description: 'Ish tajribasi' },
-  { id: 4, label: 'Loyihalar', description: 'Loyihalar' },
-  { id: 5, label: "Ta'lim", description: "Ta'lim" },
-  { id: 6, label: "Ko'nikmalar", description: "Ko'nikmalar & Tillar" },
+  { id: 1, labelKey: 's1label', descKey: 's1desc' },
+  { id: 2, labelKey: 's2label', descKey: 's2desc' },
+  { id: 3, labelKey: 's3label', descKey: 's3desc' },
+  { id: 4, labelKey: 's4label', descKey: 's4desc' },
+  { id: 5, labelKey: 's5label', descKey: 's5desc' },
+  { id: 6, labelKey: 's6label', descKey: 's6desc' },
 ]
 
 export const LANGUAGE_LEVELS: LanguageLevel[] = [
@@ -88,14 +88,14 @@ export const LANGUAGE_LEVELS: LanguageLevel[] = [
 
 // ── Validation ────────────────────────────────────────────
 
-export interface ValidationError { field: string; message: string }
+export interface ValidationError { field: string; messageKey: string }
 
 export function validateStep(step: StepId, data: CVData): ValidationError[] {
   const errors: ValidationError[] = []
   if (step === 2) {
-    if (!data.personal.firstName.trim()) errors.push({ field: 'firstName', message: 'Ism kiritilishi shart' })
-    if (!data.personal.lastName.trim()) errors.push({ field: 'lastName', message: 'Familiya kiritilishi shart' })
-    if (!data.personal.jobTitle.trim()) errors.push({ field: 'jobTitle', message: 'Kasb kiritilishi shart' })
+    if (!data.personal.firstName.trim()) errors.push({ field: 'firstName', messageKey: 'firstNameRequired' })
+    if (!data.personal.lastName.trim()) errors.push({ field: 'lastName', messageKey: 'lastNameRequired' })
+    if (!data.personal.jobTitle.trim()) errors.push({ field: 'jobTitle', messageKey: 'jobTitleRequired' })
   }
   if (step === 3) {
     // Experience validation removed
@@ -149,16 +149,15 @@ export function newLang(): LanguageItem {
 
 // ── Date helper ───────────────────────────────────────────
 
-export function fmtDate(val: string): string {
+export function fmtDate(val: string, months?: string[]): string {
   if (!val) return ''
+  const M = months || ['Yan', 'Fev', 'Mar', 'Apr', 'May', 'Iyn', 'Iyl', 'Avg', 'Sen', 'Okt', 'Noy', 'Dek']
   // Support YYYY-MM
   if (val.length === 7) {
     const d = new Date(val + '-01T00:00:00')
-    const M = ['Yan', 'Fev', 'Mar', 'Apr', 'May', 'Iyn', 'Iyl', 'Avg', 'Sen', 'Okt', 'Noy', 'Dek']
     return `${M[d.getMonth()]} ${d.getFullYear()}`
   }
   const d = new Date(val + 'T00:00:00')
-  const M = ['Yan', 'Fev', 'Mar', 'Apr', 'May', 'Iyn', 'Iyl', 'Avg', 'Sen', 'Okt', 'Noy', 'Dek']
   return `${M[d.getMonth()]} ${d.getFullYear()}`
 }
 

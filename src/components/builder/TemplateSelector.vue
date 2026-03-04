@@ -1,23 +1,23 @@
 <template>
   <div>
-    <h2 class="font-display font-bold text-lg tracking-tight mb-1">Shablon tanlang</h2>
-    <p class="text-xs text-gray-400 mb-5">Rezyumengiz uchun ko'rinish tanlang</p>
+    <h2 class="font-display font-bold text-lg tracking-tight mb-1">{{ t.templateSelector.title }}</h2>
+    <p class="text-xs text-gray-400 mb-5">{{ t.templateSelector.subtitle }}</p>
 
     <div class="grid grid-cols-2 gap-2.5">
-      <div v-for="t in templates" :key="t.id"
+      <div v-for="tmpl in templates" :key="tmpl.id"
            class="relative border-2 rounded-[10px] overflow-hidden cursor-pointer
                   transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_7px_20px_rgba(10,37,64,.1)]"
-           :class="selected === t.id
+           :class="selected === tmpl.id
              ? 'border-blue-brand shadow-[0_0_0_3px_rgba(26,86,219,.12)]'
              : 'border-gray-200'"
-           @click="emit('update:selected', t.id)">
+           @click="emit('update:selected', tmpl.id)">
 
-        <div v-if="selected === t.id"
+        <div v-if="selected === tmpl.id"
              class="absolute top-1.5 right-1.5 w-[17px] h-[17px] rounded-full bg-blue-brand text-white
                     flex items-center justify-center text-[9px] font-bold z-10">✓</div>
 
-        <div class="h-[140px] overflow-hidden" v-html="t.preview" />
-        <div class="px-2.5 py-1.5 text-[11px] font-bold border-t border-gray-100">{{ t.name }}</div>
+        <div class="h-[140px] overflow-hidden" v-html="tmpl.preview" />
+        <div class="px-2.5 py-1.5 text-[11px] font-bold border-t border-gray-100">{{ tmpl.name }}</div>
       </div>
     </div>
   </div>
@@ -25,6 +25,9 @@
 
 <script setup lang="ts">
 import type { TemplateId } from '@/types/cv'
+import { useLanguage } from '@/composables/useLanguage'
+
+const { t } = useLanguage()
 
 defineProps<{ selected: TemplateId }>()
 const emit = defineEmits<{ 'update:selected': [id: TemplateId] }>()

@@ -1,0 +1,254 @@
+{
+    "lang": "uz",
+    "langName": "O'zbek",
+    "langFlag": "🇺🇿",
+    "nav": {
+        "coffee": "☕ Kofe olib ber",
+        "start": "Boshlash →",
+        "ariaHome": "cvLab bosh sahifa"
+    },
+    "hero": {
+        "badge": "O'zbekistonning resume platformasi",
+        "titleLine1": "Professional CV va",
+        "titleLine2": "resume yaratish,",
+        "titleHighlight": "daqiqada.",
+        "description": "cvLab – O'zbekistondagi eng qulay bepul onlayn CV va resume yaratish platformasi. Professional rezyumeni qisqa vaqt ichida yarating, zamonaviy shablonlar bilan PDF shaklida yuklab oling va orzuingizdagi ishni toping.",
+        "startBtn": "Boshlash",
+        "coffeeBtn": "☕ Kofe olib ber",
+        "mockupSkills": "Ko'nikmalar",
+        "mockupExperience": "Tajriba",
+        "mockupPresent": "hozir"
+    },
+    "stats": {
+        "resumes": "Yaratilgan rezyumalar",
+        "avgTime": "O'rtacha vaqt",
+        "satisfied": "Mamnun foydalanuvchilar"
+    },
+    "features": {
+        "label": "Imkoniyatlar",
+        "title": "Professional CV yaratish uchun barcha imkoniyatlar",
+        "items": [
+            {
+                "title": "5 ta professional shablon",
+                "desc": "HR mutaxassislar tomonidan tasdiqlangan zamonaviy shablonlar."
+            },
+            {
+                "title": "Real-time preview",
+                "desc": "Har bir o'zgartirish bir zumda ko'rsatiladi."
+            },
+            {
+                "title": "Ko'p tilli",
+                "desc": "O'zbek, rus va ingliz tillarida professional rezyume yarating."
+            },
+            {
+                "title": "PDF eksport",
+                "desc": "Professional PDF formatida yuklab oling."
+            },
+            {
+                "title": "Mutlaqo bepul",
+                "desc": "Hech qanday to'lov yo'q. Yarating va yuklab oling."
+            },
+            {
+                "title": "ATS friendly",
+                "desc": "Avtomatik HR tizimlardan o'tish uchun optimallashtirilgan."
+            }
+        ]
+    },
+    "howItWorks": {
+        "label": "Jarayon",
+        "title": "3 qadamda tayyor CV va rezyume",
+        "steps": [
+            {
+                "title": "Shablon tanlang",
+                "desc": "4 ta zamonaviy shablon orasidan mosini tanlang."
+            },
+            {
+                "title": "Ma'lumot kiriting",
+                "desc": "Oddiy formani to'ldiring — real vaqtda preview."
+            },
+            {
+                "title": "Yuklab oling",
+                "desc": "PDF formatida yuklab oling yoki havola ulashing."
+            }
+        ]
+    },
+    "faq": {
+        "label": "Ko'p so'raladigan savollar",
+        "title": "CV va rezyume bo'yicha savollar",
+        "items": [
+            {
+                "question": "CV bilan Rezyume (Resume) ning farqi nimada?",
+                "answer": "CV (Curriculum Vitae) — bu sizning butun o'quv va ish tajribangizni batafsil yoritib beruvchi hujjat. U ko'pincha akademik va ilmiy sohalarda ishlatiladi. Rezyume (Resume) esa qisqaroq (odatda 1-2 sahifa) bo'lib, aniq bir ish o'rni uchun mos tushadigan eng muhim yutuqlar, tajriba va ko'nikmalarni jamlaydi. cvLab da siz ikkalasini ham osongina yaratishingiz mumkin."
+            },
+            {
+                "question": "cvLab dan foydalanish bepulmi?",
+                "answer": "Ha, cvLab mutlaqo bepul. Saytda har qanday shablonni tanlab, o'z ma'lumotlaringizni to'ldirishingiz va hech qanday cheklovlarsiz yuqori sifatli PDF formatida yuklab olishingiz mumkin."
+            },
+            {
+                "question": "Qanday qilib to'g'ri va professional CV yozish mumkin?",
+                "answer": "Professional CV yozish uchun: 1) O'zingiz haqingizda to'g'ri va qisqa xulosa yozing. 2) Tajribangizni oxirgisidan boshlab xronologik tartibda kiriting. 3) Kutilayotgan ish o'rniga eng kerakli bo'lgan ko'nikmalarga urg'u bering (ATS-friendly). 4) cvLab platformasidagi tayyor tuzilma orqali barcha muhim bandlarni to'ldirib chiqing."
+            },
+            {
+                "question": "Mening ma'lumotlarim qanchalik xavfsiz?",
+                "answer": "Ma'lumotlaringiz serverda saqlanmaydi (agar hisob yaratmagan bo'lsangiz). Barcha kiritilgan ma'lumotlar to'g'ridan-to'g'ri brauzeringizda vaqtinchalik xotirada ishlab chiqiladi va siz sahifani yangilaganingizda tozalanadi."
+            },
+            {
+                "question": "Yuklab olingan PDF faylni ATS (Avtomatik ishlov berish tizimlari) o'qiy oladimi?",
+                "answer": "Albatta. Bizning shablonlar standart matn oqimi va toza shriftlardan foydalanadi, bu esa kompaniyalarning ATS tizimlari sizning rezyumengizdagi matnlarni xatosiz tanib olishini ta'minlaydi."
+            },
+            {
+                "question": "Qanday qilib cv maker orqali rezyumi tayyorlash va tayyor rezyumi namuna olish mumkin?",
+                "answer": "cvLab - bu zamonaviy cv maker va cv online platformasi. Saytga kirganingizdan so'ng, sizga tayyor professional shablonlar va rezyumi namuna taqdim etiladi. Ma'lumotlaringizni to'ldirib, bepul rezyumi online shaklda tayyorlaysiz va 3 daqiqa ichida PDF yuklab olasiz."
+            }
+        ]
+    },
+    "cta": {
+        "titleLine1": "Orzuingizdagi ishni",
+        "titleLine2": "bugun boshlang.",
+        "subtitle": "Bepul. Ro'yxatdan o'tish shart emas.",
+        "button": "Boshlash →"
+    },
+    "footer": {
+        "copyright": "© 2026 cvLab · cvlab.uz",
+        "coffee": "☕ Kofe olib ber"
+    },
+    "builder": {
+        "back": "Orqaga",
+        "backArrow": "← Orqaga",
+        "next": "Keyingisi →",
+        "downloadPdf": "PDF yuklab olish",
+        "preparing": "Tayyorlanmoqda...",
+        "fillAllSteps": "Avval barcha qadamlarni to'ldiring",
+        "livePreview": "Jonli ko'rinish",
+        "saved": "Saqlandi ✓"
+    },
+    "steps": {
+        "s1label": "Shablon",
+        "s1desc": "Shablon tanlang",
+        "s2label": "Shaxsiy",
+        "s2desc": "Shaxsiy ma'lumotlar",
+        "s3label": "Tajriba",
+        "s3desc": "Ish tajribasi",
+        "s4label": "Loyihalar",
+        "s4desc": "Loyihalar",
+        "s5label": "Ta'lim",
+        "s5desc": "Ta'lim",
+        "s6label": "Ko'nikmalar",
+        "s6desc": "Ko'nikmalar & Tillar"
+    },
+    "templateSelector": {
+        "title": "Shablon tanlang",
+        "subtitle": "Rezyumengiz uchun ko'rinish tanlang"
+    },
+    "personalForm": {
+        "title": "Shaxsiy ma'lumotlar",
+        "subtitle": "Kontakt va bio ma'lumotlar",
+        "photo": "Profil rasmi",
+        "photoUpload": "Rasm yuklash uchun bosing",
+        "firstName": "Ism",
+        "lastName": "Familiya",
+        "jobTitle": "Kasb / Lavozim",
+        "email": "Email",
+        "phone": "Telefon",
+        "city": "Shahar",
+        "telegram": "Telegram",
+        "website": "Veb-sayt",
+        "linkedin": "LinkedIn",
+        "github": "GitHub",
+        "bio": "Men haqimda (bio)"
+    },
+    "experienceForm": {
+        "title": "Ish tajribasi",
+        "subtitle": "Eng so'nggi ishlaringizdan boshlang",
+        "itemLabel": "Ish joyi",
+        "remove": "✕ O'chirish",
+        "jobTitle": "Lavozim",
+        "company": "Kompaniya",
+        "location": "Joylashuv",
+        "startDate": "Boshlanish",
+        "endDate": "Tugash",
+        "isCurrent": "Hozir shu yerda ishlayman",
+        "description": "Vazifalar / Yutuqlar",
+        "addBtn": "Tajriba qo'shish"
+    },
+    "projectForm": {
+        "title": "Loyihalar",
+        "subtitle": "Shaxsiy yoki ish jarayonidagi loyihalaringiz",
+        "itemLabel": "Loyiha",
+        "remove": "✕ O'chirish",
+        "name": "Nomi",
+        "link": "Havola (Link)",
+        "startDate": "Boshlanish",
+        "endDate": "Tugash",
+        "description": "Ma'lumot / Texnologiyalar",
+        "addBtn": "Loyiha qo'shish"
+    },
+    "educationForm": {
+        "title": "Ta'lim",
+        "subtitle": "O'quv yurtlari va sertifikatlar",
+        "itemLabel": "Ta'lim",
+        "remove": "✕ O'chirish",
+        "institution": "O'quv yurti",
+        "degree": "Mutaxassislik",
+        "location": "Joylashuv",
+        "startDate": "Boshlanish",
+        "endDate": "Tugash",
+        "isCurrent": "Hozir shu yerda o'qiyman",
+        "notes": "Qo'shimcha ma'lumotlar",
+        "addBtn": "Ta'lim qo'shish"
+    },
+    "skillsForm": {
+        "title": "Ko'nikmalar & Tillar",
+        "subtitle": "Texnik va qo'shimcha ko'nikmalar",
+        "addSkillLabel": "Ko'nikma qo'shing",
+        "langTitle": "Tillar",
+        "langItemLabel": "Til",
+        "langName": "Til",
+        "langLevel": "Daraja",
+        "addLangBtn": "Til qo'shish",
+        "nativeLevel": "Ona tili"
+    },
+    "richEditor": {
+        "boldTitle": "Bold (Qalin)",
+        "italicTitle": "Italic (Qiya)",
+        "underlineTitle": "Underline (Tagi chizilgan)",
+        "bulletList": "• Ro'yxat",
+        "numberedList": "1. Ro'yxat",
+        "bulletTitle": "Bullet List (Nuqtali ro'yxat)",
+        "numberedTitle": "Numbered List (Raqamli ro'yxat)"
+    },
+    "cv": {
+        "contacts": "Kontaktlar",
+        "about": "Men haqimda",
+        "experience": "Ish tajribasi",
+        "projects": "Loyihalar",
+        "education": "Ta'lim",
+        "skills": "Ko'nikmalar",
+        "languages": "Tillar",
+        "present": "hozir",
+        "jobTitlePlaceholder": "Kasb / Lavozim",
+        "website": "Vebsayt",
+        "profile": "Profile",
+        "technicalSkills": "Technical Skills",
+        "technologiesFrameworks": "Technologies/Frameworks"
+    },
+    "validation": {
+        "firstNameRequired": "Ism kiritilishi shart",
+        "lastNameRequired": "Familiya kiritilishi shart",
+        "jobTitleRequired": "Kasb kiritilishi shart"
+    },
+    "months": [
+        "Yan",
+        "Fev",
+        "Mar",
+        "Apr",
+        "May",
+        "Iyn",
+        "Iyl",
+        "Avg",
+        "Sen",
+        "Okt",
+        "Noy",
+        "Dek"
+    ]
+}

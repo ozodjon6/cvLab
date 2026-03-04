@@ -13,7 +13,7 @@
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
           <path d="M19 12H5M12 19l-7-7 7-7"/>
         </svg>
-        <span class="hidden sm:inline">Orqaga</span>
+        <span class="hidden sm:inline">{{ t.builder.back }}</span>
       </router-link>
 
       <!-- Steps -->
@@ -25,11 +25,14 @@
         />
       </div>
 
-      <!-- Logo + Version -->
-      <router-link to="/" class="no-underline shrink-0 flex items-center gap-1.5 hidden sm:flex">
-        <Logo size="sm" />
-        <span class="text-[9px] font-semibold text-blue-brand/60 bg-blue-brand/8 rounded-full px-1.5 py-0.5 tracking-wide">v1.0</span>
-      </router-link>
+      <!-- Logo + Version + Lang -->
+      <div class="flex items-center gap-2 shrink-0">
+        <LanguageSwitcher />
+        <router-link to="/" class="no-underline shrink-0 hidden sm:flex items-center gap-1.5">
+          <Logo size="sm" />
+          <span class="text-[9px] font-semibold text-blue-brand/60 bg-blue-brand/8 rounded-full px-1.5 py-0.5 tracking-wide">v1.0</span>
+        </router-link>
+      </div>
     </nav>
 
     <!-- ── Main split ── -->
@@ -63,7 +66,7 @@
             class="btn-ghost text-[12.5px] !py-2"
             :style="{ visibility: store.step === 1 ? 'hidden' : 'visible' }"
             @click="store.prev()"
-          >← Orqaga</button>
+          >{{ t.builder.backArrow }}</button>
 
           <!-- Step 6: download PDF -->
           <button
@@ -75,7 +78,7 @@
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
               <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/>
             </svg>
-            {{ pdf.exporting.value ? 'Tayyorlanmoqda...' : 'PDF yuklab olish' }}
+            {{ pdf.exporting.value ? t.builder.preparing : t.builder.downloadPdf }}
           </button>
 
           <!-- Steps 1–5: next -->
@@ -85,7 +88,7 @@
             :class="{ 'btn-attention': store.step === 1 }"
             @click="onNext"
           >
-            Keyingisi →
+            {{ t.builder.next }}
           </button>
         </div>
       </div>
@@ -107,7 +110,7 @@
         <div class="self-start mb-1.5 flex items-center gap-1.5 text-[10px] font-bold tracking-[.1em]
                     uppercase text-gray-400 pl-0.5">
           <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-blink" />
-          Jonli ko'rinish
+          {{ t.builder.livePreview }}
         </div>
 
         <!-- The A4 preview -->
@@ -123,7 +126,7 @@
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
               <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/>
             </svg>
-            {{ pdf.exporting.value ? 'Tayyorlanmoqda...' : store.maxStep < 6 ? 'Avval barcha qadamlarni to\'ldiring' : 'PDF yuklab olish' }}
+            {{ pdf.exporting.value ? t.builder.preparing : store.maxStep < 6 ? t.builder.fillAllSteps : t.builder.downloadPdf }}
           </button>
         </div>
       </div>
@@ -138,7 +141,9 @@ import { useToast }        from '@/composables/useToast'
 import { usePdfExport }    from '@/composables/usePdfExport'
 import { useResizable }    from '@/composables/useResizable'
 import { trackBuilderStep }from '@/composables/useAnalytics'
+import { useLanguage }     from '@/composables/useLanguage'
 import Logo                from '@/components/layout/Logo.vue'
+import LanguageSwitcher    from '@/components/layout/LanguageSwitcher.vue'
 import StepProgress        from '@/components/builder/StepProgress.vue'
 import TemplateSelector    from '@/components/builder/TemplateSelector.vue'
 import PersonalForm        from '@/components/builder/PersonalForm.vue'
@@ -152,6 +157,7 @@ const store  = useCVStore()
 const toast  = useToast()
 const pdf    = usePdfExport()
 const resize = useResizable()
+const { t }  = useLanguage()
 
 // Initialize default blocks if empty
 if (store.data.experience.length === 0) store.addExp()
@@ -176,9 +182,12 @@ function onNext() {
   const ok = store.next()
   if (!ok) {
     const errs = store.stepErrors
-    if (errs.length) toast.error(errs[0].message)
+    if (errs.length) {
+      const key = errs[0].messageKey as keyof typeof t.value.validation
+      toast.error(t.value.validation[key] || errs[0].messageKey)
+    }
   } else if (store.step < 6) {
-    toast.success('Saqlandi ✓')
+    toast.success(t.value.builder.saved)
   }
 }
 

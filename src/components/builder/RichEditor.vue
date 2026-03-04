@@ -1,12 +1,12 @@
 <template>
   <div class="rich-editor-container">
     <div class="editor-toolbar">
-      <button type="button" @click="format('bold')" title="Bold (Qalin)"><b>B</b></button>
-      <button type="button" @click="format('italic')" title="Italic (Qiya)"><i>I</i></button>
-      <button type="button" @click="format('underline')" title="Underline (Tagi chizilgan)"><u>U</u></button>
+      <button type="button" @click="format('bold')" :title="t.richEditor.boldTitle"><b>B</b></button>
+      <button type="button" @click="format('italic')" :title="t.richEditor.italicTitle"><i>I</i></button>
+      <button type="button" @click="format('underline')" :title="t.richEditor.underlineTitle"><u>U</u></button>
       <div class="divider"></div>
-      <button type="button" @click="format('insertUnorderedList')" title="Bullet List (Nuqtali ro'yxat)">• Ro'yxat</button>
-      <button type="button" @click="format('insertOrderedList')" title="Numbered List (Raqamli ro'yxat)">1. Ro'yxat</button>
+      <button type="button" @click="format('insertUnorderedList')" :title="t.richEditor.bulletTitle">{{ t.richEditor.bulletList }}</button>
+      <button type="button" @click="format('insertOrderedList')" :title="t.richEditor.numberedTitle">{{ t.richEditor.numberedList }}</button>
     </div>
     <div
       ref="editorRef"
@@ -22,6 +22,9 @@
 
 <script setup lang="ts">
 import { ref, watch, onMounted } from 'vue'
+import { useLanguage } from '@/composables/useLanguage'
+
+const { t } = useLanguage()
 
 const props = defineProps<{
   modelValue: string

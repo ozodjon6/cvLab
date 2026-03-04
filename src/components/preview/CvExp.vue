@@ -1,6 +1,6 @@
 <template>
   <div v-if="filled.length" class="cv-sec mb-3.5">
-    <div class="cv-sec-title">Ish tajribasi</div>
+    <div class="cv-sec-title">{{ t.cv.experience }}</div>
     <div style="margin-left:5px; padding-left:14px; border-left:2px solid #E2E8F0; display:flex; flex-direction:column; gap:12px; margin-top:6px;">
       <div v-for="e in filled" :key="e.id" style="position:relative">
         <!-- Timeline Dot -->
@@ -21,9 +21,12 @@
 import { computed } from 'vue'
 import type { ExperienceItem } from '@/types/cv'
 import { fmtDate } from '@/types/cv'
+import { useLanguage } from '@/composables/useLanguage'
+
+const { t } = useLanguage()
 
 const props = defineProps<{ items: ExperienceItem[] }>()
 const filled = computed(() => props.items.filter(e => e.jobTitle || e.company))
-function fmt(d: string) { return fmtDate(d) }
-function end(e: ExperienceItem) { return e.isCurrent ? 'hozir' : fmtDate(e.endDate) }
+function fmt(d: string) { return fmtDate(d, t.value.months) }
+function end(e: ExperienceItem) { return e.isCurrent ? t.value.cv.present : fmtDate(e.endDate, t.value.months) }
 </script>

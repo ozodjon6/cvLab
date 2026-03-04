@@ -18,28 +18,28 @@
                   font-bold tracking-[.08em] uppercase px-3.5 py-[5px] rounded-full mb-6
                   animate-fade-up">
         <span class="w-[5px] h-[5px] bg-blue-brand rounded-full" />
-        O'zbekistonning resume platformasi
+        {{ t.hero.badge }}
       </div>
 
       <h1 class="font-display font-extrabold leading-[1.04] tracking-[-1.5px] sm:tracking-[-2.5px] mb-5
                  text-[32px] sm:text-[clamp(38px,5vw,62px)] animate-fade-up-d1">
-        Professional CV va<br>
-        resume yaratish, <em class="not-italic text-blue-brand font-light">daqiqada.</em>
+        {{ t.hero.titleLine1 }}<br>
+        {{ t.hero.titleLine2 }} <em class="not-italic text-blue-brand font-light">{{ t.hero.titleHighlight }}</em>
       </h1>
 
       <p class="text-sm sm:text-base text-gray-500 leading-relaxed mb-8 sm:mb-9 animate-fade-up-d2">
-        cvLab – O'zbekistondagi eng qulay bepul onlayn CV va resume yaratish platformasi. Professional rezyumeni qisqa vaqt ichida yarating, zamonaviy shablonlar bilan PDF shaklida yuklab oling va orzuingizdagi ishni toping.
+        {{ t.hero.description }}
       </p>
 
       <div class="flex gap-3 flex-wrap animate-fade-up-d3 md:justify-center xl:justify-start">
         <router-link to="/builder" class="btn-primary text-[14px] !px-7 !py-3.5" @click="trackBoshlashClick('hero')">
-          Boshlash
+          {{ t.hero.startBtn }}
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
             <path d="M5 12h14M12 5l7 7-7 7"/>
           </svg>
         </router-link>
         <a href="https://buymeacoffee.com/ozodbro" target="_blank" rel="noopener" class="btn-bmc !text-[14px] !px-5 !py-3.5 !border-2 !rounded-[9px]">
-          ☕ Kofe olib ber
+          {{ t.hero.coffeeBtn }}
         </a>
       </div>
     </div>
@@ -68,13 +68,13 @@
         </div>
         <!-- Body -->
         <div class="px-6 py-4">
-          <div class="text-[9px] font-bold tracking-[.1em] uppercase text-blue-brand mb-2 mt-1">Ko'nikmalar</div>
+          <div class="text-[9px] font-bold tracking-[.1em] uppercase text-blue-brand mb-2 mt-1">{{ t.hero.mockupSkills }}</div>
           <MiniBar label="Angular / Vue.js" :pct="92" />
           <MiniBar label="TypeScript" :pct="85" />
           <MiniBar label="Node.js" :pct="78" />
-          <div class="text-[9px] font-bold tracking-[.1em] uppercase text-blue-brand mb-2 mt-4">Tajriba</div>
+          <div class="text-[9px] font-bold tracking-[.1em] uppercase text-blue-brand mb-2 mt-4">{{ t.hero.mockupExperience }}</div>
           <div class="text-[11px] font-semibold">Senior Frontend Developer</div>
-          <div class="text-[10px] text-gray-400 mb-2">E Projects Group · 2024 — hozir</div>
+          <div class="text-[10px] text-gray-400 mb-2">E Projects Group · 2024 — {{ t.hero.mockupPresent }}</div>
           <div class="h-[3px] bg-gray-100 rounded-full w-[88%] mb-1" />
           <div class="h-[3px] bg-gray-100 rounded-full w-[70%]" />
         </div>
@@ -87,7 +87,9 @@
 import { ref, onMounted } from 'vue'
 import MiniBar from './MiniBar.vue'
 import { trackBoshlashClick } from '@/composables/useAnalytics'
+import { useLanguage } from '@/composables/useLanguage'
 
+const { t } = useLanguage()
 const svgRef = ref<SVGElement | null>(null)
 
 function buildGrid() {

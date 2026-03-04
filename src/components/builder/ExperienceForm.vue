@@ -1,43 +1,43 @@
 <template>
   <div>
-    <h2 class="font-display font-bold text-lg tracking-tight mb-1">Ish tajribasi</h2>
-    <p class="text-xs text-gray-400 mb-4">Eng so'nggi ishlaringizdan boshlang</p>
+    <h2 class="font-display font-bold text-lg tracking-tight mb-1">{{ t.experienceForm.title }}</h2>
+    <p class="text-xs text-gray-400 mb-4">{{ t.experienceForm.subtitle }}</p>
 
     <TransitionGroup name="block">
       <div v-for="(exp, idx) in store.data.experience" :key="exp.id" class="data-block">
         <div class="flex justify-between items-center mb-2.5 text-[12px] font-bold">
-          <span>Ish joyi #{{ idx + 1 }}</span>
+          <span>{{ t.experienceForm.itemLabel }} #{{ idx + 1 }}</span>
           <button class="text-red-400 hover:text-red-500 text-[11.5px] font-semibold transition-colors"
-            @click="store.rmExp(exp.id)">✕ O'chirish</button>
+            @click="store.rmExp(exp.id)">{{ t.experienceForm.remove }}</button>
         </div>
 
         <div class="grid grid-cols-2 gap-2.5 mb-2.5">
           <div>
-            <label class="field-label field-label-req">Lavozim</label>
+            <label class="field-label field-label-req">{{ t.experienceForm.jobTitle }}</label>
             <input class="input-base" type="text" placeholder="Frontend Developer"
               :value="exp.jobTitle" @input="set(exp.id,'jobTitle',$event)" />
           </div>
           <div>
-            <label class="field-label field-label-req">Kompaniya</label>
+            <label class="field-label field-label-req">{{ t.experienceForm.company }}</label>
             <input class="input-base" type="text" placeholder="IT Park"
               :value="exp.company" @input="set(exp.id,'company',$event)" />
           </div>
         </div>
 
         <div class="mb-2.5">
-          <label class="field-label">Joylashuv</label>
+          <label class="field-label">{{ t.experienceForm.location }}</label>
           <input class="input-base" type="text" placeholder="Toshkent"
             :value="exp.location" @input="set(exp.id,'location',$event)" />
         </div>
 
         <div class="grid grid-cols-2 gap-2.5 mb-2">
           <div>
-            <label class="field-label">Boshlanish</label>
+            <label class="field-label">{{ t.experienceForm.startDate }}</label>
             <input class="input-base" type="month"
               :value="exp.startDate" @input="set(exp.id,'startDate',$event)" />
           </div>
           <div>
-            <label class="field-label">Tugash</label>
+            <label class="field-label">{{ t.experienceForm.endDate }}</label>
             <input class="input-base" type="month" :disabled="exp.isCurrent"
               :value="exp.endDate" @input="set(exp.id,'endDate',$event)" />
           </div>
@@ -47,38 +47,34 @@
           <input type="checkbox" class="w-3.5 h-3.5 accent-blue-brand cursor-pointer"
             :checked="exp.isCurrent"
             @change="onCurrent(exp.id,$event)" />
-          Hozir shu yerda ishlayman
+          {{ t.experienceForm.isCurrent }}
         </label>
 
         <div>
-          <label class="field-label">Vazifalar / Yutuqlar</label>
+          <label class="field-label">{{ t.experienceForm.description }}</label>
           <RichEditor :model-value="exp.description" @update:model-value="store.setExp(exp.id, 'description', $event)" />
         </div>
       </div>
     </TransitionGroup>
 
     <button class="add-btn mt-0.5" @click="store.addExp()">
-      <PlusIcon /> Tajriba qo'shish
+      <PlusIcon /> {{ t.experienceForm.addBtn }}
     </button>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useCVStore } from '@/stores/cv'
+import { useLanguage } from '@/composables/useLanguage'
 import type { ExperienceItem } from '@/types/cv'
 import PlusIcon from './PlusIcon.vue'
 import RichEditor from './RichEditor.vue'
 
 const store = useCVStore()
+const { t } = useLanguage()
 
 function set(id: string, field: keyof ExperienceItem, e: Event) {
   store.setExp(id, field, (e.target as HTMLInputElement).value)
-}
-function setTa(id: string, field: keyof ExperienceItem, e: Event) {
-  const el = e.target as HTMLTextAreaElement
-  el.style.height = 'auto'
-  el.style.height = Math.min(el.scrollHeight, 200) + 'px'
-  store.setExp(id, field, el.value)
 }
 function onCurrent(id: string, e: Event) {
   const checked = (e.target as HTMLInputElement).checked

@@ -9,9 +9,14 @@
   </div>
 </template>
 <script setup lang="ts">
-const stats = [
-  { value: '12', sup: 'K+', label: 'Yaratilgan rezyumalar' },
-  { value: '3',  sup: 'min', label: "O'rtacha vaqt" },
-  { value: '96', sup: '%',  label: 'Mamnun foydalanuvchilar' },
-]
+import { computed } from 'vue'
+import { useLanguage } from '@/composables/useLanguage'
+
+const { t } = useLanguage()
+
+const stats = computed(() => [
+  { value: '12', sup: 'K+', label: t.value.stats.resumes },
+  { value: '3',  sup: 'min', label: t.value.stats.avgTime },
+  { value: '96', sup: '%',  label: t.value.stats.satisfied },
+])
 </script>

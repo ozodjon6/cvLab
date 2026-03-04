@@ -1,11 +1,11 @@
 <template>
   <div>
-    <h2 class="font-display font-bold text-lg tracking-tight mb-1">Ko'nikmalar & Tillar</h2>
-    <p class="text-xs text-gray-400 mb-4">Texnik va qo'shimcha ko'nikmalar</p>
+    <h2 class="font-display font-bold text-lg tracking-tight mb-1">{{ t.skillsForm.title }}</h2>
+    <p class="text-xs text-gray-400 mb-4">{{ t.skillsForm.subtitle }}</p>
 
     <!-- Skills -->
     <div class="mb-5">
-      <label class="field-label">Ko'nikma qo'shing</label>
+      <label class="field-label">{{ t.skillsForm.addSkillLabel }}</label>
       <div class="flex gap-2 mb-2.5">
         <input ref="skillRef" v-model="skillText" class="input-base flex-1"
           type="text" placeholder="Vue"
@@ -28,32 +28,32 @@
 
     <!-- Languages -->
     <div>
-      <label class="field-label mb-2">Tillar</label>
+      <label class="field-label mb-2">{{ t.skillsForm.langTitle }}</label>
       <TransitionGroup name="block">
         <div v-for="(lang, idx) in store.data.languages" :key="lang.id" class="data-block">
           <div class="flex justify-between items-center mb-2.5 text-[12px] font-bold">
-            <span>Til #{{ idx + 1 }}</span>
+            <span>{{ t.skillsForm.langItemLabel }} #{{ idx + 1 }}</span>
             <button class="text-red-400 hover:text-red-500 text-[11.5px] font-semibold transition-colors"
               @click="store.rmLang(lang.id)">✕</button>
           </div>
           <div class="grid grid-cols-2 gap-2.5">
             <div>
-              <label class="field-label">Til</label>
+              <label class="field-label">{{ t.skillsForm.langName }}</label>
               <input class="input-base" type="text" placeholder="O'zbek"
                 :value="lang.name" @input="set(lang.id,'name',$event)" />
             </div>
             <div>
-              <label class="field-label">Daraja</label>
+              <label class="field-label">{{ t.skillsForm.langLevel }}</label>
               <select class="input-base"
                 :value="lang.level" @change="set(lang.id,'level',$event)">
-                <option v-for="lv in LANGUAGE_LEVELS" :key="lv" :value="lv">{{ levelMap[lv] || lv }}</option>
+                <option v-for="lv in LANGUAGE_LEVELS" :key="lv" :value="lv">{{ levelLabel(lv) }}</option>
               </select>
             </div>
           </div>
         </div>
       </TransitionGroup>
       <button class="add-btn mt-0.5" @click="store.addLang()">
-        <PlusIcon /> Til qo'shish
+        <PlusIcon /> {{ t.skillsForm.addLangBtn }}
       </button>
     </div>
   </div>
@@ -62,11 +62,13 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useCVStore } from '@/stores/cv'
+import { useLanguage } from '@/composables/useLanguage'
 import { LANGUAGE_LEVELS } from '@/types/cv'
 import type { LanguageItem } from '@/types/cv'
 import PlusIcon from './PlusIcon.vue'
 
 const store = useCVStore()
+const { t } = useLanguage()
 const skillText = ref('')
 const skillRef  = ref<HTMLInputElement | null>(null)
 
@@ -82,13 +84,16 @@ function set(id: string, field: keyof LanguageItem, e: Event) {
   store.setLang(id, field, (e.target as HTMLInputElement | HTMLSelectElement).value)
 }
 
-const levelMap: Record<string, string> = {
-  'Ona tili': 'Ona tili',
-  'C2': 'C2 – Proficiency',
-  'C1': 'C1 – Advanced',
-  'B2': 'B2 – Upper-Intermediate',
-  'B1': 'B1 – Intermediate',
-  'A2': 'A2 – Elementary',
-  'A1': 'A1 – Beginner',
+function levelLabel(lv: string): string {
+  if (lv === 'Ona tili') return t.value.skillsForm.nativeLevel
+  const map: Record<string, string> = {
+    'C2': 'C2 – Proficiency',
+    'C1': 'C1 – Advanced',
+    'B2': 'B2 – Upper-Intermediate',
+    'B1': 'B1 – Intermediate',
+    'A2': 'A2 – Elementary',
+    'A1': 'A1 – Beginner',
+  }
+  return map[lv] || lv
 }
 </script>

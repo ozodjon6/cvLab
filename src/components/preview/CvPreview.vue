@@ -14,7 +14,7 @@
           <div style="float:left;margin-right:16px;"><CvAvatar :photo="p.photoUrl" :initials="store.initials" :size="84" /></div>
           <div>
             <div class="font-display font-bold text-[21px]" style="line-height:1.25;word-break:break-word;">{{ fullName }}</div>
-            <div class="text-[10px] uppercase tracking-[.1em] opacity-50 mt-0.5">{{ p.jobTitle || 'Kasb / Lavozim' }}</div>
+            <div class="text-[10px] uppercase tracking-[.1em] opacity-50 mt-0.5">{{ p.jobTitle || t.cv.jobTitlePlaceholder }}</div>
             <div style="margin-top:8px;">
               <CvContact icon="email" :value="p.email" light />
               <CvContact icon="location" :value="p.city" light />
@@ -25,11 +25,11 @@
         <div style="display:flex;flex:1">
           <div style="width:220px;flex-shrink:0;background:#F7F9FC;border-right:1px solid #E2E8F0;padding:16px 14px">
             <div v-if="p.phone || p.telegram || p.website || p.linkedin || p.github" class="cv-sec mb-3">
-              <div class="cv-sec-title">Kontaktlar</div>
+              <div class="cv-sec-title">{{ t.cv.contacts }}</div>
               <div>
                 <div style="margin-bottom:6px;"><CvContact icon="phone" :value="p.phone" /></div>
                 <div style="margin-bottom:6px;"><CvContact icon="telegram" :value="p.telegram" :href="p.telegram ? 'https://t.me/' + p.telegram.replace('@', '') : ''" /></div>
-                <div style="margin-bottom:6px;"><CvContact icon="website" :value="p.website" :href="toUrl(p.website)" label="Vebsayt" /></div>
+                <div style="margin-bottom:6px;"><CvContact icon="website" :value="p.website" :href="toUrl(p.website)" :label="t.cv.website" /></div>
                 <div style="margin-bottom:6px;"><CvContact icon="linkedin" :value="p.linkedin" :href="toUrl(p.linkedin)" label="LinkedIn" /></div>
                 <div style="margin-bottom:0;"><CvContact icon="github" :value="p.github" :href="toUrl(p.github)" label="GitHub" /></div>
               </div>
@@ -55,7 +55,7 @@
             <CvContact icon="email" :value="p.email" />
             <CvContact icon="phone" :value="p.phone" />
             <CvContact icon="location" :value="p.city"  />
-            <CvContact icon="website" :value="p.website" :href="toUrl(p.website)" label="Vebsayt" />
+            <CvContact icon="website" :value="p.website" :href="toUrl(p.website)" :label="t.cv.website" />
             <CvContact icon="telegram" :value="p.telegram" :href="p.telegram ? 'https://t.me/' + p.telegram.replace('@', '') : ''" label="Telegram" />
             <CvContact icon="linkedin" :value="p.linkedin" :href="toUrl(p.linkedin)" label="LinkedIn" />
             <CvContact icon="github" :value="p.github" :href="toUrl(p.github)" label="GitHub" />
@@ -80,7 +80,7 @@
             <CvContact icon="email" :value="p.email" light />
             <CvContact icon="phone" :value="p.phone" light />
             <CvContact icon="location" :value="p.city"  light />
-            <CvContact icon="website" :value="p.website" :href="toUrl(p.website)" light label="Vebsayt" />
+            <CvContact icon="website" :value="p.website" :href="toUrl(p.website)" light :label="t.cv.website" />
             <CvContact icon="telegram" :value="p.telegram" :href="p.telegram ? 'https://t.me/' + p.telegram.replace('@', '') : ''" light label="Telegram" />
             <CvContact icon="linkedin" :value="p.linkedin" :href="toUrl(p.linkedin)" light label="LinkedIn" />
             <CvContact icon="github" :value="p.github" :href="toUrl(p.github)" light label="GitHub" />
@@ -107,7 +107,7 @@
               <CvContact icon="email" :value="p.email" />
               <CvContact icon="phone" :value="p.phone" />
               <CvContact icon="location" :value="p.city"  />
-              <CvContact icon="website" :value="p.website" :href="toUrl(p.website)" label="Vebsayt" />
+              <CvContact icon="website" :value="p.website" :href="toUrl(p.website)" :label="t.cv.website" />
               <CvContact icon="telegram" :value="p.telegram" :href="p.telegram ? 'https://t.me/' + p.telegram.replace('@', '') : ''" label="Telegram" />
               <CvContact icon="linkedin" :value="p.linkedin" :href="toUrl(p.linkedin)" label="LinkedIn" />
               <CvContact icon="github" :value="p.github" :href="toUrl(p.github)" label="GitHub" />
@@ -146,18 +146,18 @@
 
           <!-- Profile -->
           <div v-if="p.bio" class="mt-4">
-            <h2 class="font-eb-garamond font-bold text-[15px] mb-1 pb-0.5 border-b border-black">Profile</h2>
+            <h2 class="font-eb-garamond font-bold text-[15px] mb-1 pb-0.5 border-b border-black">{{ t.cv.profile }}</h2>
             <div style="font-size: 12px; line-height: 1.5; margin-top: 4px;" class="rich-text" v-html="p.bio"></div>
           </div>
 
           <!-- Experience -->
           <div v-if="cv.experience.filter(e => e.company || e.jobTitle).length" class="mt-4">
-            <h2 class="font-eb-garamond font-bold text-[15px] mb-1" style="border-bottom: 1px solid #000; padding-bottom: 2px;">Experience</h2>
+            <h2 class="font-eb-garamond font-bold text-[15px] mb-1" style="border-bottom: 1px solid #000; padding-bottom: 2px;">{{ t.cv.experience }}</h2>
             <div v-for="e in cv.experience.filter(e => e.company || e.jobTitle)" :key="e.id" style="margin-top: 6px; margin-bottom: 8px;">
               <div class="flex justify-between items-baseline" style="font-size: 12.5px;">
                 <span class="font-bold">{{ e.company }}</span>
                 <span class="font-bold" style="font-size: 12px;">
-                  {{ fmtDate(e.startDate) }}{{ fmtDate(e.startDate) && (e.isCurrent || e.endDate) ? ' – ' : '' }}{{ e.isCurrent ? 'hozir' : fmtDate(e.endDate) }}
+                  {{ formatDate(e.startDate) }}{{ formatDate(e.startDate) && (e.isCurrent || e.endDate) ? ' – ' : '' }}{{ e.isCurrent ? t.cv.present : formatDate(e.endDate) }}
                 </span>
               </div>
               <div class="flex justify-between items-baseline italic" style="font-size: 12px; margin-top: 1px;">
@@ -170,39 +170,39 @@
 
           <!-- Projects -->
           <div v-if="cv.projects.filter(p => p.name).length" class="mt-4">
-            <h2 class="font-eb-garamond font-bold text-[15px] mb-1" style="border-bottom: 1px solid #000; padding-bottom: 2px;">Projects</h2>
-            <div v-for="p in cv.projects.filter(p => p.name)" :key="p.id" style="margin-top: 6px; margin-bottom: 8px;">
+            <h2 class="font-eb-garamond font-bold text-[15px] mb-1" style="border-bottom: 1px solid #000; padding-bottom: 2px;">{{ t.cv.projects }}</h2>
+            <div v-for="proj in cv.projects.filter(p => p.name)" :key="proj.id" style="margin-top: 6px; margin-bottom: 8px;">
               <div class="flex justify-between items-baseline" style="font-size: 12.5px;">
-                <span class="font-bold">{{ p.name }} <a v-if="p.link" :href="toUrl(p.link)" target="_blank" style="text-decoration:none;font-weight:normal;color:#000;">[Link]</a></span>
+                <span class="font-bold">{{ proj.name }} <a v-if="proj.link" :href="toUrl(proj.link)" target="_blank" style="text-decoration:none;font-weight:normal;color:#000;">[Link]</a></span>
                 <span class="font-bold" style="font-size: 12px;">
-                  {{ fmtDate(p.startDate) }}{{ fmtDate(p.startDate) && fmtDate(p.endDate) ? ' – ' : '' }}{{ fmtDate(p.endDate) }}
+                  {{ formatDate(proj.startDate) }}{{ formatDate(proj.startDate) && formatDate(proj.endDate) ? ' – ' : '' }}{{ formatDate(proj.endDate) }}
                 </span>
               </div>
-              <div v-if="p.description" style="font-size: 12px; line-height: 1.4; margin-top: 3px;" class="rich-text" v-html="p.description"></div>
+              <div v-if="proj.description" style="font-size: 12px; line-height: 1.4; margin-top: 3px;" class="rich-text" v-html="proj.description"></div>
             </div>
           </div>
 
           <!-- Technical Skills -->
           <div v-if="cv.skills.length > 0 || cv.languages.length > 0" class="mt-4">
-            <h2 class="font-bold text-[15px] mb-1" style="border-bottom: 1px solid #000; padding-bottom: 2px;">Technical Skills</h2>
+            <h2 class="font-bold text-[15px] mb-1" style="border-bottom: 1px solid #000; padding-bottom: 2px;">{{ t.cv.technicalSkills }}</h2>
             <div style="font-size: 12px; line-height: 1.5; margin-top: 4px;">
               <div v-if="cv.languages.length" style="margin-bottom: 2px;">
-                <span class="font-bold">Languages:</span> {{ cv.languages.map(l => l.name).join(', ') }}
+                <span class="font-bold">{{ t.cv.languages }}:</span> {{ cv.languages.map(l => l.name).join(', ') }}
               </div>
               <div v-if="cv.skills.length" style="margin-bottom: 2px;">
-                <span class="font-bold">Technologies/Frameworks:</span> {{ cv.skills.join(', ') }}
+                <span class="font-bold">{{ t.cv.technologiesFrameworks }}:</span> {{ cv.skills.join(', ') }}
               </div>
             </div>
           </div>
 
           <!-- Education -->
           <div v-if="cv.education.filter(e => e.institution).length" class="mt-4">
-            <h2 class="font-eb-garamond font-bold text-[15px] mb-1" style="border-bottom: 1px solid #000; padding-bottom: 2px;">Education</h2>
+            <h2 class="font-eb-garamond font-bold text-[15px] mb-1" style="border-bottom: 1px solid #000; padding-bottom: 2px;">{{ t.cv.education }}</h2>
             <div v-for="e in cv.education.filter(e => e.institution)" :key="e.id" style="margin-top: 6px; margin-bottom: 8px;">
               <div class="flex justify-between items-baseline" style="font-size: 12.5px;">
                 <span class="font-bold">{{ e.institution }}</span>
                 <span class="font-bold" style="font-size: 12px;">
-                  {{ fmtDate(e.startDate) }}{{ fmtDate(e.startDate) && (e.isCurrent || e.endDate) ? ' – ' : '' }}{{ e.isCurrent ? 'hozir' : fmtDate(e.endDate) }}
+                  {{ formatDate(e.startDate) }}{{ formatDate(e.startDate) && (e.isCurrent || e.endDate) ? ' – ' : '' }}{{ e.isCurrent ? t.cv.present : formatDate(e.endDate) }}
                 </span>
               </div>
               <div class="flex justify-between items-baseline italic" style="font-size: 12px; margin-top: 1px;">
@@ -229,6 +229,7 @@ import { ref, computed, watch, onMounted, nextTick } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useCVStore } from '@/stores/cv'
 import { fmtDate } from '@/types/cv'
+import { useLanguage } from '@/composables/useLanguage'
 import CvAvatar  from './CvAvatar.vue'
 import CvContact from './CvContact.vue'
 import CvAbout   from './CvAbout.vue'
@@ -237,15 +238,20 @@ import CvProj    from './CvProj.vue'
 import CvEdu     from './CvEdu.vue'
 import CvSkills  from './CvSkills.vue'
 import CvLangs   from './CvLangs.vue'
-import Logo from "@components/layout/Logo.vue";
+import Logo from "@components/layout/Logo.vue"
 
 const store = useCVStore()
+const { t } = useLanguage()
 const { template: tpl, data: cv, fullName } = storeToRefs(store)
 const p = computed(() => cv.value.personal)
 
 function toUrl(val: string): string {
   if (!val) return ''
   return val.match(/^https?:\/\//) ? val : `https://${val}`
+}
+
+function formatDate(val: string) {
+  return fmtDate(val, t.value.months)
 }
 
 const wrapRef = ref<HTMLElement | null>(null)
@@ -263,7 +269,6 @@ const paperStyle = computed(() => ({
 
 function recalc() {
   if (!wrapRef.value) return
-  // Find inner width and adjust padding for mobile
   const style = window.getComputedStyle(wrapRef.value)
   const pad = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight)
   const avail = wrapRef.value.clientWidth - (isNaN(pad) ? 0 : pad)

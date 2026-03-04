@@ -21,7 +21,7 @@
             'bg-gray-200 text-gray-400':  !isDone(s.id) && current !== s.id,
           }"
         >{{ isDone(s.id) ? '✓' : s.id }}</span>
-        <span class="hidden md:inline">{{ s.label }}</span>
+        <span class="hidden md:inline">{{ (t.steps as Record<string, string>)[s.labelKey] }}</span>
       </button>
 
       <div v-if="i < BUILDER_STEPS.length - 1"
@@ -33,6 +33,9 @@
 <script setup lang="ts">
 import { BUILDER_STEPS } from '@/types/cv'
 import type { StepId } from '@/types/cv'
+import { useLanguage } from '@/composables/useLanguage'
+
+const { t } = useLanguage()
 
 const props = defineProps<{ current: StepId; maxReached: StepId }>()
 const emit  = defineEmits<{ goto: [s: StepId] }>()

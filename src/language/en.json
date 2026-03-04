@@ -1,0 +1,254 @@
+{
+    "lang": "en",
+    "langName": "English",
+    "langFlag": "🇬🇧",
+    "nav": {
+        "coffee": "☕ Buy me a coffee",
+        "start": "Get Started →",
+        "ariaHome": "cvLab home page"
+    },
+    "hero": {
+        "badge": "Uzbekistan's resume platform",
+        "titleLine1": "Create professional CV &",
+        "titleLine2": "resume in",
+        "titleHighlight": "minutes.",
+        "description": "cvLab is the most convenient free online CV and resume builder platform in Uzbekistan. Create a professional resume in minutes, download it as PDF with modern templates and find your dream job.",
+        "startBtn": "Get Started",
+        "coffeeBtn": "☕ Buy me a coffee",
+        "mockupSkills": "Skills",
+        "mockupExperience": "Experience",
+        "mockupPresent": "present"
+    },
+    "stats": {
+        "resumes": "Resumes created",
+        "avgTime": "Average time",
+        "satisfied": "Satisfied users"
+    },
+    "features": {
+        "label": "Features",
+        "title": "Everything you need to create a professional CV",
+        "items": [
+            {
+                "title": "5 professional templates",
+                "desc": "Modern templates approved by HR professionals."
+            },
+            {
+                "title": "Real-time preview",
+                "desc": "Every change is displayed instantly."
+            },
+            {
+                "title": "Multilingual",
+                "desc": "Create professional resumes in Uzbek, Russian and English."
+            },
+            {
+                "title": "PDF export",
+                "desc": "Download in professional PDF format."
+            },
+            {
+                "title": "Completely free",
+                "desc": "No charges. Create and download."
+            },
+            {
+                "title": "ATS friendly",
+                "desc": "Optimized to pass through automatic HR systems."
+            }
+        ]
+    },
+    "howItWorks": {
+        "label": "How it works",
+        "title": "Ready CV & resume in 3 steps",
+        "steps": [
+            {
+                "title": "Choose a template",
+                "desc": "Select the right one from 4 modern templates."
+            },
+            {
+                "title": "Enter your info",
+                "desc": "Fill out a simple form — real-time preview."
+            },
+            {
+                "title": "Download",
+                "desc": "Download in PDF format or share a link."
+            }
+        ]
+    },
+    "faq": {
+        "label": "Frequently asked questions",
+        "title": "Questions about CV & resume",
+        "items": [
+            {
+                "question": "What is the difference between a CV and a Resume?",
+                "answer": "A CV (Curriculum Vitae) is a document that describes your entire educational and professional experience in detail. It is often used in academic and scientific fields. A resume is shorter (usually 1-2 pages) and contains the most important achievements, experience and skills for a specific position. On cvLab you can easily create both."
+            },
+            {
+                "question": "Is cvLab free to use?",
+                "answer": "Yes, cvLab is completely free. On the site you can choose any template, fill in your details and download a high-quality PDF without any restrictions."
+            },
+            {
+                "question": "How to write a proper and professional CV?",
+                "answer": "To write a professional CV: 1) Write a short and accurate summary about yourself. 2) List your experience in reverse chronological order. 3) Emphasize the skills most relevant to the desired position (ATS-friendly). 4) Fill in all important sections using the ready-made structure on the cvLab platform."
+            },
+            {
+                "question": "How safe is my data?",
+                "answer": "Your data is not stored on a server (if you haven't created an account). All entered data is processed directly in your browser's temporary memory and is cleared when you refresh the page."
+            },
+            {
+                "question": "Can ATS (Applicant Tracking Systems) read the downloaded PDF?",
+                "answer": "Absolutely. Our templates use standard text flow and clean fonts, which ensures that company ATS systems can accurately recognize the text in your resume."
+            },
+            {
+                "question": "How to create a resume using a CV builder and get a ready template?",
+                "answer": "cvLab is a modern CV builder and online resume platform. After entering the site, you'll be offered ready-made professional templates and resume samples. Fill in your details, create a free resume online and download the PDF in 3 minutes."
+            }
+        ]
+    },
+    "cta": {
+        "titleLine1": "Start your dream job",
+        "titleLine2": "today.",
+        "subtitle": "Free. No registration required.",
+        "button": "Get Started →"
+    },
+    "footer": {
+        "copyright": "© 2026 cvLab · cvlab.uz",
+        "coffee": "☕ Buy me a coffee"
+    },
+    "builder": {
+        "back": "Back",
+        "backArrow": "← Back",
+        "next": "Next →",
+        "downloadPdf": "Download PDF",
+        "preparing": "Preparing...",
+        "fillAllSteps": "Complete all steps first",
+        "livePreview": "Live preview",
+        "saved": "Saved ✓"
+    },
+    "steps": {
+        "s1label": "Template",
+        "s1desc": "Choose template",
+        "s2label": "Personal",
+        "s2desc": "Personal info",
+        "s3label": "Experience",
+        "s3desc": "Work experience",
+        "s4label": "Projects",
+        "s4desc": "Projects",
+        "s5label": "Education",
+        "s5desc": "Education",
+        "s6label": "Skills",
+        "s6desc": "Skills & Languages"
+    },
+    "templateSelector": {
+        "title": "Choose a template",
+        "subtitle": "Select the look for your resume"
+    },
+    "personalForm": {
+        "title": "Personal Information",
+        "subtitle": "Contact and bio details",
+        "photo": "Profile photo",
+        "photoUpload": "Click to upload photo",
+        "firstName": "First name",
+        "lastName": "Last name",
+        "jobTitle": "Job title / Position",
+        "email": "Email",
+        "phone": "Phone",
+        "city": "City",
+        "telegram": "Telegram",
+        "website": "Website",
+        "linkedin": "LinkedIn",
+        "github": "GitHub",
+        "bio": "About me (bio)"
+    },
+    "experienceForm": {
+        "title": "Work Experience",
+        "subtitle": "Start with your most recent position",
+        "itemLabel": "Position",
+        "remove": "✕ Remove",
+        "jobTitle": "Job title",
+        "company": "Company",
+        "location": "Location",
+        "startDate": "Start date",
+        "endDate": "End date",
+        "isCurrent": "I currently work here",
+        "description": "Responsibilities / Achievements",
+        "addBtn": "Add experience"
+    },
+    "projectForm": {
+        "title": "Projects",
+        "subtitle": "Your personal or work projects",
+        "itemLabel": "Project",
+        "remove": "✕ Remove",
+        "name": "Name",
+        "link": "Link",
+        "startDate": "Start date",
+        "endDate": "End date",
+        "description": "Description / Technologies",
+        "addBtn": "Add project"
+    },
+    "educationForm": {
+        "title": "Education",
+        "subtitle": "Schools, universities and certificates",
+        "itemLabel": "Education",
+        "remove": "✕ Remove",
+        "institution": "Institution",
+        "degree": "Degree / Major",
+        "location": "Location",
+        "startDate": "Start date",
+        "endDate": "End date",
+        "isCurrent": "I currently study here",
+        "notes": "Additional information",
+        "addBtn": "Add education"
+    },
+    "skillsForm": {
+        "title": "Skills & Languages",
+        "subtitle": "Technical and additional skills",
+        "addSkillLabel": "Add a skill",
+        "langTitle": "Languages",
+        "langItemLabel": "Language",
+        "langName": "Language",
+        "langLevel": "Level",
+        "addLangBtn": "Add language",
+        "nativeLevel": "Native"
+    },
+    "richEditor": {
+        "boldTitle": "Bold",
+        "italicTitle": "Italic",
+        "underlineTitle": "Underline",
+        "bulletList": "• List",
+        "numberedList": "1. List",
+        "bulletTitle": "Bullet list",
+        "numberedTitle": "Numbered list"
+    },
+    "cv": {
+        "contacts": "Contacts",
+        "about": "About me",
+        "experience": "Work Experience",
+        "projects": "Projects",
+        "education": "Education",
+        "skills": "Skills",
+        "languages": "Languages",
+        "present": "present",
+        "jobTitlePlaceholder": "Job title / Position",
+        "website": "Website",
+        "profile": "Profile",
+        "technicalSkills": "Technical Skills",
+        "technologiesFrameworks": "Technologies/Frameworks"
+    },
+    "validation": {
+        "firstNameRequired": "First name is required",
+        "lastNameRequired": "Last name is required",
+        "jobTitleRequired": "Job title is required"
+    },
+    "months": [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec"
+    ]
+}

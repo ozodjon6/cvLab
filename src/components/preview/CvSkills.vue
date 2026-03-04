@@ -1,6 +1,6 @@
 <template>
   <div v-if="skills.length" class="cv-sec mb-3.5">
-    <div class="cv-sec-title">Ko'nikmalar</div>
+    <div class="cv-sec-title">{{ t.cv.skills }}</div>
     <div class="cv-skills-list">
       <span
         v-for="s in skills"
@@ -13,6 +13,9 @@
   </div>
 </template>
 <script setup lang="ts">
+import { useLanguage } from '@/composables/useLanguage'
+
+const { t } = useLanguage()
 defineProps<{ skills: string[] }>()
 </script>
 <style scoped>
