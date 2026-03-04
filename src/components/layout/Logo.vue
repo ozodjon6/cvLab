@@ -20,5 +20,11 @@ const sizeClass = computed(() => (
       md: 'text-[20px]',
       lg: 'text-[24px]'
     }[props.size]))
-const dotClass  = computed(() => ({ sm: 'w-[3px] h-[3px]', md: 'w-1 h-1', lg: 'w-1.5 h-1.5' }[props.size]))
+const dotClass  = computed(() => (
+    {
+      xs: 'text-[14px]',
+      sm: 'w-[3px] h-[3px]',
+      md: 'w-1 h-1',
+      lg: 'w-1.5 h-1.5'
+    }[props.size]))
 </script>
