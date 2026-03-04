@@ -214,6 +214,12 @@
           </div>
         </div>
       </template>
+
+      <!-- Watermark -->
+      <a href="https://cvlab.uz/" target="_blank"
+         class="absolute bottom-1 right-1 flex items-center gap-1 text-[10px] text-gray-400 hover:text-blue-brand transition-colors no-underline z-50">
+        <Logo size="xs" />
+      </a>
     </div>
   </div>
 </template>
@@ -231,6 +237,7 @@ import CvProj    from './CvProj.vue'
 import CvEdu     from './CvEdu.vue'
 import CvSkills  from './CvSkills.vue'
 import CvLangs   from './CvLangs.vue'
+import Logo from "@components/layout/Logo.vue";
 
 const store = useCVStore()
 const { template: tpl, data: cv, fullName } = storeToRefs(store)

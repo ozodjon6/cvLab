@@ -12,7 +12,13 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-const props = withDefaults(defineProps<{ size?: 'sm' | 'md' | 'lg' }>(), { size: 'md' })
-const sizeClass = computed(() => ({ sm: 'text-[17px]', md: 'text-[20px]', lg: 'text-[24px]' }[props.size]))
+const props = withDefaults(defineProps<{ size?: 'xs' | 'sm' | 'md' | 'lg' }>(), { size: 'md' })
+const sizeClass = computed(() => (
+    {
+      xs: 'text-[15px]',
+      sm: 'text-[17px]',
+      md: 'text-[20px]',
+      lg: 'text-[24px]'
+    }[props.size]))
 const dotClass  = computed(() => ({ sm: 'w-[3px] h-[3px]', md: 'w-1 h-1', lg: 'w-1.5 h-1.5' }[props.size]))
 </script>

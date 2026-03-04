@@ -62,6 +62,14 @@ async function openPrintWindow(el: HTMLElement, filename: string): Promise<boole
       text-decoration: none;
       color: inherit;
     }
+    #print-root a.absolute {
+      position: absolute !important;
+      bottom: 20px !important;
+      right: 30px !important;
+    }
+    @media print {
+      body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
   `
 
   const html = `<!doctype html>
