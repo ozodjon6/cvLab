@@ -126,15 +126,15 @@
 
       <!-- ── ACADEMIC ─────────────────────────────────────────── -->
       <template v-else>
-        <div class="academic-layout px-10 py-8" style="font-family: 'Times New Roman', Times, serif; color: #000;">
-          <div class="text-center">
-            <h1 class="uppercase tracking-[1px] mb-1" style="font-size: 28px; line-height: 1.2; padding-bottom: 2px;">{{ fullName }}</h1>
+        <div class="academic-layout px-10 py-8 font-eb-garamond text-black font-medium">
+          <div class="text-center font-medium">
+            <h1 class="uppercase tracking-[1px] mb-1 font-eb-garamond" style="font-size: 28px; line-height: 1.2; padding-bottom: 2px;">{{ fullName }}</h1>
             <div style="font-size: 14px; margin-bottom: 3px;" v-if="p.jobTitle || p.city">
               <span v-if="p.jobTitle">{{ p.jobTitle }}</span>
               <span v-if="p.jobTitle && p.city"> | </span>
               <span v-if="p.city">{{ p.city }}</span>
             </div>
-            <div class="flex items-center justify-center gap-x-4 gap-y-1 flex-wrap mt-2" style="font-size: 11.5px;">
+            <div class="flex items-center justify-center font-eb-garamond gap-x-4 gap-y-1 flex-wrap mt-2" style="font-size: 11.5px;">
               <CvContact v-if="p.phone" icon="phone" :value="p.phone" />
               <CvContact v-if="p.email" icon="email" :value="p.email" />
               <CvContact v-if="p.linkedin" icon="linkedin" :value="p.linkedin" :href="toUrl(p.linkedin)" />
@@ -146,13 +146,13 @@
 
           <!-- Profile -->
           <div v-if="p.bio" class="mt-4">
-            <h2 class="font-bold text-[15px] mb-1" style="border-bottom: 1px solid #000; padding-bottom: 2px;">Profile</h2>
+            <h2 class="font-eb-garamond font-bold text-[15px] mb-1 pb-0.5 border-b border-black">Profile</h2>
             <div style="font-size: 11.5px; line-height: 1.5; margin-top: 4px;" class="rich-text" v-html="p.bio"></div>
           </div>
 
           <!-- Experience -->
           <div v-if="cv.experience.filter(e => e.company || e.jobTitle).length" class="mt-4">
-            <h2 class="font-bold text-[15px] mb-1" style="border-bottom: 1px solid #000; padding-bottom: 2px;">Experience</h2>
+            <h2 class="font-eb-garamond font-bold text-[15px] mb-1" style="border-bottom: 1px solid #000; padding-bottom: 2px;">Experience</h2>
             <div v-for="e in cv.experience.filter(e => e.company || e.jobTitle)" :key="e.id" style="margin-top: 6px; margin-bottom: 8px;">
               <div class="flex justify-between items-baseline" style="font-size: 12.5px;">
                 <span class="font-bold">{{ e.company }}</span>
@@ -170,7 +170,7 @@
 
           <!-- Projects -->
           <div v-if="cv.projects.filter(p => p.name).length" class="mt-4">
-            <h2 class="font-bold text-[15px] mb-1" style="border-bottom: 1px solid #000; padding-bottom: 2px;">Projects</h2>
+            <h2 class="font-eb-garamond font-bold text-[15px] mb-1" style="border-bottom: 1px solid #000; padding-bottom: 2px;">Projects</h2>
             <div v-for="p in cv.projects.filter(p => p.name)" :key="p.id" style="margin-top: 6px; margin-bottom: 8px;">
               <div class="flex justify-between items-baseline" style="font-size: 12.5px;">
                 <span class="font-bold">{{ p.name }} <a v-if="p.link" :href="toUrl(p.link)" target="_blank" style="text-decoration:none;font-weight:normal;color:#000;">[Link]</a></span>
@@ -197,7 +197,7 @@
 
           <!-- Education -->
           <div v-if="cv.education.filter(e => e.institution).length" class="mt-4">
-            <h2 class="font-bold text-[15px] mb-1" style="border-bottom: 1px solid #000; padding-bottom: 2px;">Education</h2>
+            <h2 class="font-eb-garamond font-bold text-[15px] mb-1" style="border-bottom: 1px solid #000; padding-bottom: 2px;">Education</h2>
             <div v-for="e in cv.education.filter(e => e.institution)" :key="e.id" style="margin-top: 6px; margin-bottom: 8px;">
               <div class="flex justify-between items-baseline" style="font-size: 12.5px;">
                 <span class="font-bold">{{ e.institution }}</span>
@@ -267,7 +267,7 @@ function recalc() {
   const style = window.getComputedStyle(wrapRef.value)
   const pad = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight)
   const avail = wrapRef.value.clientWidth - (isNaN(pad) ? 0 : pad)
-  
+
   scale.value = Math.min(1, avail / 794)
   nextTick(() => {
     if (cvRef.value && wrapRef.value) {
@@ -290,6 +290,7 @@ watch(tpl, () => nextTick(recalc))
 <style scoped>
 :deep(.academic-layout .cv-contact-item) {
   color: #000 !important;
+  font-weight: 600 !important;
 }
 :deep(.academic-layout .cv-contact-icon) {
   color: #000 !important;

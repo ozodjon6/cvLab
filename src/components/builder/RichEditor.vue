@@ -127,4 +127,9 @@ function emitValue() {
   list-style-type: decimal;
   margin-left: 1.5rem;
 }
+:deep(.editor-content *) {
+  font-family: inherit !important;
+  color: inherit !important;
+  background-color: transparent !important;
+}
 </style>

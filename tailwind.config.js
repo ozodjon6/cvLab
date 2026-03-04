@@ -26,6 +26,8 @@ export default {
       fontFamily: {
         display: ['Outfit', 'sans-serif'],
         body: ['"Plus Jakarta Sans"', 'sans-serif'],
+        cormorant: ['"Cormorant Garamond"', 'serif'],
+        'eb-garamond': ['"EB Garamond"', 'serif'],
       },
       animation: {
         'fade-up': 'fadeUp 0.6s ease both',
@@ -39,11 +41,11 @@ export default {
       keyframes: {
         fadeUp: {
           from: { opacity: '0', transform: 'translateY(20px)' },
-          to:   { opacity: '1', transform: 'translateY(0)' },
+          to: { opacity: '1', transform: 'translateY(0)' },
         },
         floatIn: {
           from: { opacity: '0', transform: 'translateY(-50%) translateX(40px)' },
-          to:   { opacity: '1', transform: 'translateY(-50%) translateX(0)' },
+          to: { opacity: '1', transform: 'translateY(-50%) translateX(0)' },
         },
         blink: {
           '0%, 100%': { opacity: '1' },
@@ -51,7 +53,7 @@ export default {
         },
         slideIn: {
           from: { opacity: '0', transform: 'translateX(-8px)' },
-          to:   { opacity: '1', transform: 'translateX(0)' },
+          to: { opacity: '1', transform: 'translateX(0)' },
         },
       },
     },
