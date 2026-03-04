@@ -86,9 +86,7 @@
 
     <div>
       <label class="field-label">Men haqimda (bio)</label>
-      <textarea class="input-base resize-none overflow-hidden" rows="3"
-        placeholder="Qisqacha o'zingizni tanishtiring..."
-        :value="p.bio" @input="setTextarea('bio', $event)" />
+      <RichEditor :model-value="p.bio" @update:model-value="store.setPersonal('bio', $event)" />
     </div>
   </div>
 </template>
@@ -99,6 +97,7 @@ import { useCVStore } from '@/stores/cv'
 import { useToast } from '@/composables/useToast'
 import { usePhotoUpload } from '@/composables/usePhotoUpload'
 import { storeToRefs } from 'pinia'
+import RichEditor from './RichEditor.vue'
 
 const store   = useCVStore()
 const toast   = useToast()

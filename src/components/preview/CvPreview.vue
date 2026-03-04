@@ -41,6 +41,7 @@
           <div style="flex:1;padding:16px 18px;min-width:0">
             <CvAbout :bio="p.bio" />
             <CvExp   :items="cv.experience" />
+            <CvProj  :items="cv.projects" />
           </div>
         </div>
       </template>
@@ -63,6 +64,7 @@
         <div class="px-7 py-5">
           <CvAbout :bio="p.bio" />
           <CvExp   :items="cv.experience" />
+          <CvProj  :items="cv.projects" />
           <CvSkills :skills="cv.skills" />
           <CvLangs  :langs="cv.languages" />
           <CvEdu    :items="cv.education" />
@@ -87,6 +89,7 @@
         <div class="px-7 py-5">
           <CvAbout :bio="p.bio" />
           <CvExp   :items="cv.experience" />
+          <CvProj  :items="cv.projects" />
           <CvSkills :skills="cv.skills" />
           <CvLangs  :langs="cv.languages" />
           <CvEdu    :items="cv.education" />
@@ -114,6 +117,7 @@
         <div class="px-7 py-4">
           <CvAbout :bio="p.bio" />
           <CvExp   :items="cv.experience" />
+          <CvProj  :items="cv.projects" />
           <CvSkills :skills="cv.skills" />
           <CvLangs  :langs="cv.languages" />
           <CvEdu    :items="cv.education" />
@@ -143,7 +147,7 @@
           <!-- Profile -->
           <div v-if="p.bio" class="mt-4">
             <h2 class="font-bold text-[15px] mb-1" style="border-bottom: 1px solid #000; padding-bottom: 2px;">Profile</h2>
-            <p style="font-size: 11.5px; line-height: 1.5; white-space: pre-wrap; margin-top: 4px;">{{ p.bio }}</p>
+            <div style="font-size: 11.5px; line-height: 1.5; margin-top: 4px;" class="rich-text" v-html="p.bio"></div>
           </div>
 
           <!-- Experience -->
@@ -160,7 +164,21 @@
                 <span>{{ e.jobTitle }}</span>
                 <span>{{ e.location }}</span>
               </div>
-              <div v-if="e.description" style="font-size: 11.5px; line-height: 1.4; margin-top: 3px; white-space: pre-wrap;">{{ e.description }}</div>
+              <div v-if="e.description" style="font-size: 11.5px; line-height: 1.4; margin-top: 3px;" class="rich-text" v-html="e.description"></div>
+            </div>
+          </div>
+
+          <!-- Projects -->
+          <div v-if="cv.projects.filter(p => p.name).length" class="mt-4">
+            <h2 class="font-bold text-[15px] mb-1" style="border-bottom: 1px solid #000; padding-bottom: 2px;">Projects</h2>
+            <div v-for="p in cv.projects.filter(p => p.name)" :key="p.id" style="margin-top: 6px; margin-bottom: 8px;">
+              <div class="flex justify-between items-baseline" style="font-size: 12.5px;">
+                <span class="font-bold">{{ p.name }} <a v-if="p.link" :href="toUrl(p.link)" target="_blank" style="text-decoration:none;font-weight:normal;color:#000;">[Link]</a></span>
+                <span class="font-bold" style="font-size: 11.5px;">
+                  {{ fmtDate(p.startDate) }}{{ fmtDate(p.startDate) && fmtDate(p.endDate) ? ' – ' : '' }}{{ fmtDate(p.endDate) }}
+                </span>
+              </div>
+              <div v-if="p.description" style="font-size: 11.5px; line-height: 1.4; margin-top: 3px;" class="rich-text" v-html="p.description"></div>
             </div>
           </div>
 
@@ -183,12 +201,15 @@
             <div v-for="e in cv.education.filter(e => e.institution)" :key="e.id" style="margin-top: 6px; margin-bottom: 8px;">
               <div class="flex justify-between items-baseline" style="font-size: 12.5px;">
                 <span class="font-bold">{{ e.institution }}</span>
-                <span class="font-bold" style="font-size: 11.5px;">{{ e.years }}</span>
+                <span class="font-bold" style="font-size: 11.5px;">
+                  {{ fmtDate(e.startDate) }}{{ fmtDate(e.startDate) && (e.isCurrent || e.endDate) ? ' – ' : '' }}{{ e.isCurrent ? 'hozir' : fmtDate(e.endDate) }}
+                </span>
               </div>
               <div class="flex justify-between items-baseline italic" style="font-size: 11.5px; margin-top: 1px;">
                 <span>{{ e.degree }}</span>
-                <span>{{ e.notes }}</span>
+                <span>{{ e.location }}</span>
               </div>
+              <div v-if="e.notes" style="font-size: 11.5px; line-height: 1.4; margin-top: 3px;" class="rich-text" v-html="e.notes"></div>
             </div>
           </div>
         </div>
@@ -206,6 +227,7 @@ import CvAvatar  from './CvAvatar.vue'
 import CvContact from './CvContact.vue'
 import CvAbout   from './CvAbout.vue'
 import CvExp     from './CvExp.vue'
+import CvProj    from './CvProj.vue'
 import CvEdu     from './CvEdu.vue'
 import CvSkills  from './CvSkills.vue'
 import CvLangs   from './CvLangs.vue'
@@ -261,4 +283,10 @@ watch(tpl, () => nextTick(recalc))
 :deep(.academic-layout .cv-contact-icon) {
   color: #000 !important;
 }
+:deep(.rich-text ul) { list-style-type: disc; margin-left: 1.25rem; }
+:deep(.rich-text ol) { list-style-type: decimal; margin-left: 1.25rem; }
+:deep(.rich-text li) { margin-bottom: 0.125rem; }
+:deep(.rich-text b) { font-weight: 700; }
+:deep(.rich-text i) { font-style: italic; }
+:deep(.rich-text u) { text-decoration: underline; }
 </style>

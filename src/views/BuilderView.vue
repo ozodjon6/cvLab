@@ -49,10 +49,11 @@
               :selected="store.template"
               @update:selected="store.setTemplate"
             />
-            <PersonalForm  v-else-if="store.step === 2" :key="2" />
+            <PersonalForm   v-else-if="store.step === 2" :key="2" />
             <ExperienceForm v-else-if="store.step === 3" :key="3" />
-            <EducationForm  v-else-if="store.step === 4" :key="4" />
-            <SkillsForm     v-else                        :key="5" />
+            <ProjectForm    v-else-if="store.step === 4" :key="4" />
+            <EducationForm  v-else-if="store.step === 5" :key="5" />
+            <SkillsForm     v-else                        :key="6" />
           </Transition>
         </div>
 
@@ -64,9 +65,9 @@
             @click="store.prev()"
           >← Orqaga</button>
 
-          <!-- Step 5: download PDF -->
+          <!-- Step 6: download PDF -->
           <button
-            v-if="store.step === 5"
+            v-if="store.step === 6"
             class="btn-primary text-[12.5px] !py-2 !px-5"
             :disabled="pdf.exporting.value"
             @click="onDownload"
@@ -116,13 +117,13 @@
         <div class="mt-3 pb-3">
           <button
             class="btn-primary text-[12.5px] !py-2 !px-5"
-            :disabled="pdf.exporting.value || store.maxStep < 5"
+            :disabled="pdf.exporting.value || store.maxStep < 6"
             @click="onDownload"
           >
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
               <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/>
             </svg>
-            {{ pdf.exporting.value ? 'Tayyorlanmoqda...' : store.maxStep < 5 ? 'Avval barcha qadamlarni to\'ldiring' : 'PDF yuklab olish' }}
+            {{ pdf.exporting.value ? 'Tayyorlanmoqda...' : store.maxStep < 6 ? 'Avval barcha qadamlarni to\'ldiring' : 'PDF yuklab olish' }}
           </button>
         </div>
       </div>
@@ -142,6 +143,7 @@ import StepProgress        from '@/components/builder/StepProgress.vue'
 import TemplateSelector    from '@/components/builder/TemplateSelector.vue'
 import PersonalForm        from '@/components/builder/PersonalForm.vue'
 import ExperienceForm      from '@/components/builder/ExperienceForm.vue'
+import ProjectForm         from '@/components/builder/ProjectForm.vue'
 import EducationForm       from '@/components/builder/EducationForm.vue'
 import SkillsForm          from '@/components/builder/SkillsForm.vue'
 import CvPreview           from '@/components/preview/CvPreview.vue'
@@ -153,6 +155,7 @@ const resize = useResizable()
 
 // Initialize default blocks if empty
 if (store.data.experience.length === 0) store.addExp()
+if (store.data.projects.length   === 0) store.addProj()
 if (store.data.education.length  === 0) store.addEdu()
 if (store.data.languages.length  === 0) store.addLang()
 
@@ -174,7 +177,7 @@ function onNext() {
   if (!ok) {
     const errs = store.stepErrors
     if (errs.length) toast.error(errs[0].message)
-  } else if (store.step < 5) {
+  } else if (store.step < 6) {
     toast.success('Saqlandi ✓')
   }
 }

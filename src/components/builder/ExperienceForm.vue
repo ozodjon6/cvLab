@@ -33,12 +33,12 @@
         <div class="grid grid-cols-2 gap-2.5 mb-2">
           <div>
             <label class="field-label">Boshlanish</label>
-            <input class="input-base" type="date"
+            <input class="input-base" type="month"
               :value="exp.startDate" @input="set(exp.id,'startDate',$event)" />
           </div>
           <div>
             <label class="field-label">Tugash</label>
-            <input class="input-base" type="date" :disabled="exp.isCurrent"
+            <input class="input-base" type="month" :disabled="exp.isCurrent"
               :value="exp.endDate" @input="set(exp.id,'endDate',$event)" />
           </div>
         </div>
@@ -52,9 +52,7 @@
 
         <div>
           <label class="field-label">Vazifalar / Yutuqlar</label>
-          <textarea class="input-base resize-none overflow-hidden" rows="3"
-            placeholder="Asosiy vazifalar va yutuqlar..."
-            :value="exp.description" @input="setTa(exp.id,'description',$event)" />
+          <RichEditor :model-value="exp.description" @update:model-value="store.setExp(exp.id, 'description', $event)" />
         </div>
       </div>
     </TransitionGroup>
@@ -69,6 +67,7 @@
 import { useCVStore } from '@/stores/cv'
 import type { ExperienceItem } from '@/types/cv'
 import PlusIcon from './PlusIcon.vue'
+import RichEditor from './RichEditor.vue'
 
 const store = useCVStore()
 

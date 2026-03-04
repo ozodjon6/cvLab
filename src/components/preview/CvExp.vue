@@ -11,7 +11,7 @@
           <span style="font-weight:500">{{ e.company }}{{ e.location ? ' · ' + e.location : '' }}</span>
           <span>{{ fmt(e.startDate) }}{{ fmt(e.startDate) && end(e) ? ' – ' : '' }}{{ end(e) }}</span>
         </div>
-        <p v-if="e.description" style="font-size:11.5px;color:#374151;line-height:1.6;white-space:pre-wrap">{{ e.description }}</p>
+        <div v-if="e.description" style="font-size:11.5px;color:#374151;line-height:1.6" class="rich-text" v-html="e.description"></div>
       </div>
     </div>
   </div>

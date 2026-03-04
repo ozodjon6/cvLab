@@ -1,15 +1,15 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import type { CVData, TemplateId, StepId, ExperienceItem, EducationItem, LanguageItem } from '@/types/cv'
-import { emptyCV, newExp, newEdu, newLang, validateStep } from '@/types/cv'
+import type { CVData, TemplateId, StepId, ExperienceItem, EducationItem, LanguageItem, ProjectItem } from '@/types/cv'
+import { emptyCV, newExp, newEdu, newLang, newProj, validateStep } from '@/types/cv'
 
 export const useCVStore = defineStore('cv', () => {
   // ── State ──────────────────────────────────────────
-  const data     = ref<CVData>(emptyCV())
+  const data = ref<CVData>(emptyCV())
   const template = ref<TemplateId>('modern')
-  const step     = ref<StepId>(1)
-  const maxStep  = ref<StepId>(1)   // highest reached
-  const open     = ref(false)
+  const step = ref<StepId>(1)
+  const maxStep = ref<StepId>(1)   // highest reached
+  const open = ref(false)
 
   // ── Computed ───────────────────────────────────────
   const fullName = computed(() =>
@@ -22,14 +22,15 @@ export const useCVStore = defineStore('cv', () => {
   })
 
   const stepErrors = computed(() => validateStep(step.value, data.value))
-  const isValid    = computed(() => stepErrors.value.length === 0)
+  const isValid = computed(() => stepErrors.value.length === 0)
 
   // ── Builder open/close ─────────────────────────────
   function openBuilder() {
     open.value = true
     if (data.value.experience.length === 0) addExp()
-    if (data.value.education.length  === 0) addEdu()
-    if (data.value.languages.length  === 0) addLang()
+    if (data.value.projects.length === 0) addProj()
+    if (data.value.education.length === 0) addEdu()
+    if (data.value.languages.length === 0) addLang()
   }
   function closeBuilder() { open.value = false }
 
@@ -40,7 +41,7 @@ export const useCVStore = defineStore('cv', () => {
   function next(): boolean {
     const errs = validateStep(step.value, data.value)
     if (errs.length) return false
-    if (step.value < 5) {
+    if (step.value < 6) {
       step.value = (step.value + 1) as StepId
       if (step.value > maxStep.value) maxStep.value = step.value as StepId
     }
@@ -59,17 +60,25 @@ export const useCVStore = defineStore('cv', () => {
   }
 
   // ── Experience ─────────────────────────────────────
-  function addExp()  { data.value.experience.push(newExp()) }
-  function rmExp(id: string)  { data.value.experience = data.value.experience.filter(e => e.id !== id) }
+  function addExp() { data.value.experience.push(newExp()) }
+  function rmExp(id: string) { data.value.experience = data.value.experience.filter(e => e.id !== id) }
   function setExp(id: string, field: keyof ExperienceItem, val: string | boolean) {
     const item = data.value.experience.find(e => e.id === id)
     if (item) (item as Record<string, unknown>)[field] = val
   }
 
+  // ── Projects ───────────────────────────────────────
+  function addProj() { data.value.projects.push(newProj()) }
+  function rmProj(id: string) { data.value.projects = data.value.projects.filter(p => p.id !== id) }
+  function setProj(id: string, field: keyof ProjectItem, val: string) {
+    const item = data.value.projects.find(p => p.id === id)
+    if (item) (item as Record<string, unknown>)[field] = val
+  }
+
   // ── Education ──────────────────────────────────────
-  function addEdu()  { data.value.education.push(newEdu()) }
-  function rmEdu(id: string)  { data.value.education = data.value.education.filter(e => e.id !== id) }
-  function setEdu(id: string, field: keyof EducationItem, val: string) {
+  function addEdu() { data.value.education.push(newEdu()) }
+  function rmEdu(id: string) { data.value.education = data.value.education.filter(e => e.id !== id) }
+  function setEdu(id: string, field: keyof EducationItem, val: string | boolean) {
     const item = data.value.education.find(e => e.id === id)
     if (item) (item as Record<string, unknown>)[field] = val
   }
@@ -82,8 +91,8 @@ export const useCVStore = defineStore('cv', () => {
   function rmSkill(i: number) { data.value.skills.splice(i, 1) }
 
   // ── Languages ──────────────────────────────────────
-  function addLang()  { data.value.languages.push(newLang()) }
-  function rmLang(id: string)  { data.value.languages = data.value.languages.filter(l => l.id !== id) }
+  function addLang() { data.value.languages.push(newLang()) }
+  function rmLang(id: string) { data.value.languages = data.value.languages.filter(l => l.id !== id) }
   function setLang(id: string, field: keyof LanguageItem, val: string) {
     const item = data.value.languages.find(l => l.id === id)
     if (item) (item as Record<string, unknown>)[field] = val
@@ -104,6 +113,7 @@ export const useCVStore = defineStore('cv', () => {
     setTemplate, next, prev, goTo,
     setPersonal,
     addExp, rmExp, setExp,
+    addProj, rmProj, setProj,
     addEdu, rmEdu, setEdu,
     addSkill, rmSkill,
     addLang, rmLang, setLang,

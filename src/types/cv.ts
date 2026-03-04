@@ -1,7 +1,7 @@
 // ── Core types ────────────────────────────────────────────
 
 export type TemplateId = 'modern' | 'clean' | 'bold' | 'minimal' | 'academic'
-export type StepId = 1 | 2 | 3 | 4 | 5
+export type StepId = 1 | 2 | 3 | 4 | 5 | 6
 export type LanguageLevel = 'Ona tili' | 'C2' | 'C1' | 'B2' | 'B1' | 'A2' | 'A1'
 
 export interface PersonalInfo {
@@ -34,8 +34,20 @@ export interface EducationItem {
   id: string
   institution: string
   degree: string
-  years: string
+  location: string
+  startDate: string
+  endDate: string
+  isCurrent: boolean
   notes: string
+}
+
+export interface ProjectItem {
+  id: string
+  name: string
+  description: string
+  link: string
+  startDate: string
+  endDate: string
 }
 
 export interface LanguageItem {
@@ -48,6 +60,7 @@ export interface CVData {
   personal: PersonalInfo
   experience: ExperienceItem[]
   education: EducationItem[]
+  projects: ProjectItem[]
   skills: string[]
   languages: LanguageItem[]
 }
@@ -64,8 +77,9 @@ export const BUILDER_STEPS: BuilderStep[] = [
   { id: 1, label: 'Shablon', description: 'Shablon tanlang' },
   { id: 2, label: 'Shaxsiy', description: "Shaxsiy ma'lumotlar" },
   { id: 3, label: 'Tajriba', description: 'Ish tajribasi' },
-  { id: 4, label: "Ta'lim", description: "Ta'lim" },
-  { id: 5, label: "Ko'nikmalar", description: "Ko'nikmalar & Tillar" },
+  { id: 4, label: 'Loyihalar', description: 'Loyihalar' },
+  { id: 5, label: "Ta'lim", description: "Ta'lim" },
+  { id: 6, label: "Ko'nikmalar", description: "Ko'nikmalar & Tillar" },
 ]
 
 export const LANGUAGE_LEVELS: LanguageLevel[] = [
@@ -109,6 +123,7 @@ export function emptyCV(): CVData {
     },
     experience: [],
     education: [],
+    projects: [],
     skills: [],
     languages: [],
   }
@@ -122,7 +137,11 @@ export function newExp(): ExperienceItem {
 }
 
 export function newEdu(): EducationItem {
-  return { id: genId(), institution: '', degree: '', years: '', notes: '' }
+  return { id: genId(), institution: '', degree: '', location: '', startDate: '', endDate: '', isCurrent: false, notes: '' }
+}
+
+export function newProj(): ProjectItem {
+  return { id: genId(), name: '', description: '', link: '', startDate: '', endDate: '' }
 }
 
 export function newLang(): LanguageItem {
@@ -133,6 +152,12 @@ export function newLang(): LanguageItem {
 
 export function fmtDate(val: string): string {
   if (!val) return ''
+  // Support YYYY-MM
+  if (val.length === 7) {
+    const d = new Date(val + '-01T00:00:00')
+    const M = ['Yan', 'Fev', 'Mar', 'Apr', 'May', 'Iyn', 'Iyl', 'Avg', 'Sen', 'Okt', 'Noy', 'Dek']
+    return `${M[d.getMonth()]} ${d.getFullYear()}`
+  }
   const d = new Date(val + 'T00:00:00')
   const M = ['Yan', 'Fev', 'Mar', 'Apr', 'May', 'Iyn', 'Iyl', 'Avg', 'Sen', 'Okt', 'Noy', 'Dek']
   return `${M[d.getMonth()]} ${d.getFullYear()}`

@@ -24,17 +24,35 @@
               :value="edu.degree" @input="set(edu.id,'degree',$event)" />
           </div>
           <div>
-            <label class="field-label">Yillar</label>
-            <input class="input-base" type="text" placeholder="2018 — 2022"
-              :value="edu.years" @input="set(edu.id,'years',$event)" />
+            <label class="field-label">Joylashuv</label>
+            <input class="input-base" type="text" placeholder="Toshkent"
+              :value="edu.location" @input="set(edu.id,'location',$event)" />
           </div>
         </div>
 
+        <div class="grid grid-cols-2 gap-2.5 mb-2">
+          <div>
+            <label class="field-label">Boshlanish</label>
+            <input class="input-base" type="month"
+              :value="edu.startDate" @input="set(edu.id,'startDate',$event)" />
+          </div>
+          <div>
+            <label class="field-label">Tugash</label>
+            <input class="input-base" type="month" :disabled="edu.isCurrent"
+              :value="edu.endDate" @input="set(edu.id,'endDate',$event)" />
+          </div>
+        </div>
+
+        <label class="flex items-center gap-2 mb-2.5 cursor-pointer text-[12.5px] font-medium">
+          <input type="checkbox" class="w-3.5 h-3.5 accent-blue-brand cursor-pointer"
+            :checked="edu.isCurrent"
+            @change="onCurrent(edu.id,$event)" />
+          Hozir shu yerda o'qiyman
+        </label>
+
         <div>
           <label class="field-label">Qo'shimcha ma'lumotlar</label>
-          <textarea class="input-base resize-none overflow-hidden" rows="2"
-            placeholder="GPA, maqtov yorliqlari..."
-            :value="edu.notes" @input="setTa(edu.id,'notes',$event)" />
+          <RichEditor :model-value="edu.notes" @update:model-value="store.setEdu(edu.id, 'notes', $event)" />
         </div>
       </div>
     </TransitionGroup>
@@ -49,6 +67,7 @@
 import { useCVStore } from '@/stores/cv'
 import type { EducationItem } from '@/types/cv'
 import PlusIcon from './PlusIcon.vue'
+import RichEditor from './RichEditor.vue'
 
 const store = useCVStore()
 
@@ -60,5 +79,10 @@ function setTa(id: string, field: keyof EducationItem, e: Event) {
   el.style.height = 'auto'
   el.style.height = Math.min(el.scrollHeight, 200) + 'px'
   store.setEdu(id, field, el.value)
+}
+function onCurrent(id: string, e: Event) {
+  const checked = (e.target as HTMLInputElement).checked
+  store.setEdu(id, 'isCurrent', checked)
+  if (checked) store.setEdu(id, 'endDate', '')
 }
 </script>
