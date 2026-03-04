@@ -134,7 +134,7 @@
               <span v-if="p.jobTitle && p.city"> | </span>
               <span v-if="p.city">{{ p.city }}</span>
             </div>
-            <div class="flex items-center justify-center font-eb-garamond gap-x-4 gap-y-1 flex-wrap mt-2" style="font-size: 11.5px;">
+            <div class="flex items-center justify-center font-eb-garamond gap-x-4 gap-y-1 flex-wrap mt-2" style="font-size: 12px;">
               <CvContact v-if="p.phone" icon="phone" :value="p.phone" />
               <CvContact v-if="p.email" icon="email" :value="p.email" />
               <CvContact v-if="p.linkedin" icon="linkedin" :value="p.linkedin" :href="toUrl(p.linkedin)" />
@@ -147,7 +147,7 @@
           <!-- Profile -->
           <div v-if="p.bio" class="mt-4">
             <h2 class="font-eb-garamond font-bold text-[15px] mb-1 pb-0.5 border-b border-black">Profile</h2>
-            <div style="font-size: 11.5px; line-height: 1.5; margin-top: 4px;" class="rich-text" v-html="p.bio"></div>
+            <div style="font-size: 12px; line-height: 1.5; margin-top: 4px;" class="rich-text" v-html="p.bio"></div>
           </div>
 
           <!-- Experience -->
@@ -156,15 +156,15 @@
             <div v-for="e in cv.experience.filter(e => e.company || e.jobTitle)" :key="e.id" style="margin-top: 6px; margin-bottom: 8px;">
               <div class="flex justify-between items-baseline" style="font-size: 12.5px;">
                 <span class="font-bold">{{ e.company }}</span>
-                <span class="font-bold" style="font-size: 11.5px;">
+                <span class="font-bold" style="font-size: 12px;">
                   {{ fmtDate(e.startDate) }}{{ fmtDate(e.startDate) && (e.isCurrent || e.endDate) ? ' – ' : '' }}{{ e.isCurrent ? 'hozir' : fmtDate(e.endDate) }}
                 </span>
               </div>
-              <div class="flex justify-between items-baseline italic text-xs mt-0.5">
+              <div class="flex justify-between items-baseline italic" style="font-size: 12px; margin-top: 1px;">
                 <span>{{ e.jobTitle }}</span>
                 <span>{{ e.location }}</span>
               </div>
-              <div v-if="e.description" style="font-size: 11.5px; line-height: 1.4; margin-top: 3px;" class="rich-text" v-html="e.description"></div>
+              <div v-if="e.description" style="font-size: 12px; line-height: 1.4; margin-top: 3px;" class="rich-text" v-html="e.description"></div>
             </div>
           </div>
 
@@ -174,18 +174,18 @@
             <div v-for="p in cv.projects.filter(p => p.name)" :key="p.id" style="margin-top: 6px; margin-bottom: 8px;">
               <div class="flex justify-between items-baseline" style="font-size: 12.5px;">
                 <span class="font-bold">{{ p.name }} <a v-if="p.link" :href="toUrl(p.link)" target="_blank" style="text-decoration:none;font-weight:normal;color:#000;">[Link]</a></span>
-                <span class="font-bold" style="font-size: 11.5px;">
+                <span class="font-bold" style="font-size: 12px;">
                   {{ fmtDate(p.startDate) }}{{ fmtDate(p.startDate) && fmtDate(p.endDate) ? ' – ' : '' }}{{ fmtDate(p.endDate) }}
                 </span>
               </div>
-              <div v-if="p.description" style="font-size: 11.5px; line-height: 1.4; margin-top: 3px;" class="rich-text" v-html="p.description"></div>
+              <div v-if="p.description" style="font-size: 12px; line-height: 1.4; margin-top: 3px;" class="rich-text" v-html="p.description"></div>
             </div>
           </div>
 
           <!-- Technical Skills -->
           <div v-if="cv.skills.length > 0 || cv.languages.length > 0" class="mt-4">
             <h2 class="font-bold text-[15px] mb-1" style="border-bottom: 1px solid #000; padding-bottom: 2px;">Technical Skills</h2>
-            <div style="font-size: 11.5px; line-height: 1.5; margin-top: 4px;">
+            <div style="font-size: 12px; line-height: 1.5; margin-top: 4px;">
               <div v-if="cv.languages.length" style="margin-bottom: 2px;">
                 <span class="font-bold">Languages:</span> {{ cv.languages.map(l => l.name).join(', ') }}
               </div>
@@ -201,15 +201,15 @@
             <div v-for="e in cv.education.filter(e => e.institution)" :key="e.id" style="margin-top: 6px; margin-bottom: 8px;">
               <div class="flex justify-between items-baseline" style="font-size: 12.5px;">
                 <span class="font-bold">{{ e.institution }}</span>
-                <span class="font-bold" style="font-size: 11.5px;">
+                <span class="font-bold" style="font-size: 12px;">
                   {{ fmtDate(e.startDate) }}{{ fmtDate(e.startDate) && (e.isCurrent || e.endDate) ? ' – ' : '' }}{{ e.isCurrent ? 'hozir' : fmtDate(e.endDate) }}
                 </span>
               </div>
-              <div class="flex justify-between items-baseline italic" style="font-size: 11.5px; margin-top: 1px;">
+              <div class="flex justify-between items-baseline italic" style="font-size: 12px; margin-top: 1px;">
                 <span>{{ e.degree }}</span>
                 <span>{{ e.location }}</span>
               </div>
-              <div v-if="e.notes" style="font-size: 11.5px; line-height: 1.4; margin-top: 3px;" class="rich-text" v-html="e.notes"></div>
+              <div v-if="e.notes" style="font-size: 12px; line-height: 1.4; margin-top: 3px;" class="rich-text" v-html="e.notes"></div>
             </div>
           </div>
         </div>
