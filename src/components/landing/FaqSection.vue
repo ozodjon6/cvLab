@@ -7,18 +7,21 @@
       </h2>
 
       <div class="space-y-4">
-        <div v-for="(faq, i) in t.faq.items" :key="i" class="border border-gray-200 rounded-xl overflow-hidden">
-          <button 
+        <div v-for="(faq, i) in t.faq.items" :key="i" class="faq-item">
+          <button
             @click="toggle(i)"
-            class="w-full flex items-center justify-between p-5 text-left bg-gray-50 hover:bg-gray-100 transition-colors"
+            class="faq-trigger"
+            :aria-expanded="activeIndex === i"
           >
             <h3 class="font-semibold text-[15px] sm:text-[16px] text-gray-900 pr-4">{{ faq.question }}</h3>
-            <span class="text-gray-400 font-display text-xl leading-none">
-              {{ activeIndex === i ? '−' : '+' }}
+            <span class="faq-icon" :class="{ open: activeIndex === i }">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M6 9l6 6 6-6" />
+              </svg>
             </span>
           </button>
-          <div v-show="activeIndex === i" class="p-5 text-gray-600 text-[14px] leading-relaxed bg-white border-t border-gray-100">
-            {{ faq.answer }}
+          <div class="faq-body" :class="{ expanded: activeIndex === i }">
+            <div class="faq-content">{{ faq.answer }}</div>
           </div>
         </div>
       </div>
@@ -37,3 +40,61 @@ function toggle(index: number) {
   activeIndex.value = activeIndex.value === index ? null : index
 }
 </script>
+
+<style scoped>
+.faq-item {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.faq-trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  text-align: left;
+  background: #f9fafb;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.faq-trigger:hover {
+  background: #f3f4f6;
+}
+
+.faq-icon {
+  flex-shrink: 0;
+  color: #9ca3af;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+}
+
+.faq-icon.open {
+  transform: rotate(180deg);
+  color: #6b7280;
+}
+
+/* Smooth height animation using max-height */
+.faq-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.faq-body.expanded {
+  max-height: 500px;
+}
+
+.faq-content {
+  padding: 20px;
+  color: #4b5563;
+  font-size: 14px;
+  line-height: 1.7;
+  background: white;
+  border-top: 1px solid #f3f4f6;
+}
+</style>

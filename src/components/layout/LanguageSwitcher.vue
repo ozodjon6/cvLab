@@ -7,7 +7,7 @@
       aria-label="Tilni tanlash / Выбрать язык / Choose language"
     >
       <span class="lang-flag">{{ currentFlag }}</span>
-      <span class="lang-code">{{ currentLang.toUpperCase() }}</span>
+      <span class="lang-label">{{ currentLabel }}</span>
       <svg
         class="lang-chevron"
         :class="{ 'rotate-180': isOpen }"
@@ -53,9 +53,9 @@ const { currentLang, availableLanguages, setLanguage } = useLanguage()
 const isOpen = ref(false)
 const switcherRef = ref<HTMLElement | null>(null)
 
-const currentFlag = computed(() =>
-  availableLanguages.find(l => l.code === currentLang.value)?.flag || '🌐'
-)
+const currentLang_ = computed(() => availableLanguages.find(l => l.code === currentLang.value))
+const currentFlag = computed(() => currentLang_.value?.flag || '🌐')
+const currentLabel = computed(() => currentLang_.value?.name || currentLang.value.toUpperCase())
 
 function selectLang(code: LangCode) {
   setLanguage(code)
@@ -104,8 +104,9 @@ onBeforeUnmount(() => document.removeEventListener('click', onClickOutside))
   line-height: 1;
 }
 
-.lang-code {
-  letter-spacing: 0.04em;
+.lang-label {
+  letter-spacing: 0.01em;
+  font-size: 12px;
 }
 
 .lang-chevron {

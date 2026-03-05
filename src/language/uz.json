@@ -8,11 +8,11 @@
         "ariaHome": "cvLab bosh sahifa"
     },
     "hero": {
-        "badge": "O'zbekistonning resume platformasi",
+        "badge": "Rezyume platformasi",
         "titleLine1": "Professional CV va",
-        "titleLine2": "resume yaratish,",
+        "titleLine2": "rezyume yaratish,",
         "titleHighlight": "daqiqada.",
-        "description": "cvLab – O'zbekistondagi eng qulay bepul onlayn CV va resume yaratish platformasi. Professional rezyumeni qisqa vaqt ichida yarating, zamonaviy shablonlar bilan PDF shaklida yuklab oling va orzuingizdagi ishni toping.",
+        "description": "cvLab – O'zbekistondagi eng qulay bepul onlayn CV va rezyume yaratish platformasi. Professional rezyumeni qisqa vaqt ichida yarating, zamonaviy shablonlar bilan PDF shaklida yuklab oling va orzuingizdagi ishni toping.",
         "startBtn": "Boshlash",
         "coffeeBtn": "☕ Kofe olib ber",
         "mockupSkills": "Ko'nikmalar",
@@ -77,8 +77,8 @@
         "title": "CV va rezyume bo'yicha savollar",
         "items": [
             {
-                "question": "CV bilan Rezyume (Resume) ning farqi nimada?",
-                "answer": "CV (Curriculum Vitae) — bu sizning butun o'quv va ish tajribangizni batafsil yoritib beruvchi hujjat. U ko'pincha akademik va ilmiy sohalarda ishlatiladi. Rezyume (Resume) esa qisqaroq (odatda 1-2 sahifa) bo'lib, aniq bir ish o'rni uchun mos tushadigan eng muhim yutuqlar, tajriba va ko'nikmalarni jamlaydi. cvLab da siz ikkalasini ham osongina yaratishingiz mumkin."
+                "question": "CV bilan Rezyumening farqi nimada?",
+                "answer": "CV (Curriculum Vitae) — bu sizning butun o'quv va ish tajribangizni batafsil yoritib beruvchi hujjat. U ko'pincha akademik va ilmiy sohalarda ishlatiladi. Rezyume esa qisqaroq (odatda 1-2 sahifa) bo'lib, aniq bir ish o'rni uchun mos tushadigan eng muhim yutuqlar, tajriba va ko'nikmalarni jamlaydi. cvLab da siz ikkalasini ham osongina yaratishingiz mumkin."
             },
             {
                 "question": "cvLab dan foydalanish bepulmi?",
@@ -97,8 +97,8 @@
                 "answer": "Albatta. Bizning shablonlar standart matn oqimi va toza shriftlardan foydalanadi, bu esa kompaniyalarning ATS tizimlari sizning rezyumengizdagi matnlarni xatosiz tanib olishini ta'minlaydi."
             },
             {
-                "question": "Qanday qilib cv maker orqali rezyumi tayyorlash va tayyor rezyumi namuna olish mumkin?",
-                "answer": "cvLab - bu zamonaviy cv maker va cv online platformasi. Saytga kirganingizdan so'ng, sizga tayyor professional shablonlar va rezyumi namuna taqdim etiladi. Ma'lumotlaringizni to'ldirib, bepul rezyumi online shaklda tayyorlaysiz va 3 daqiqa ichida PDF yuklab olasiz."
+                "question": "Qanday qilib onlayn platforma orqali rezyume tayyorlash va tayyor rezyume namuna olish mumkin?",
+                "answer": "cvLab - bu zamonaviy onlayn CV va rezyume yaratish platformasi. Saytga kirganingizdan so'ng, sizga tayyor professional shablonlar va rezyume namunalari taqdim etiladi. Ma'lumotlaringizni to'ldirib, bepul rezyumeni onlayn shaklda tayyorlaysiz va 3 daqiqa ichida PDF yuklab olasiz."
             }
         ]
     },
