@@ -1,7 +1,8 @@
 import { defineStore } from 'pinia'
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import type { CVData, TemplateId, StepId, ExperienceItem, EducationItem, LanguageItem, ProjectItem } from '@/types/cv'
 import { emptyCV, newExp, newEdu, newLang, newProj, validateStep } from '@/types/cv'
+import { exampleCVData } from '@/types/example'
 
 export const useCVStore = defineStore('cv', () => {
   // ── State ──────────────────────────────────────────
@@ -10,14 +11,17 @@ export const useCVStore = defineStore('cv', () => {
   const step = ref<StepId>(1)
   const maxStep = ref<StepId>(1)   // highest reached
   const open = ref(false)
+  const showExample = ref(false)
+  watch(step, (s) => { if (s !== 1) showExample.value = false })
 
   // ── Computed ───────────────────────────────────────
+  const currentData = computed(() => showExample.value ? exampleCVData : data.value)
   const fullName = computed(() =>
-    `${data.value.personal.firstName} ${data.value.personal.lastName}`.trim()
+    `${currentData.value.personal.firstName} ${currentData.value.personal.lastName}`.trim()
   )
   const initials = computed(() => {
-    const f = data.value.personal.firstName[0] || ''
-    const l = data.value.personal.lastName[0] || ''
+    const f = currentData.value.personal.firstName[0] || ''
+    const l = currentData.value.personal.lastName[0] || ''
     return (f + l).toUpperCase() || 'CV'
   })
 
@@ -107,7 +111,7 @@ export const useCVStore = defineStore('cv', () => {
   }
 
   return {
-    data, template, step, maxStep, open,
+    data, currentData, template, step, maxStep, open, showExample,
     fullName, initials, stepErrors, isValid,
     openBuilder, closeBuilder,
     setTemplate, next, prev, goTo,

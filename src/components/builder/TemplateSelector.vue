@@ -1,8 +1,22 @@
 <template>
   <div>
     <h2 class="font-display font-bold text-lg tracking-tight mb-1">{{ t.templateSelector.title }}</h2>
-    <p class="text-xs text-gray-400 mb-5">{{ t.templateSelector.subtitle }}</p>
-
+    <div class="flex items-center justify-between mb-5">
+      <p class="text-xs text-gray-400 m-0">{{ t.templateSelector.subtitle }}</p>
+      
+      <label class="flex items-center cursor-pointer group">
+        <div class="relative w-8 h-[18px] rounded-full transition-colors duration-200"
+             :class="store.showExample ? 'bg-blue-brand' : 'bg-gray-200'">
+          <input type="checkbox" class="sr-only" v-model="store.showExample" />
+          <div class="absolute left-0.5 top-0.5 bg-white w-[14px] h-[14px] rounded-full transition-transform duration-200 shadow-sm" 
+               :class="{ 'translate-x-[14px]': store.showExample }"></div>
+        </div>
+        <div class="ml-2 text-[11px] font-semibold transition-colors duration-200" 
+             :class="store.showExample ? 'text-blue-brand' : 'text-gray-400 group-hover:text-gray-600'">
+          {{ t.templateSelector.fillExample }}
+        </div>
+      </label>
+    </div>
     <div class="grid grid-cols-2 gap-2.5">
       <div v-for="tmpl in templates" :key="tmpl.id"
            class="relative border-2 rounded-[10px] overflow-hidden cursor-pointer
@@ -26,7 +40,9 @@
 <script setup lang="ts">
 import type { TemplateId } from '@/types/cv'
 import { useLanguage } from '@/composables/useLanguage'
+import { useCVStore } from '@/stores/cv'
 
+const store = useCVStore()
 const { t } = useLanguage()
 
 defineProps<{ selected: TemplateId }>()

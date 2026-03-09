@@ -138,7 +138,8 @@
     },
     "templateSelector": {
         "title": "Shablon tanlang",
-        "subtitle": "Rezyumengiz uchun ko'rinish tanlang"
+        "subtitle": "Rezyumengiz uchun ko'rinish tanlang",
+        "fillExample": "Namuna bilan ko'rish"
     },
     "personalForm": {
         "title": "Shaxsiy ma'lumotlar",

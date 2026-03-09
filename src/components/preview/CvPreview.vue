@@ -242,7 +242,7 @@ import Logo from "@components/layout/Logo.vue"
 
 const store = useCVStore()
 const { t } = useLanguage()
-const { template: tpl, data: cv, fullName } = storeToRefs(store)
+const { template: tpl, currentData: cv, fullName } = storeToRefs(store)
 const p = computed(() => cv.value.personal)
 
 function toUrl(val: string): string {

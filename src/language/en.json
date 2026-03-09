@@ -138,7 +138,8 @@
     },
     "templateSelector": {
         "title": "Choose a template",
-        "subtitle": "Select the look for your resume"
+        "subtitle": "Select the look for your resume",
+        "fillExample": "Preview with example data"
     },
     "personalForm": {
         "title": "Personal Information",
