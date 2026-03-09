@@ -3,17 +3,17 @@ import { genId } from './cv'
 
 export const exampleCVData: CVData = {
     personal: {
-        firstName: 'Olim',
-        lastName: 'Karimov',
+        firstName: 'Ozodbek',
+        lastName: 'Jumaev',
         jobTitle: 'Senior Frontend Dasturchi',
-        email: 'olim.karimov@email.com',
-        phone: '+998 90 123 45 67',
+        email: 'ozodjon6@email.com',
+        phone: '+998 97 135 14 00',
         city: 'Toshkent',
-        telegram: '@olim_karimov',
-        website: 'olimkarimov.uz',
-        linkedin: 'linkedin.com/in/okarimov',
+        telegram: '@ozodbek1411',
+        website: 'https://ozodbro.uz',
+        linkedin: 'linkedin.com/in/ozodjon-jumaev',
         github: 'github.com/okarimov',
-        bio: 'Tajribali va motivatsiyaga ega Frontend dasturchi. Zamonaviy web texnologiyalar, asosan Vue.js va React bo\'yicha 5 yildan ortiq tajribaga ega. Jamoada ishlash va murakkab muammolarni hal qilishda kuchli ko\'nikmalarga ega.',
+        bio: 'Tajribali va motivatsiyaga ega Frontend dasturchi. Zamonaviy web texnologiyalar, asosan Vue.js va React bo\'yicha 3 yildan ortiq tajribaga ega. Jamoada ishlash va murakkab muammolarni hal qilishda kuchli ko\'nikmalarga ega.',
         photoUrl: null
     },
     experience: [
