@@ -5,7 +5,8 @@
     "nav": {
         "coffee": "☕ Kofe olib ber",
         "start": "Boshlash →",
-        "ariaHome": "cvLab bosh sahifa"
+        "ariaHome": "cvLab bosh sahifa",
+        "signingOut": "Tizimdan chiqilmoqda..."
     },
     "hero": {
         "badge": "Rezyume platformasi",
@@ -90,7 +91,7 @@
             },
             {
                 "question": "Mening ma'lumotlarim qanchalik xavfsiz?",
-                "answer": "Ma'lumotlaringiz serverda saqlanmaydi (agar hisob yaratmagan bo'lsangiz). Barcha kiritilgan ma'lumotlar to'g'ridan-to'g'ri brauzeringizda vaqtinchalik xotirada ishlab chiqiladi va siz sahifani yangilaganingizda tozalanadi."
+                "answer": "Ma'lumotlaringiz xavfsiz. Agarda siz tizimga kirmagan bo'lsangiz ular faqatgina vaqtinchalik brauzeringiz xotirasida saqlanadi va tahrirlanadi. Agarda tizimga kirsangiz, rezyumelaringiz shaxsiy xisobingizga, bulutli bazamizda xavfsiz saqlanadi va ularni xohlagan paytda tahrirlashingiz mumkin."
             },
             {
                 "question": "Yuklab olingan PDF faylni ATS (Avtomatik ishlov berish tizimlari) o'qiy oladimi?",

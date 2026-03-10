@@ -2,12 +2,13 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { supabase } from '@/lib/supabase'
 import type { User } from '@supabase/supabase-js'
-import { useRouter } from 'vue-router'
+import router from '@/router/index'
 
 export const useAuthStore = defineStore('auth', () => {
     const user = ref<User | null>(null)
     const isAuthModalOpen = ref(false)
     const loading = ref(true)
+    const isSigningOut = ref(false)
 
     async function checkSession() {
         loading.value = true
@@ -30,11 +31,11 @@ export const useAuthStore = defineStore('auth', () => {
     }
 
     async function signOut() {
-        loading.value = true
+        isSigningOut.value = true
+        await router.push('/')
         await supabase.auth.signOut()
         user.value = null
-        loading.value = false
-        window.location.href = '/' // Quick and clean hard navigation to root
+        isSigningOut.value = false
     }
 
     function openAuthModal() {
@@ -48,6 +49,7 @@ export const useAuthStore = defineStore('auth', () => {
     return {
         user,
         loading,
+        isSigningOut,
         isAuthModalOpen,
         checkSession,
         signInWithGoogle,

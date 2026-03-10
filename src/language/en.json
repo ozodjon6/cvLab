@@ -5,7 +5,8 @@
     "nav": {
         "coffee": "☕ Buy me a coffee",
         "start": "Get Started →",
-        "ariaHome": "cvLab home page"
+        "ariaHome": "cvLab home page",
+        "signingOut": "Signing out..."
     },
     "hero": {
         "badge": "Uzbekistan's resume platform",
@@ -90,7 +91,7 @@
             },
             {
                 "question": "How safe is my data?",
-                "answer": "Your data is not stored on a server (if you haven't created an account). All entered data is processed directly in your browser's temporary memory and is cleared when you refresh the page."
+                "answer": "Your data is secure. If you are not logged in, it will only be saved and processed temporarily in your browser's memory. If you log in, your resumes will be securely saved in your personal account in our cloud database, and you can edit them at any time."
             },
             {
                 "question": "Can ATS (Applicant Tracking Systems) read the downloaded PDF?",
