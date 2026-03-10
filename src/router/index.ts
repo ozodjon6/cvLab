@@ -20,6 +20,15 @@ const routes: RouteRecordRaw[] = [
       description: "CV yarating — shablonni tanlang, ma'lumotlaringizni kiriting va PDF yuklab oling.",
     },
   },
+  {
+    path: '/my-resumes',
+    name: 'resumes',
+    component: () => import('@/views/ResumesView.vue'),
+    meta: {
+      title: "Mening rezyumelarim — cvLab",
+      description: "Saqlangan CV laringizni ko'rib chiqing va tahrirlang.",
+    },
+  },
   { path: '/:pathMatch(.*)*', redirect: '/' },
 ]
 

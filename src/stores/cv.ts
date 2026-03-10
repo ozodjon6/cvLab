@@ -3,6 +3,8 @@ import { ref, computed, watch } from 'vue'
 import type { CVData, TemplateId, StepId, ExperienceItem, EducationItem, LanguageItem, ProjectItem } from '@/types/cv'
 import { emptyCV, newExp, newEdu, newLang, newProj, validateStep } from '@/types/cv'
 import { exampleCVData } from '@/types/example'
+import { supabase } from '@/lib/supabase'
+import { useAuthStore } from './auth'
 
 export const useCVStore = defineStore('cv', () => {
   // ── State ──────────────────────────────────────────
@@ -12,6 +14,8 @@ export const useCVStore = defineStore('cv', () => {
   const maxStep = ref<StepId>(1)   // highest reached
   const open = ref(false)
   const showExample = ref(false)
+  const isSaving = ref(false)
+  const cloudId = ref<string | null>(null)
   watch(step, (s) => { if (s !== 1) showExample.value = false })
 
   // ── Computed ───────────────────────────────────────
@@ -108,10 +112,46 @@ export const useCVStore = defineStore('cv', () => {
     template.value = 'modern'
     step.value = 1
     maxStep.value = 1
+    cloudId.value = null
+  }
+
+  // ── Cloud ──────────────────────────────────────────
+  async function saveToCloud(quiet = false) {
+    const authStore = useAuthStore()
+    if (!authStore.user) {
+      if (!quiet) authStore.openAuthModal()
+      return false
+    }
+
+    isSaving.value = true
+    try {
+      const payload = {
+        user_id: authStore.user.id,
+        title: fullName.value || 'My Resume',
+        data: data.value,
+        template: template.value,
+        updated_at: new Date().toISOString()
+      }
+
+      if (cloudId.value) {
+        const { error } = await supabase.from('resumes').update(payload).eq('id', cloudId.value)
+        if (error) throw error
+      } else {
+        const { data: res, error } = await supabase.from('resumes').insert([payload]).select('id').single()
+        if (error) throw error
+        if (res) cloudId.value = res.id
+      }
+      return true
+    } catch (e) {
+      console.error(e)
+      return false
+    } finally {
+      isSaving.value = false
+    }
   }
 
   return {
-    data, currentData, template, step, maxStep, open, showExample,
+    data, currentData, template, step, maxStep, open, showExample, isSaving, cloudId,
     fullName, initials, stepErrors, isValid,
     openBuilder, closeBuilder,
     setTemplate, next, prev, goTo,
@@ -122,5 +162,6 @@ export const useCVStore = defineStore('cv', () => {
     addSkill, rmSkill,
     addLang, rmLang, setLang,
     reset,
+    saveToCloud
   }
 })

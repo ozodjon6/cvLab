@@ -120,7 +120,10 @@
         "preparing": "Tayyorlanmoqda...",
         "fillAllSteps": "Avval barcha qadamlarni to'ldiring",
         "livePreview": "Jonli ko'rinish",
-        "saved": "Saqlandi ✓"
+        "saved": "Saqlandi ✓",
+        "save": "Saqlash",
+        "loginToSave": "Keyinchalik tahrirlash uchun tizimga kiring",
+        "saving": "Saqlanmoqda..."
     },
     "steps": {
         "s1label": "Shablon",

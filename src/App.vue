@@ -2,18 +2,23 @@
   <div :class="{ 'lang-transitioning': transitioning }">
     <router-view />
     <ToastContainer />
+    <AuthModal />
   </div>
 </template>
 
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import ToastContainer from '@/components/ui/ToastContainer.vue'
+import AuthModal from '@/components/ui/AuthModal.vue'
 import { useLanguage } from '@/composables/useLanguage'
+import { useAuthStore } from '@/stores/auth'
 
 const { transitioning, currentLang } = useLanguage()
+const authStore = useAuthStore()
 
 onMounted(() => {
   document.documentElement.lang = currentLang.value
+  authStore.checkSession()
 })
 </script>
 

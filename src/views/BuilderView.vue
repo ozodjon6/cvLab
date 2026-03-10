@@ -116,19 +116,7 @@
         <!-- The A4 preview -->
         <CvPreview />
 
-        <!-- PDF button below preview -->
-        <div class="mt-3 pb-3">
-          <button
-            class="btn-primary text-[12.5px] !py-2 !px-5"
-            :disabled="pdf.exporting.value || store.maxStep < 6"
-            @click="onDownload"
-          >
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/>
-            </svg>
-            {{ pdf.exporting.value ? t.builder.preparing : store.maxStep < 6 ? t.builder.fillAllSteps : t.builder.downloadPdf }}
-          </button>
-        </div>
+        <div class="pb-6"></div>
       </div>
     </div>
   </div>
@@ -137,6 +125,7 @@
 <script setup lang="ts">
 import { computed, watch }  from 'vue'
 import { useCVStore }      from '@/stores/cv'
+import { useAuthStore }    from '@/stores/auth'
 import { useToast }        from '@/composables/useToast'
 import { usePdfExport }    from '@/composables/usePdfExport'
 import { useResizable }    from '@/composables/useResizable'
@@ -154,6 +143,7 @@ import SkillsForm          from '@/components/builder/SkillsForm.vue'
 import CvPreview           from '@/components/preview/CvPreview.vue'
 
 const store  = useCVStore()
+const auth   = useAuthStore()
 const toast  = useToast()
 const pdf    = usePdfExport()
 const resize = useResizable()
@@ -186,8 +176,11 @@ function onNext() {
       const key = errs[0].messageKey as keyof typeof t.value.validation
       toast.error(t.value.validation[key] || errs[0].messageKey)
     }
-  } else if (store.step < 6) {
-    toast.success(t.value.builder.saved)
+  } else if (store.step <= 6) {
+    if (auth.user) {
+      // Auto save in background
+      store.saveToCloud(true)
+    }
   }
 }
 
