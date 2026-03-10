@@ -36,8 +36,8 @@
         </svg>
       </a>
 
-      <a href="https://buymeacoffee.com/ozodbro" target="_blank" rel="noopener noreferrer" class="btn-bmc">
-        {{ t.footer.coffee }}
+      <a href="https://buymeacoffee.com/ozodbro" target="_blank" rel="noopener noreferrer" class="hover:-translate-y-0.5 transition-transform duration-200">
+        <img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=☕&slug=ozodbro&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" alt="Buy me a coffee" class="h-7 w-auto drop-shadow-sm rounded-md" />
       </a>
     </div>
   </footer>

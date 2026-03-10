@@ -25,13 +25,6 @@
            transition-all duration-200 hover:border-blue-brand hover:text-blue-brand;
     font-family: 'Plus Jakarta Sans', sans-serif;
   }
-  .btn-bmc {
-    @apply flex items-center gap-1.5 bg-[#FFDD00] text-black
-           px-3.5 py-[7px] rounded-lg text-[13px] font-bold no-underline
-           transition-all duration-200 border-[1.5px] border-black/10
-           hover:-translate-y-px hover:shadow-[3px_3px_0_rgba(0,0,0,.12)];
-  }
-
   /* ── Form fields ── */
   .field-label {
     @apply block text-[12px] font-semibold text-navy-800 mb-1;

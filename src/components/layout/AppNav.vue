@@ -10,8 +10,8 @@
 
     <div class="flex items-center gap-2 sm:gap-3.5">
       <LanguageSwitcher />
-      <a href="https://buymeacoffee.com/ozodbro" target="_blank" rel="noopener noreferrer" class="hidden sm:flex btn-bmc">
-        {{ t.nav.coffee }}
+      <a href="https://buymeacoffee.com/ozodbro" target="_blank" rel="noopener noreferrer" class="hidden sm:flex hover:-translate-y-0.5 transition-transform duration-200">
+        <img src="/buyme-coffe.webp" alt="Buy me a coffee" class="h-7 w-auto drop-shadow-sm rounded-md" />
       </a>
 
       <router-link to="/builder" class="btn-primary !py-1.5 sm:!py-2 !px-4 sm:!px-5 !text-[12px] sm:!text-[13.5px]">
@@ -30,7 +30,7 @@
               {{ auth.user.email?.[0] || 'U' }}
             </div>
           </button>
-          
+
           <div class="absolute right-0 top-full pt-2 w-56 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all transform origin-top-right">
             <div class="bg-white rounded-xl shadow-lg border border-gray-100 py-1">
               <router-link to="/my-resumes" class="w-full text-left px-4 py-2 text-[13px] text-gray-700 hover:bg-gray-50 flex items-center gap-2 cursor-pointer">

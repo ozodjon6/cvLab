@@ -38,8 +38,8 @@
             <path d="M5 12h14M12 5l7 7-7 7"/>
           </svg>
         </router-link>
-        <a href="https://buymeacoffee.com/ozodbro" target="_blank" rel="noopener" class="btn-bmc !text-[14px] !px-5 !py-3.5 !border-2 !rounded-[9px]">
-          {{ t.hero.coffeeBtn }}
+        <a href="https://buymeacoffee.com/ozodbro" target="_blank" rel="noopener" class="flex items-center justify-center bg-[rgb(255,221,0)] rounded-lg px-3 py-2 hover:-translate-y-0.5 transition-transform duration-200">
+          <img src="/buyme-coffe.webp" alt="Buy me a coffee" class="h-[32px] w-auto drop-shadow-sm rounded-lg" />
         </a>
       </div>
     </div>
