@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { supabase } from '@/lib/supabase'
 import type { User } from '@supabase/supabase-js'
+import { useRouter } from 'vue-router'
 
 export const useAuthStore = defineStore('auth', () => {
     const user = ref<User | null>(null)
@@ -29,8 +30,11 @@ export const useAuthStore = defineStore('auth', () => {
     }
 
     async function signOut() {
+        loading.value = true
         await supabase.auth.signOut()
         user.value = null
+        loading.value = false
+        window.location.href = '/' // Quick and clean hard navigation to root
     }
 
     function openAuthModal() {

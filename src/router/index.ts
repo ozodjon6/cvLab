@@ -29,7 +29,14 @@ const routes: RouteRecordRaw[] = [
       description: "Saqlangan CV laringizni ko'rib chiqing va tahrirlang.",
     },
   },
-  { path: '/:pathMatch(.*)*', redirect: '/' },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'not-found',
+    component: () => import('@/views/NotFoundView.vue'),
+    meta: {
+      title: "Sahifa topilmadi — cvLab",
+    },
+  },
 ]
 
 const router = createRouter({

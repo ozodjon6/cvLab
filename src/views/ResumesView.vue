@@ -2,14 +2,30 @@
   <div class="min-h-screen bg-gray-50 flex flex-col">
     <AppNav />
     <main class="flex-1 pt-24 px-4 sm:px-8 max-w-5xl mx-auto w-full">
-      <div class="flex items-center justify-between mb-8">
-        <h1 class="text-3xl font-display font-bold text-gray-900">Mening rezyumelarim</h1>
-        <router-link to="/builder" class="btn-primary cursor-pointer" @click="createNew">Yangi yaratish</router-link>
+      <!-- Not found state if strictly not matching / logging out -->
+      <div v-if="showNotFound" class="flex-1 flex flex-col items-center justify-center px-4 py-24 text-center w-full">
+        <div class="h-24 w-24 bg-blue-50 text-blue-brand rounded-full flex items-center justify-center mb-6 mx-auto">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-12 h-12"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        </div>
+        <h1 class="text-[80px] leading-none font-bold text-gray-900 mb-4 tracking-tighter">404</h1>
+        <h2 class="text-2xl font-bold text-gray-800 mb-3">Sahifa topilmadi</h2>
+        <p class="text-gray-500 max-w-sm mx-auto mb-8">
+          Siz qidirayotgan sahifa mavjud emas yoki tizimga kirmaganingiz sababli yashirilgan.
+        </p>
+        <router-link to="/" class="btn-primary">
+          Bosh sahifaga qaytish
+        </router-link>
       </div>
 
-      <div v-if="loading" class="flex justify-center py-20">
-        <div class="h-8 w-8 rounded-full border-4 border-gray-200 border-t-blue-brand animate-spin"></div>
-      </div>
+      <template v-else>
+        <div class="flex items-center justify-between mb-8">
+          <h1 class="text-3xl font-display font-bold text-gray-900">Mening rezyumelarim</h1>
+          <router-link to="/builder" class="btn-primary cursor-pointer" @click="createNew">Yangi yaratish</router-link>
+        </div>
+
+        <div v-if="loading" class="flex justify-center py-20">
+          <div class="h-8 w-8 rounded-full border-4 border-gray-200 border-t-blue-brand animate-spin"></div>
+        </div>
       
       <div v-else-if="resumes.length === 0" class="text-center py-20 bg-white rounded-2xl border border-gray-100 shadow-sm">
         <div class="h-16 w-16 bg-blue-50 text-blue-brand rounded-full flex items-center justify-center mx-auto mb-4">
@@ -37,8 +53,9 @@
           </div>
         </div>
       </div>
+      </template>
     </main>
-    <AppFooter class="mt-auto" />
+    <AppFooter class="mt-auto" v-if="authStore.user" />
   </div>
 </template>
 
@@ -58,6 +75,9 @@ const cvStore = useCVStore()
 
 const resumes = ref<any[]>([])
 const loading = ref(true)
+
+// We track whether page should show 404 instead
+const showNotFound = ref(false)
 
 async function fetchResumes() {
   if (!authStore.user) {
@@ -80,17 +100,31 @@ async function fetchResumes() {
   }
 }
 
+function handleAuthValidation() {
+  if (!authStore.user) {
+    showNotFound.value = true
+    document.title = "Sahifa topilmadi — cvLab"
+  } else {
+    showNotFound.value = false
+    fetchResumes()
+  }
+}
+
 onMounted(() => {
   if (authStore.loading) {
     const unwatch = watch(() => authStore.loading, (isLoading) => {
       if (!isLoading) {
-         fetchResumes()
+         handleAuthValidation()
          unwatch()
       }
     })
   } else {
-    fetchResumes()
+    handleAuthValidation()
   }
+})
+
+watch(() => authStore.user, () => {
+  handleAuthValidation()
 })
 
 function formatDate(dateString: string) {
