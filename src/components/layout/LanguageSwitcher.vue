@@ -6,7 +6,7 @@
       :aria-expanded="isOpen"
       aria-label="Tilni tanlash / Выбрать язык / Choose language"
     >
-      <span class="lang-flag">{{ currentFlag }}</span>
+      <img :src="currentFlag" alt="flag" class="lang-flag" />
       <span class="lang-code">{{ currentLang.toUpperCase() }}</span>
       <svg
         class="lang-chevron"
@@ -27,7 +27,7 @@
           :class="{ active: currentLang === lang.code }"
           @click="selectLang(lang.code)"
         >
-          <span class="lang-flag">{{ lang.flag }}</span>
+          <img :src="lang.flag" alt="flag" class="lang-flag" />
           <span class="lang-name">{{ lang.name }}</span>
           <svg
             v-if="currentLang === lang.code"
@@ -54,7 +54,7 @@ const isOpen = ref(false)
 const switcherRef = ref<HTMLElement | null>(null)
 
 const currentFlag = computed(() =>
-    availableLanguages.find(l => l.code === currentLang.value)?.flag || '🌐'
+    availableLanguages.find(l => l.code === currentLang.value)?.flag || '/flags/uz.svg'
 )
 
 function selectLang(code: LangCode) {
@@ -100,8 +100,13 @@ onBeforeUnmount(() => document.removeEventListener('click', onClickOutside))
 }
 
 .lang-flag {
-  font-size: 15px;
-  line-height: 1;
+  width: 16px;
+  height: 12px;
+  border-radius: 2px;
+  object-fit: cover;
+  flex-shrink: 0;
+  display: block;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.08); /* Gives a tiny border effect */
 }
 
 .lang-code {

@@ -28,9 +28,9 @@ export function useLanguage() {
     const t = computed(() => translations[currentLang.value])
 
     const availableLanguages: { code: LangCode; name: string; flag: string }[] = [
-        { code: 'uz', name: "O'zbek", flag: '🇺🇿' },
-        { code: 'ru', name: 'Русский', flag: '🇷🇺' },
-        { code: 'en', name: 'English', flag: '🇬🇧' },
+        { code: 'uz', name: "O'zbek", flag: '/flags/uz.svg' },
+        { code: 'ru', name: 'Русский', flag: '/flags/ru.svg' },
+        { code: 'en', name: 'English', flag: '/flags/gb.svg' },
     ]
 
     function setLanguage(lang: LangCode) {
