@@ -9,9 +9,9 @@
           <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
 
           <!-- Modal panel -->
-          <div class="relative inline-block align-bottom bg-white rounded-[16px] px-6 pt-7 pb-8 text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm w-full border border-gray-100">
+          <div class="relative inline-block align-bottom bg-white dark:bg-navy-800 rounded-[16px] px-6 pt-7 pb-8 text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm w-full border border-gray-100 dark:border-gray-700">
             <!-- Close button -->
-            <button @click="authStore.closeAuthModal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors">
+            <button @click="authStore.closeAuthModal" class="absolute top-4 right-4 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
               <span class="sr-only">Yopish</span>
               <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
@@ -20,22 +20,22 @@
 
             <!-- Content -->
             <div class="text-center">
-              <div class="mx-auto flex items-center justify-center h-14 w-14 rounded-full bg-blue-50 mb-4">
-                <svg class="h-7 w-7 text-blue-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div class="mx-auto flex items-center justify-center h-14 w-14 rounded-full bg-blue-50 dark:bg-blue-900/40 mb-4">
+                <svg class="h-7 w-7 text-blue-brand dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
                 </svg>
               </div>
-              <h3 class="text-xl font-display font-bold text-gray-900 mb-2" id="modal-title">
+              <h3 class="text-xl font-display font-bold text-gray-900 dark:text-white mb-2" id="modal-title">
                 Autentifikatsiya
               </h3>
-              <p class="text-[13px] text-gray-500 mb-6 leading-relaxed">
+              <p class="text-[13px] text-gray-500 dark:text-gray-400 mb-6 leading-relaxed">
                 Platformadagi ma'lumotlaringiz xavfsiz saqlanishi uchun profilingizga kiring. Google orqali bitta tugma bilan davom etishingiz mumkin.
               </p>
 
               <!-- Google Auth Button -->
               <button 
                 @click="onGoogleSignIn" 
-                class="w-full flex justify-center items-center py-2.5 px-4 border border-gray-200 shadow-sm text-[13.5px] font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-brand transition-colors"
+                class="w-full flex justify-center items-center py-2.5 px-4 border border-gray-200 dark:border-gray-700 shadow-sm text-[13.5px] font-medium rounded-lg text-gray-700 dark:text-gray-200 bg-white dark:bg-navy-800 hover:bg-gray-50 dark:hover:bg-navy-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-brand transition-colors"
                 :disabled="isLoading"
               >
                 <template v-if="!isLoading">

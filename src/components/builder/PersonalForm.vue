@@ -1,17 +1,17 @@
 <template>
   <div>
-    <h2 class="font-display font-bold text-lg tracking-tight mb-1">{{ t.personalForm.title }}</h2>
-    <p class="text-xs text-gray-400 mb-4">{{ t.personalForm.subtitle }}</p>
+    <h2 class="font-display font-bold text-lg tracking-tight mb-1 dark:text-white">{{ t.personalForm.title }}</h2>
+    <p class="text-xs text-gray-400 dark:text-gray-500 mb-4">{{ t.personalForm.subtitle }}</p>
 
     <!-- Photo -->
     <div v-if="showPhoto" class="mb-4">
       <label class="field-label">{{ t.personalForm.photo }}</label>
-      <div class="border-2 border-dashed border-gray-200 rounded-[10px] p-4 text-center
-                  cursor-pointer transition-all duration-200 hover:border-blue-brand hover:bg-blue-light relative"
+      <div class="border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-[10px] p-4 text-center
+                  cursor-pointer transition-all duration-200 hover:border-blue-brand dark:hover:border-blue-500 hover:bg-blue-light dark:hover:bg-blue-900/30 relative"
            @click="fileRef?.click()">
         <input ref="fileRef" type="file" accept="image/*" class="hidden" @change="onFile" />
         <img v-if="store.data.personal.photoUrl" :src="store.data.personal.photoUrl"
-             class="w-14 h-14 rounded-full object-cover mx-auto mb-2 border-2 border-gray-200" />
+             class="w-14 h-14 rounded-full object-cover mx-auto mb-2 border-2 border-gray-200 dark:border-gray-700" />
         <template v-else>
           <div class="text-3xl mb-1">🖼️</div>
           <div class="text-[11px] text-gray-400 font-medium">{{ t.personalForm.photoUpload }}</div>

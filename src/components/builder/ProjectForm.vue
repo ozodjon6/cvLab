@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h2 class="font-display font-bold text-lg tracking-tight mb-1">{{ t.projectForm.title }}</h2>
-    <p class="text-xs text-gray-400 mb-4">{{ t.projectForm.subtitle }}</p>
+    <h2 class="font-display font-bold text-lg tracking-tight mb-1 dark:text-white">{{ t.projectForm.title }}</h2>
+    <p class="text-xs text-gray-400 dark:text-gray-500 mb-4">{{ t.projectForm.subtitle }}</p>
 
     <TransitionGroup name="block">
       <div v-for="(proj, idx) in store.data.projects" :key="proj.id" class="data-block">

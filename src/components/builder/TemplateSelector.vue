@@ -1,18 +1,18 @@
 <template>
   <div>
-    <h2 class="font-display font-bold text-lg tracking-tight mb-1">{{ t.templateSelector.title }}</h2>
+    <h2 class="font-display font-bold text-lg tracking-tight mb-1 dark:text-white">{{ t.templateSelector.title }}</h2>
     <div class="flex items-center justify-between mb-5">
       <p class="text-xs text-gray-400 m-0">{{ t.templateSelector.subtitle }}</p>
       
       <label class="flex items-center cursor-pointer group">
         <div class="relative w-8 h-[18px] rounded-full transition-colors duration-200"
-             :class="store.showExample ? 'bg-blue-brand' : 'bg-gray-200'">
+             :class="store.showExample ? 'bg-blue-brand' : 'bg-gray-200 dark:bg-gray-700'">
           <input type="checkbox" class="sr-only" v-model="store.showExample" />
           <div class="absolute left-0.5 top-0.5 bg-white w-[14px] h-[14px] rounded-full transition-transform duration-200 shadow-sm" 
                :class="{ 'translate-x-[14px]': store.showExample }"></div>
         </div>
         <div class="ml-2 text-[11px] font-semibold transition-colors duration-200" 
-             :class="store.showExample ? 'text-blue-brand' : 'text-gray-400 group-hover:text-gray-600'">
+             :class="store.showExample ? 'text-blue-brand dark:text-blue-400' : 'text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300'">
           {{ t.templateSelector.fillExample }}
         </div>
       </label>
@@ -20,18 +20,19 @@
     <div class="grid grid-cols-2 gap-2.5">
       <div v-for="tmpl in templates" :key="tmpl.id"
            class="relative border-2 rounded-[10px] overflow-hidden cursor-pointer
-                  transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_7px_20px_rgba(10,37,64,.1)]"
+                  transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_7px_20px_rgba(10,37,64,.1)]
+                  dark:hover:shadow-[0_7px_20px_rgba(0,0,0,.3)] bg-white dark:bg-navy-800"
            :class="selected === tmpl.id
-             ? 'border-blue-brand shadow-[0_0_0_3px_rgba(26,86,219,.12)]'
-             : 'border-gray-200'"
+             ? 'border-blue-brand shadow-[0_0_0_3px_rgba(26,86,219,.12)] dark:shadow-[0_0_0_3px_rgba(37,99,235,.2)]'
+             : 'border-gray-200 dark:border-gray-700'"
            @click="emit('update:selected', tmpl.id)">
 
         <div v-if="selected === tmpl.id"
              class="absolute top-1.5 right-1.5 w-[17px] h-[17px] rounded-full bg-blue-brand text-white
                     flex items-center justify-center text-[9px] font-bold z-10">✓</div>
 
-        <div class="h-[140px] overflow-hidden" v-html="tmpl.preview" />
-        <div class="px-2.5 py-1.5 text-[11px] font-bold border-t border-gray-100">{{ tmpl.name }}</div>
+        <div class="h-[140px] overflow-hidden bg-gray-50 dark:bg-gray-800" v-html="tmpl.preview" />
+        <div class="px-2.5 py-1.5 text-[11px] font-bold border-t border-gray-100 dark:border-gray-700 dark:text-gray-200">{{ tmpl.name }}</div>
       </div>
     </div>
   </div>

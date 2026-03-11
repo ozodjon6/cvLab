@@ -1,14 +1,14 @@
 <template>
-  <div class="min-h-screen bg-gray-50" style="padding-top:56px">
+  <div class="min-h-screen bg-gray-50 dark:bg-navy-900 transition-colors duration-300" style="padding-top:56px">
 
     <!-- ── Top nav ── -->
     <nav class="fixed top-0 inset-x-0 z-[300] h-14 flex items-center justify-between px-3 sm:px-6
-                bg-white/72 backdrop-blur-[28px] border-b border-white/40
-                shadow-[0_1px_0_rgba(0,0,0,.06)]">
+                bg-white/72 dark:bg-navy-900/80 backdrop-blur-[28px] border-b border-white/40 dark:border-white/10
+                shadow-[0_1px_0_rgba(0,0,0,.06)] dark:shadow-none transition-colors duration-300">
 
       <!-- Back -->
       <router-link to="/"
-        class="flex items-center gap-1 sm:gap-1.5 text-gray-400 hover:text-navy-800 text-[12px] sm:text-[13px] font-medium
+        class="flex items-center gap-1 sm:gap-1.5 text-gray-400 dark:text-gray-500 hover:text-navy-800 dark:hover:text-white text-[12px] sm:text-[13px] font-medium
                transition-colors no-underline shrink-0">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
           <path d="M19 12H5M12 19l-7-7 7-7"/>
@@ -25,12 +25,13 @@
         />
       </div>
 
-      <!-- Logo + Version + Lang -->
+      <!-- Logo + Version + Lang + Theme -->
       <div class="flex items-center gap-2 shrink-0">
+        <ThemeSwitcher />
         <LanguageSwitcher />
         <router-link to="/" class="no-underline shrink-0 hidden sm:flex items-center gap-1.5">
           <Logo size="sm" />
-          <span class="text-[9px] font-semibold text-blue-brand/60 bg-blue-brand/8 rounded-full px-1.5 py-0.5 tracking-wide">v2.0</span>
+          <span class="text-[9px] font-semibold text-blue-brand/80 dark:text-blue-400 bg-blue-brand/8 dark:bg-blue-900/40 rounded-full px-1.5 py-0.5 tracking-wide">v2.0</span>
         </router-link>
       </div>
     </nav>
@@ -40,7 +41,7 @@
 
       <!-- ── Form panel ── -->
       <div
-        class="form-panel bg-white border-r border-gray-200 flex flex-col shrink-0 overflow-y-auto md:overflow-hidden"
+        class="form-panel bg-white dark:bg-navy-800 border-r border-gray-200 dark:border-gray-700 flex flex-col shrink-0 overflow-y-auto md:overflow-hidden transition-colors"
         :style="desktopPanelStyle"
       >
         <!-- Scrollable form area -->
@@ -61,7 +62,7 @@
         </div>
 
         <!-- Bottom nav buttons -->
-        <div class="flex justify-between items-center px-7 py-3 border-t border-gray-100 bg-white shrink-0">
+        <div class="flex justify-between items-center px-7 py-3 border-t border-gray-100 dark:border-gray-700 bg-white dark:bg-navy-800 shrink-0 transition-colors">
           <button
             class="btn-ghost text-[12.5px] !py-2"
             :style="{ visibility: store.step === 1 ? 'hidden' : 'visible' }"
@@ -100,16 +101,16 @@
         @mousedown="resize.onDown"
       >
         <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
-                    w-0.5 h-7 bg-gray-200 rounded-full
+                    w-0.5 h-7 bg-gray-200 dark:bg-gray-700 rounded-full
                     group-hover:bg-blue-brand/60 transition-colors" />
       </div>
 
       <!-- ── Preview panel ── -->
-      <div class="preview-panel flex-1 overflow-y-auto bg-[#e8edf2] p-2 sm:p-4 flex flex-col items-center min-w-0">
+      <div class="preview-panel flex-1 overflow-y-auto bg-[#e8edf2] dark:bg-[#061528] p-2 sm:p-4 flex flex-col items-center min-w-0 transition-colors">
         <!-- Live label -->
         <div class="self-start mb-1.5 flex items-center gap-1.5 text-[10px] font-bold tracking-[.1em]
-                    uppercase text-gray-400 pl-0.5">
-          <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-blink" />
+                    uppercase text-gray-400 dark:text-gray-500 pl-0.5">
+          <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-blink dark:bg-emerald-400" />
           {{ t.builder.livePreview }}
         </div>
 
@@ -120,7 +121,7 @@
         <div v-if="!auth.user" class="mt-4 px-4 w-full flex justify-center">
           <button
             @click="auth.openAuthModal"
-            class="animated-border-btn text-gray-700 hover:text-blue-brand font-medium text-[13px] !py-2.5 !px-6 transition-all flex items-center justify-center gap-2 max-w-sm w-full rounded-[10px]"
+            class="animated-border-btn dark:animated-border-btn-dark !text-gray-700 dark:!text-gray-600 hover:!text-blue-brand dark:hover:!text-blue-400 font-medium text-[13px] !py-2.5 !px-6 transition-all flex items-center justify-center gap-2 max-w-sm w-full rounded-[10px]"
           >
             <svg class="shrink-0" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z" />
@@ -146,6 +147,7 @@ import { useLanguage }     from '@/composables/useLanguage'
 import { useLimitStore }   from '@/stores/limit'
 import Logo                from '@/components/layout/Logo.vue'
 import LanguageSwitcher    from '@/components/layout/LanguageSwitcher.vue'
+import ThemeSwitcher       from '@/components/layout/ThemeSwitcher.vue'
 import StepProgress        from '@/components/builder/StepProgress.vue'
 import TemplateSelector    from '@/components/builder/TemplateSelector.vue'
 import PersonalForm        from '@/components/builder/PersonalForm.vue'
@@ -210,7 +212,7 @@ async function onDownload() {
 }
 </script>
 
-<style scoped>
+<style>
 .slide-enter-active,
 .slide-leave-active { transition: all .22s ease; }
 .slide-enter-from   { opacity: 0; transform: translateX(12px); }

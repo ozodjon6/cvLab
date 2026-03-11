@@ -72,7 +72,7 @@ onMounted(() => document.addEventListener('click', onClickOutside))
 onBeforeUnmount(() => document.removeEventListener('click', onClickOutside))
 </script>
 
-<style scoped>
+<style>
 .lang-switcher {
   position: relative;
 }
@@ -98,6 +98,8 @@ onBeforeUnmount(() => document.removeEventListener('click', onClickOutside))
   border-color: rgba(10, 37, 64, 0.15);
   transform: translateY(-1px);
 }
+
+/* Dark mode styles are in src/assets/main.css (global) */
 
 .lang-flag {
   width: 16px;

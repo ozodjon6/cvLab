@@ -5,9 +5,9 @@
         class="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11.5px] font-semibold
                transition-all duration-300 whitespace-nowrap shrink-0 cursor-default"
         :class="{
-          'bg-blue-light text-blue-brand cursor-pointer': current === s.id,
-          'text-emerald-500': isDone(s.id),
-          'text-gray-400':   !isDone(s.id) && current !== s.id,
+          'bg-blue-light dark:bg-blue-900/40 text-blue-brand dark:text-blue-400 cursor-pointer': current === s.id,
+          'text-emerald-500 dark:text-emerald-400': isDone(s.id),
+          'text-gray-400 dark:text-gray-500':   !isDone(s.id) && current !== s.id,
         }"
         :disabled="s.id > maxReached"
         @click="s.id <= maxReached && emit('goto', s.id)"
@@ -18,14 +18,14 @@
           :class="{
             'bg-blue-brand text-white':   current === s.id,
             'bg-emerald-500 text-white':  isDone(s.id),
-            'bg-gray-200 text-gray-400':  !isDone(s.id) && current !== s.id,
+            'bg-gray-200 dark:bg-navy-700 text-gray-400 dark:text-gray-500':  !isDone(s.id) && current !== s.id,
           }"
         >{{ isDone(s.id) ? '✓' : s.id }}</span>
         <span class="hidden md:inline">{{ (t.steps as Record<string, string>)[s.labelKey] }}</span>
       </button>
 
       <div v-if="i < BUILDER_STEPS.length - 1"
-           class="flex-1 h-px bg-gray-200 mx-0.5 min-w-[4px]" />
+           class="flex-1 h-px bg-gray-200 dark:bg-navy-700 mx-0.5 min-w-[4px]" />
     </template>
   </div>
 </template>

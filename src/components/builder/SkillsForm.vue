@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h2 class="font-display font-bold text-lg tracking-tight mb-1">{{ t.skillsForm.title }}</h2>
-    <p class="text-xs text-gray-400 mb-4">{{ t.skillsForm.subtitle }}</p>
+    <h2 class="font-display font-bold text-lg tracking-tight mb-1 dark:text-white">{{ t.skillsForm.title }}</h2>
+    <p class="text-xs text-gray-400 dark:text-gray-500 mb-4">{{ t.skillsForm.subtitle }}</p>
 
     <!-- Skills -->
     <div class="mb-5">

@@ -1,8 +1,8 @@
 <template>
-  <footer class="px-6 sm:px-16 py-4 border-t border-gray-100 flex flex-col md:flex-row items-center justify-between gap-4">
+  <footer class="px-6 sm:px-16 py-4 border-t border-gray-100 dark:border-gray-800 dark:bg-navy-900 flex flex-col md:flex-row items-center justify-between gap-4 transition-colors">
     <router-link to="/" class="no-underline"><Logo size="sm" /></router-link>
 
-    <p class="text-xs text-gray-400">
+    <p class="text-xs text-gray-400 dark:text-gray-500">
       &copy; {{ currentYear }} cvLab.uz &middot; {{ t.footer.copyright }}
     </p>
 
@@ -68,5 +68,12 @@ const currentYear = new Date().getFullYear()
   color: #374151;
   background: #f3f4f6;
   transform: translateY(-2px);
+}
+:global(.dark) .social-link {
+  color: #6b7280;
+}
+:global(.dark) .social-link:hover {
+  color: #d1d5db;
+  background: #1f2937;
 }
 </style>

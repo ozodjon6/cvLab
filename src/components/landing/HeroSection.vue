@@ -2,32 +2,37 @@
   <section class="min-h-[80vh] xl:min-h-screen flex items-center xl:items-center justify-center xl:justify-start relative overflow-hidden
                   pt-[calc(56px+40px)] xl:pt-[calc(56px+60px)] pb-16 xl:pb-20 px-6 sm:px-10 xl:px-16">
 
-    <!-- Gradient bg -->
-    <div class="absolute inset-0 pointer-events-none"
+    <!-- Gradient bg (light) -->
+    <div class="absolute inset-0 pointer-events-none dark:hidden"
          style="background:radial-gradient(ellipse 60% 60% at 72% 40%,#dbeafe 0%,transparent 65%),
                             radial-gradient(ellipse 30% 40% at 15% 80%,#bfdbfe 0%,transparent 60%)" />
+    
+    <!-- Gradient bg (dark) -->
+    <div class="absolute inset-0 pointer-events-none hidden dark:block"
+         style="background:radial-gradient(ellipse 60% 60% at 72% 40%,rgba(30,58,138,0.2) 0%,transparent 65%),
+                            radial-gradient(ellipse 30% 40% at 15% 80%,rgba(30,58,138,0.3) 0%,transparent 60%)" />
 
     <!-- Animated grid -->
-    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute inset-0 overflow-hidden pointer-events-none mix-blend-multiply dark:mix-blend-screen opacity-50 dark:opacity-60">
       <svg ref="svgRef" class="w-full h-full absolute inset-0" />
     </div>
 
     <!-- Main content -->
     <div class="relative z-10 max-w-[560px] xl:text-left">
-      <div class="inline-flex flex-wrap justify-center items-center gap-1.5 bg-blue-light text-blue-brand text-[10px] sm:text-[11px]
+      <div class="inline-flex flex-wrap justify-center items-center gap-1.5 bg-blue-light dark:bg-blue-900/30 text-blue-brand dark:text-blue-400 text-[10px] sm:text-[11px]
                   font-bold tracking-[.08em] uppercase px-3.5 py-[5px] rounded-full mb-6
-                  animate-fade-up">
-        <span class="w-[5px] h-[5px] bg-blue-brand rounded-full" />
+                  animate-fade-up border border-transparent dark:border-blue-800">
+        <span class="w-[5px] h-[5px] bg-blue-brand dark:bg-blue-400 rounded-full" />
         {{ t.hero.badge }}
       </div>
 
       <h1 class="font-display font-extrabold leading-[1.04] tracking-[-1.5px] sm:tracking-[-2.5px] mb-5
-                 text-[32px] sm:text-[clamp(38px,5vw,62px)] animate-fade-up-d1">
+                 text-[32px] sm:text-[clamp(38px,5vw,62px)] animate-fade-up-d1 dark:text-white">
         {{ t.hero.titleLine1 }}<br>
-        {{ t.hero.titleLine2 }} <em class="not-italic text-blue-brand font-light">{{ t.hero.titleHighlight }}</em>
+        {{ t.hero.titleLine2 }} <em class="not-italic text-blue-brand dark:text-blue-400 font-light">{{ t.hero.titleHighlight }}</em>
       </h1>
 
-      <p class="text-sm sm:text-base text-gray-500 leading-relaxed mb-8 sm:mb-9 animate-fade-up-d2">
+      <p class="text-sm sm:text-base text-gray-500 dark:text-gray-400 leading-relaxed mb-8 sm:mb-9 animate-fade-up-d2">
         {{ t.hero.description }}
       </p>
 
@@ -47,8 +52,9 @@
 
     <!-- CV Mockup -->
     <div class="absolute right-10 top-1/2 -translate-y-1/2 w-1/3 animate-float-in z-10 hidden xl:block">
-      <div class="bg-white rounded-2xl overflow-hidden
+      <div class="bg-white dark:bg-navy-800 rounded-2xl overflow-hidden
                   shadow-[0_28px_70px_rgba(10,37,64,.18),0_0_0_1px_rgba(10,37,64,.06)]
+                  dark:shadow-[0_28px_70px_rgba(0,0,0,.5),0_0_0_1px_rgba(255,255,255,.1)]
                   [transform:perspective(900px)_rotateY(-8deg)_rotateX(2deg)]
                   hover:[transform:perspective(900px)_rotateY(-3deg)_rotateX(1deg)]
                   transition-transform duration-500">
@@ -69,15 +75,15 @@
         </div>
         <!-- Body -->
         <div class="px-6 py-4">
-          <div class="text-[9px] font-bold tracking-[.1em] uppercase text-blue-brand mb-2 mt-1">{{ t.hero.mockupSkills }}</div>
+          <div class="text-[9px] font-bold tracking-[.1em] uppercase text-blue-brand dark:text-blue-400 mb-2 mt-1">{{ t.hero.mockupSkills }}</div>
           <MiniBar label="Angular / Vue.js" :pct="92" />
           <MiniBar label="TypeScript" :pct="85" />
           <MiniBar label="Node.js" :pct="78" />
-          <div class="text-[9px] font-bold tracking-[.1em] uppercase text-blue-brand mb-2 mt-4">{{ t.hero.mockupExperience }}</div>
-          <div class="text-[11px] font-semibold">Senior Frontend Developer</div>
-          <div class="text-[10px] text-gray-400 mb-2">E Projects Group · 2024 — {{ t.hero.mockupPresent }}</div>
-          <div class="h-[3px] bg-gray-100 rounded-full w-[88%] mb-1" />
-          <div class="h-[3px] bg-gray-100 rounded-full w-[70%]" />
+          <div class="text-[9px] font-bold tracking-[.1em] uppercase text-blue-brand dark:text-blue-400 mb-2 mt-4">{{ t.hero.mockupExperience }}</div>
+          <div class="text-[11px] font-semibold dark:text-gray-100">Senior Frontend Developer</div>
+          <div class="text-[10px] text-gray-400 dark:text-gray-500 mb-2">E Projects Group · 2024 — {{ t.hero.mockupPresent }}</div>
+          <div class="h-[3px] bg-gray-100 dark:bg-navy-700/50 rounded-full w-[88%] mb-1" />
+          <div class="h-[3px] bg-gray-100 dark:bg-navy-700/50 rounded-full w-[70%]" />
         </div>
       </div>
     </div>

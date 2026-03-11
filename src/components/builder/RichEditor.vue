@@ -75,7 +75,7 @@ function emitValue() {
 }
 </script>
 
-<style scoped>
+<style>
 .rich-editor-container {
   border: 1px solid #e5e7eb;
   border-radius: 6px;
@@ -146,4 +146,6 @@ function emitValue() {
   color: inherit !important;
   background-color: transparent !important;
 }
+
+/* Dark mode styles are in src/assets/main.css (global) */
 </style>
