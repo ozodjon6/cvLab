@@ -58,13 +58,15 @@
               Tahrirlash
               <svg class="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
             </button>
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-2">
                <!-- Preview button -->
-               <button @click.stop="handlePreview(item)" :class="{'blur-[2px] opacity-60': !limitStore.isPremiumPlan}" class="text-[13px] font-medium text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-all flex items-center" title="Ko'rish (Premium)">
+               <button @click.stop="handlePreview(item)" :class="{'blur-[1px] opacity-60': !limitStore.isPremiumPlan}" class="flex items-center justify-center gap-1.5 px-3 py-1.5 bg-gray-100 hover:bg-gray-200 dark:bg-navy-700 dark:hover:bg-navy-600 text-gray-700 dark:text-gray-200 text-[12.5px] font-semibold rounded-lg transition-colors" title="Ko'rish (Premium)">
+                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
                  Ko'rish
                </button>
                <!-- Delete button -->
-               <button @click.stop="handleDelete(item)" :class="{'blur-[2px] opacity-60': !limitStore.isPremiumPlan}" class="text-[13px] font-medium text-red-500 dark:text-red-400 hover:text-red-600 dark:hover:text-red-300 transition-all flex items-center" title="O'chirish (Premium)">
+               <button @click.stop="confirmDelete(item)" :class="{'blur-[1px] opacity-60': !limitStore.isPremiumPlan}" class="flex items-center justify-center gap-1.5 px-3 py-1.5 bg-red-50 hover:bg-red-100 dark:bg-red-900/30 dark:hover:bg-red-900/50 text-red-600 dark:text-red-400 text-[12.5px] font-semibold rounded-lg transition-colors" title="O'chirish (Premium)">
+                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
                  O'chirish
                </button>
             </div>
@@ -73,12 +75,32 @@
       </div>
 
       <!-- Preview Modal -->
-      <div v-if="previewItem" class="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4" @click="closePreview">
+      <div v-if="previewItem" class="fixed inset-0 z-[1000] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4" @click="closePreview">
         <div class="bg-[#e8edf2] dark:bg-[#061528] rounded-2xl w-full max-w-[90%] max-h-[90vh] overflow-y-auto relative flex flex-col items-center p-4 sm:p-8" @click.stop>
           <button @click="closePreview" class="absolute top-4 right-4 z-10 w-8 h-8 flex items-center justify-center bg-white dark:bg-navy-800 text-gray-600 dark:text-gray-300 rounded-full shadow-sm hover:scale-105 transition-transform border border-gray-200 dark:border-gray-700">
             <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
           </button>
           <CvPreview />
+        </div>
+      </div>
+
+      <!-- Delete Confirmation Modal -->
+      <div v-if="deleteItem" class="fixed inset-0 z-[110] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4" @click="closeDeleteModal">
+        <div class="bg-white dark:bg-navy-800 rounded-2xl w-full max-w-sm p-6 shadow-xl relative transform transition-all" @click.stop>
+          <div class="w-12 h-12 rounded-full bg-red-100 dark:bg-red-900/40 text-red-600 dark:text-red-400 flex items-center justify-center mb-4 mx-auto">
+             <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+          </div>
+          <h3 class="text-xl font-bold text-center text-gray-900 dark:text-white mb-2">O'chirishni tasdiqlaysizmi?</h3>
+          <p class="text-center text-sm text-gray-500 dark:text-gray-400 mb-6">Ushbu rezyumeni butunlay o'chirib yubormoqchimisiz? Uni qayta tiklab bo'lmaydi.</p>
+          <div class="flex items-center gap-3">
+            <button @click="closeDeleteModal" class="flex-1 py-2.5 px-4 bg-gray-100 hover:bg-gray-200 dark:bg-navy-700 dark:hover:bg-navy-600 text-gray-700 dark:text-gray-200 font-semibold rounded-xl transition-colors disabled:opacity-50" :disabled="isDeleting">
+              Bekor qilish
+            </button>
+            <button @click="executeDelete" class="flex-1 py-2.5 px-4 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-xl transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed" :disabled="isDeleting">
+              <span v-if="isDeleting" class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+              {{ isDeleting ? "O'chirilmoqda" : "Ha, o'chirish" }}
+            </button>
+          </div>
         </div>
       </div>
       </template>
@@ -109,6 +131,8 @@ const isCheckingStart = ref(false)
 const resumes = ref<any[]>([])
 const loading = ref(true)
 const previewItem = ref<any>(null)
+const deleteItem = ref<any>(null)
+const isDeleting = ref(false)
 
 // We track whether page should show 404 instead
 const showNotFound = ref(false)
@@ -202,11 +226,9 @@ async function createNewStart() {
 
 function handlePreview(item: any) {
   if (!limitStore.isPremiumPlan) {
-    // If not premium, they clicked the blurred button, show dialog
     limitStore.showPremiumDialog = true
     return
   }
-  // Load data for preview without pushing to builder view
   cvStore.data = item.data as CVData
   cvStore.template = item.template as TemplateId
   cvStore.cloudId = item.id
@@ -217,17 +239,25 @@ function closePreview() {
   previewItem.value = null
 }
 
-async function handleDelete(item: any) {
+function confirmDelete(item: any) {
   if (!limitStore.isPremiumPlan) {
     limitStore.showPremiumDialog = true
     return
   }
+  deleteItem.value = item
+}
 
-  if (!window.confirm("Rostdan ham bu rezyumeni o'chirmoqchimisiz?")) {
-    return
-  }
+function closeDeleteModal() {
+  if (isDeleting.value) return
+  deleteItem.value = null
+}
+
+async function executeDelete() {
+  if (!deleteItem.value) return
+  isDeleting.value = true
 
   try {
+    const item = deleteItem.value
     const { error } = await supabase.from('resumes').delete().eq('id', item.id)
     if (error) throw error
     resumes.value = resumes.value.filter(r => r.id !== item.id)
@@ -236,9 +266,13 @@ async function handleDelete(item: any) {
     if (cvStore.cloudId === item.id) {
        cvStore.reset()
     }
+    deleteItem.value = null
   } catch (err) {
     console.error("Xatolik:", err)
     alert("Rezyumeni o'chirishda xatolik yuz berdi.")
+  } finally {
+    isDeleting.value = false
   }
 }
 </script>
+```
