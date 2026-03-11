@@ -195,6 +195,14 @@
         "premiumLockTitle": "You can edit the entered data, but you need Premium to change the template"
     },
     "myResumes": {
+        "title": "My Resumes",
+        "createNew": "Create New",
+        "emptyTitle": "You have no resumes yet",
+        "emptyDesc": "Create your new professional resume for free",
+        "start": "Get Started",
+        "defaultTitle": "My Resume",
+        "templateLabel": "Template:",
+        "edit": "Edit",
         "preview": "Preview",
         "previewPremium": "Preview (Premium)",
         "delete": "Delete",
@@ -205,6 +213,11 @@
         "yesDelete": "Yes, delete",
         "deleting": "Deleting...",
         "deleteError": "An error occurred while deleting the resume."
+    },
+    "notFound": {
+        "title": "Page not found",
+        "desc": "The page you are looking for does not exist or is hidden because you are not logged in.",
+        "backBtn": "Back to Home"
     },
     "personalForm": {
         "title": "Personal Information",

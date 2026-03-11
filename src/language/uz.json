@@ -195,6 +195,14 @@
         "premiumLockTitle": "Kiritilgan ma'lumotlarni tahrirlashingiz mumkin, lekin shablonni o'zgartirish uchun Premium kerak"
     },
     "myResumes": {
+        "title": "Mening rezyumelarim",
+        "createNew": "Yangi yaratish",
+        "emptyTitle": "Hali hech qanday rezyume yo'q",
+        "emptyDesc": "Yangi professional rezyumeni bepul yarating",
+        "start": "Boshlash",
+        "defaultTitle": "Rezyumem",
+        "templateLabel": "Shablon:",
+        "edit": "Tahrirlash",
         "preview": "Ko'rish",
         "previewPremium": "Ko'rish (Premium)",
         "delete": "O'chirish",
@@ -205,6 +213,11 @@
         "yesDelete": "Ha, o'chirish",
         "deleting": "O'chirilmoqda",
         "deleteError": "Rezyumeni o'chirishda xatolik yuz berdi."
+    },
+    "notFound": {
+        "title": "Sahifa topilmadi",
+        "desc": "Siz qidirayotgan sahifa mavjud emas yoki tizimga kirmaganingiz sababli yashirilgan.",
+        "backBtn": "Bosh sahifaga qaytish"
     },
     "personalForm": {
         "title": "Shaxsiy ma'lumotlar",
