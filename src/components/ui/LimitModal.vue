@@ -57,8 +57,18 @@
               </div>
 
               <button 
+                @click="checkPayment" 
+                class="w-full btn-primary text-[14px] !py-2.5 mb-2 flex items-center justify-center transition-colors"
+                :disabled="limitStore.isVerifying"
+              >
+                <span v-if="limitStore.isVerifying" class="inline-block h-4 w-4 rounded-full border-2 border-white/30 border-t-white animate-spin mr-2"></span>
+                {{ limitStore.isVerifying ? 'To\'lov tekshirilmoqda...' : "To'lov qildim, tekshirish" }}
+              </button>
+
+              <button 
                 @click="limitStore.closeDialogs" 
                 class="w-full bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 font-medium rounded-lg text-[14px] px-4 py-2.5 transition-colors"
+                :disabled="limitStore.isVerifying"
               >
                 Tushunarli, yopish
               </button>
@@ -74,13 +84,28 @@
 <script setup lang="ts">
 import { useLimitStore } from '@/stores/limit'
 import { useAuthStore } from '@/stores/auth'
+import { useToast } from '@/composables/useToast'
+import { useRouter } from 'vue-router'
 
 const limitStore = useLimitStore()
 const authStore = useAuthStore()
+const toast = useToast()
+const router = useRouter()
 
 function openAuth() {
   limitStore.closeDialogs()
   authStore.openAuthModal()
+}
+
+async function checkPayment() {
+  const isPremium = await limitStore.verifyPayment()
+  if (isPremium) {
+    toast.success("To'lov tasdiqlandi! Limit olib tashlandi 🎉")
+    limitStore.closeDialogs()
+    router.push('/builder')
+  } else {
+    toast.error("Hali to'lov tasdiqlanmadi. Agar to'lov qilgan bo'lsangiz 1-2 daqiqa kuting yoki emailingiz to'g'riligini tekshiring.")
+  }
 }
 </script>
 

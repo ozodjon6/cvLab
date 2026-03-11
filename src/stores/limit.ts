@@ -9,6 +9,7 @@ export const useLimitStore = defineStore('limit', () => {
     const showGuestDialog = ref(false)
     const showPremiumDialog = ref(false)
     const isChecking = ref(false)
+    const isVerifying = ref(false)
 
     async function checkCanCreate(): Promise<boolean> {
         isChecking.value = true
@@ -23,23 +24,42 @@ export const useLimitStore = defineStore('limit', () => {
                 return true
             } else {
                 // Tizimga kirgan foydalanuvchi uchun tekshiruv
-                const { count, error } = await supabase
+                // 1. Umumiy yaratilgan CVlar soni va oxirgisining datasini olamiz
+                const { data: resumes, count, error } = await supabase
                     .from('resumes')
-                    .select('*', { count: 'exact', head: true })
+                    .select('created_at', { count: 'exact' })
                     .eq('user_id', authStore.user.id)
+                    .order('created_at', { ascending: false })
+                    .limit(1)
 
                 if (error) {
                     console.error('Error fetching resumes count:', error)
                     return true // Xatolik bo'lsa o'tkazib yuboramiz
                 }
 
-                // Premium statusini tekshiramiz. Vaqtincha user_metadata dan olamiz yoki 
-                // to'lovdan keyin 'is_premium' o'rnatiladi.
+                // Premium statusini tekshiramiz.
                 const isPremium = authStore.user.user_metadata?.is_premium === true
 
+                // Agar u premium bo'lmasa va bazada allaqachon 2 yoki undan ko'p CV bo'lsa
                 if (!isPremium && count !== null && count >= 2) {
-                    showPremiumDialog.value = true
-                    return false
+                    // Agar oxirgi CVsi bor bo'lsa, uni qachon yaratganini tekshiramiz
+                    if (resumes && resumes.length > 0) {
+                        const lastCreatedAt = new Date(resumes[0].created_at).getTime()
+                        const now = new Date().getTime()
+                        const diffInHours = (now - lastCreatedAt) / (1000 * 60 * 60)
+
+                        // Agar oxirgi CV yaratilganiga 24 soat to'lmagan bo'lsa - O'TKAZMAYMIZ (LimitDialog)
+                        if (diffInHours < 24) {
+                            showPremiumDialog.value = true
+                            return false
+                        }
+                        
+                        // DIQQAT: Agar 24 soat o'tgan bo'lsa u bemalol yaratishda davom etaveradi (pastga o'tib true qaytaradi)
+                    } else {
+                         // Garchi sanasi xato bo'lsayu count >= 2 bo'lsa ham yopamiz (xavfsizlik uchun)
+                         showPremiumDialog.value = true
+                         return false
+                    }
                 }
                 return true
             }
@@ -60,12 +80,37 @@ export const useLimitStore = defineStore('limit', () => {
         showPremiumDialog.value = false
     }
 
+    async function verifyPayment(): Promise<boolean> {
+        isVerifying.value = true
+        try {
+            const { data: { user }, error } = await supabase.auth.getUser()
+            if (error) throw error
+            
+            if (user && user.user_metadata?.is_premium === true) {
+                if (authStore.user) {
+                    authStore.user.user_metadata = user.user_metadata
+                }
+                return true
+            }
+            // Add a small delay so the user perceives a check if it's too fast
+            await new Promise(r => setTimeout(r, 1500))
+            return false
+        } catch (e) {
+            console.error(e)
+            return false
+        } finally {
+            isVerifying.value = false
+        }
+    }
+
     return {
         showGuestDialog,
         showPremiumDialog,
         isChecking,
+        isVerifying,
         checkCanCreate,
         incrementGuestCount,
-        closeDialogs
+        closeDialogs,
+        verifyPayment
     }
 })
