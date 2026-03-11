@@ -52,7 +52,7 @@
               <div class="flex flex-col items-center justify-center mt-2 p-4 bg-gray-50 dark:bg-navy-900/40 rounded-xl border border-gray-100 dark:border-gray-700 mb-5">
                 <img src="/qr-code.png" alt="Buy Me a Coffee QR Code" class="h-32 w-32 object-contain mb-3 rounded-lg shadow-sm" />
                 <a href="https://buymeacoffee.com/ozodbro" target="_blank" rel="noopener noreferrer" class="hover:-translate-y-0.5 transition-transform duration-200">
-                  <img src="/buyme-coffe.webp" alt="Buy me a coffee" class="h-9 w-auto drop-shadow-sm rounded-md" />
+                  <img src="/buyme-coffe.webp" alt="Buy me a coffee" class="h-7 dark:bg-[rgb(255,221,0)] dark:px-2 dark:py-1.5 dark:rounded-lg w-auto drop-shadow-sm rounded-md" />
                 </a>
               </div>
 
