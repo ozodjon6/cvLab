@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen bg-gray-50 dark:bg-navy-900 flex flex-col transition-colors duration-300">
     <AppNav />
-    <main class="flex-1 pt-24 px-4 sm:px-8 max-w-5xl mx-auto w-full">
+    <main class="flex-1 pt-24 px-4 sm:px-8 max-w-7xl mx-auto w-full">
       <!-- Not found state if strictly not matching / logging out -->
       <div v-if="showNotFound" class="flex-1 flex flex-col items-center justify-center px-4 py-24 text-center w-full">
         <div class="h-24 w-24 bg-blue-50 dark:bg-blue-900/40 text-blue-brand dark:text-blue-400 rounded-full flex items-center justify-center mb-6 mx-auto">
@@ -53,14 +53,14 @@
                <span>{{ formatDate(item.updated_at) }}</span>
             </div>
           </div>
-          <div class="px-6 py-3 bg-gray-50 dark:bg-navy-900 border-t border-gray-100 dark:border-gray-700 flex items-center justify-between transition-colors">
+          <div class="px-6 py-3 bg-gray-50 gap-2 dark:bg-navy-900 border-t border-gray-100 dark:border-gray-700 flex items-center justify-between transition-colors">
             <button @click.stop="openResume(item)" class="text-[13px] font-medium text-blue-brand dark:text-blue-400 flex items-center hover:opacity-80 transition-opacity">
               Tahrirlash
               <svg class="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
             </button>
             <div class="flex items-center gap-2">
                <!-- Preview button -->
-               <button @click.stop="handlePreview(item)" :class="{'blur-[1px] opacity-60': !limitStore.isPremiumPlan}" class="flex items-center justify-center gap-1.5 px-3 py-1.5 bg-gray-100 hover:bg-gray-200 dark:bg-navy-700 dark:hover:bg-navy-600 text-gray-700 dark:text-gray-200 text-[12.5px] font-semibold rounded-lg transition-colors" :title="t.myResumes.previewPremium">
+               <button @click.stop="handlePreview(item)" :class="{'blur-[1px] opacity-60': !limitStore.isPremiumPlan}" class="flex items-center justify-center gap-1.5 px-3 py-1.5 bg-gray-100 hover:bg-gray-200 dark:bg-navy-400 dark:hover:bg-navy-600 text-gray-700 dark:text-gray-200 text-[12.5px] font-semibold rounded-lg transition-colors" :title="t.myResumes.previewPremium">
                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
                  {{ t.myResumes.preview }}
                </button>
