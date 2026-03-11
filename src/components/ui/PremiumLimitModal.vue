@@ -1,7 +1,7 @@
 <template>
   <Teleport to="body">
     <Transition name="fade">
-      <div v-if="limitStore.showGuestDialog || limitStore.showPremiumDialog" class="fixed inset-0 z-[400] overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+      <div v-if="limitStore.showPremiumDialog" class="fixed inset-0 z-[400] overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
         <!-- Backdrop -->
         <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
           <div class="fixed inset-0 bg-gray-900/40 backdrop-blur-sm transition-opacity" aria-hidden="true" @click="limitStore.closeDialogs"></div>
@@ -18,27 +18,8 @@
               </svg>
             </button>
 
-            <!-- Guest Limit Content -->
-            <div v-if="limitStore.showGuestDialog" class="text-center">
-              <div class="mx-auto flex items-center justify-center h-14 w-14 rounded-full bg-orange-50 dark:bg-orange-900/40 mb-4">
-                <svg class="h-7 w-7 text-orange-500 dark:text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
-                </svg>
-              </div>
-              <h3 class="text-xl font-display font-bold text-gray-900 dark:text-white mb-2">{{ t.limit.guestTitle }}</h3>
-              <p class="text-[14px] text-gray-500 dark:text-gray-400 mb-6 leading-relaxed">
-                {{ t.limit.guestDesc }}
-              </p>
-              <button
-                @click="openAuth"
-                class="w-full btn-primary flex items-center justify-center text-[14px] !py-2.5"
-              >
-                {{ t.limit.loginRegBtn }}
-              </button>
-            </div>
-
             <!-- Premium Limit Content -->
-            <div v-if="limitStore.showPremiumDialog" class="text-center">
+            <div class="text-center">
               <div class="mx-auto flex items-center justify-center h-14 w-14 rounded-full bg-yellow-50 dark:bg-yellow-900/40 mb-4">
                 <svg class="h-7 w-7 text-yellow-500 dark:text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
@@ -66,8 +47,7 @@
 
               <button
                 @click="limitStore.closeDialogs"
-                class="w-full bg-white dark:bg-navy-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-navy-900 font-medium rounded-lg text-[14px] px-4 py-2.5 transition-colors"
-                :disabled="limitStore.isVerifying"
+                class="w-full bg-white dark:bg-navy-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-navy-900 font-medium rounded-lg text-[14px] px-4 py-2.5 transition-colors cursor-pointer"
               >
                 {{ t.limit.closeBtn }}
               </button>
@@ -84,20 +64,13 @@
 import { watch, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
 import { useLimitStore } from '@/stores/limit'
-import { useAuthStore } from '@/stores/auth'
 import { useToast } from '@/composables/useToast'
 import { useLanguage } from '@/composables/useLanguage'
 
 const { t } = useLanguage()
 const limitStore = useLimitStore()
-const authStore = useAuthStore()
 const toast = useToast()
 const router = useRouter()
-
-function openAuth() {
-  limitStore.closeDialogs()
-  authStore.openAuthModal()
-}
 
 let pollInterval: any = null
 

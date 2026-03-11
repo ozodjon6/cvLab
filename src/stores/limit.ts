@@ -46,23 +46,27 @@ export const useLimitStore = defineStore('limit', () => {
         }
     }
 
-    async function checkCanCreate(): Promise<boolean> {
+    async function checkCanCreate(silent = false): Promise<boolean> {
         try {
-            if (!authStore.user) {
+            const { data: { user: supabaseUser } } = await supabase.auth.getUser()
+
+            if (!supabaseUser && !authStore.user) {
                 // Mehmon uchun tekshiruv
                 const count = getGuestCount()
                 if (count >= 2) {
-                    showGuestDialog.value = true
+                    if (!silent) showGuestDialog.value = true
                     return false
                 }
                 return true
             } else {
                 // Tizimga kirgan foydalanuvchi uchun tekshiruv
+                const userId = supabaseUser?.id || authStore.user?.id
+                
                 // 1. Umumiy yaratilgan CVlar soni va oxirgisining datasini olamiz
                 const { data: resumes, count, error } = await supabase
                     .from('resumes')
                     .select('created_at', { count: 'exact' })
-                    .eq('user_id', authStore.user.id)
+                    .eq('user_id', userId)
                     .order('created_at', { ascending: false })
                     .limit(1)
 
@@ -72,10 +76,16 @@ export const useLimitStore = defineStore('limit', () => {
                 }
 
                 // Premium statusini eng so'nggi ma'lumot qilib serverdan tortamiz! (Token keshlanib qolishini olish logikasi)
-                const { data: { user } } = await supabase.auth.getUser()
-                if (user) authStore.user.user_metadata = user.user_metadata
-
-                const isPremium = authStore.user.user_metadata?.is_premium === true
+                let isPremium = false
+                
+                if (supabaseUser) {
+                    if (authStore.user) {
+                        authStore.user.user_metadata = supabaseUser.user_metadata
+                    }
+                    isPremium = supabaseUser.user_metadata?.is_premium === true
+                } else if (authStore.user) {
+                    isPremium = authStore.user.user_metadata?.is_premium === true
+                }
 
                 // Agar u premium bo'lmasa va bazada allaqachon 2 yoki undan ko'p CV bo'lsa
                 if (!isPremium && count !== null && count >= 2) {
@@ -87,14 +97,14 @@ export const useLimitStore = defineStore('limit', () => {
 
                         // Agar oxirgi CV yaratilganiga 24 soat to'lmagan bo'lsa - O'TKAZMAYMIZ (LimitDialog)
                         if (diffInHours < 24) {
-                            showPremiumDialog.value = true
+                            if (!silent) showPremiumDialog.value = true
                             return false
                         }
                         
                         // DIQQAT: Agar 24 soat o'tgan bo'lsa u bemalol yaratishda davom etaveradi (pastga o'tib true qaytaradi)
                     } else {
                          // Garchi sanasi xato bo'lsayu count >= 2 bo'lsa ham yopamiz (xavfsizlik uchun)
-                         showPremiumDialog.value = true
+                         if (!silent) showPremiumDialog.value = true
                          return false
                     }
                 }

@@ -157,11 +157,8 @@ function openResume(item: any) {
 async function createNew() {
   isChecking.value = true
   try {
-    const canCreate = await limitStore.checkCanCreate()
-    if (canCreate) {
-      cvStore.reset()
-      router.push('/builder')
-    }
+    cvStore.reset()
+    router.push('/builder')
   } finally {
     isChecking.value = false
   }
@@ -170,11 +167,8 @@ async function createNew() {
 async function createNewStart() {
   isCheckingStart.value = true
   try {
-    const canCreate = await limitStore.checkCanCreate()
-    if (canCreate) {
-      cvStore.reset()
-      router.push('/builder')
-    }
+    cvStore.reset()
+    router.push('/builder')
   } finally {
     isCheckingStart.value = false
   }

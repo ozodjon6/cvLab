@@ -1,8 +1,14 @@
 <template>
   <div class="min-h-screen bg-gray-50 dark:bg-navy-900 transition-colors duration-300" style="padding-top:56px">
 
+    <!-- Loading State -->
+    <div v-if="isInitializing" class="fixed inset-0 z-[9999] bg-white dark:bg-navy-900 flex flex-col items-center justify-center">
+      <div class="w-12 h-12 rounded-full border-4 border-gray-200 dark:border-gray-700 border-t-blue-brand dark:border-t-blue-400 animate-spin mb-4"></div>
+      <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Tekshirilmoqda...</p>
+    </div>
+
     <!-- ── Top nav ── -->
-    <nav class="fixed top-0 inset-x-0 z-[300] h-14 flex items-center justify-between px-3 sm:px-6
+    <nav v-show="!isInitializing" class="fixed top-0 inset-x-0 z-[300] h-14 flex items-center justify-between px-3 sm:px-6
                 bg-white/72 dark:bg-navy-900/80 backdrop-blur-[28px] border-b border-white/40 dark:border-white/10
                 shadow-[0_1px_0_rgba(0,0,0,.06)] dark:shadow-none transition-colors duration-300">
 
@@ -31,10 +37,7 @@
         <LanguageSwitcher />
 
         <!-- User profile dropdown (same as AppNav logic) -->
-        <div v-if="auth.user" class="relative hidden sm:block ml-2 mr-2">
-          <!-- Dropdown Overlay -->
-          <div v-if="isProfileOpen" @click="isProfileOpen = false" class="fixed inset-0 z-[290]"></div>
-
+        <div v-if="auth.user" class="relative hidden sm:block ml-2 mr-2" ref="profileDropdownRef">
           <button @click="isProfileOpen = !isProfileOpen" class="relative z-[310] flex items-center gap-2 cursor-pointer outline-none pl-2">
             <img v-if="auth.user.user_metadata?.avatar_url" :src="auth.user.user_metadata.avatar_url" class="w-8 h-8 rounded-full object-cover shadow-sm bg-gray-100" />
             <div v-else class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-800 font-bold text-xs uppercase">
@@ -59,9 +62,18 @@
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                     {{ t.limit.premium }}
                   </div>
-                  <div v-else class="text-[13px] font-semibold text-gray-800 dark:text-gray-200">
-                    <span v-if="limitStore.availableLimit && limitStore.availableLimit > 0" class="flex items-center gap-1.5 text-gray-700 dark:text-gray-300">{{ t.limit.limitLeft.replace('{count}', String(limitStore.availableLimit)) }}</span>
-                    <span v-else class="text-xs text-orange-500 dark:text-orange-400 flex items-center gap-1">{{ t.limit.limitOver }} <span class="text-gray-400 dark:text-gray-500 font-normal">{{ t.limit.hours24 }}</span></span>
+                  <div v-else class="flex flex-col gap-0.5">
+                    <div class="text-[13px] font-bold text-gray-800 dark:text-gray-200">
+                      {{ t.limit.free }}
+                    </div>
+                    <div class="text-[12.5px] font-medium text-gray-500 dark:text-gray-400">
+                      <span v-if="limitStore.availableLimit && limitStore.availableLimit > 0" class="text-gray-600 dark:text-gray-300">
+                        {{ t.limit.dailyLimitLeft.replace('{count}', String(limitStore.availableLimit)) }}
+                      </span>
+                      <span v-else class="text-orange-500 dark:text-orange-400">
+                        {{ t.limit.dailyLimitOver }}
+                      </span>
+                    </div>
                   </div>
                 </div>
 
@@ -84,7 +96,7 @@
     </nav>
 
     <!-- ── Main split ── -->
-    <div class="builder-layout overflow-hidden" style="height:calc(100vh - 56px)">
+    <div v-show="!isInitializing" class="builder-layout overflow-hidden" style="height:calc(100vh - 56px)">
 
       <!-- ── Form panel ── -->
       <div
@@ -183,7 +195,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, watch, ref }  from 'vue'
+import { computed, watch, ref, onMounted }  from 'vue'
 import { useRouter }       from 'vue-router'
 import { useCVStore }      from '@/stores/cv'
 import { useAuthStore }    from '@/stores/auth'
@@ -204,6 +216,7 @@ import ProjectForm         from '@/components/builder/ProjectForm.vue'
 import EducationForm       from '@/components/builder/EducationForm.vue'
 import SkillsForm          from '@/components/builder/SkillsForm.vue'
 import CvPreview           from '@/components/preview/CvPreview.vue'
+import { onClickOutside }  from '@vueuse/core'
 
 const store  = useCVStore()
 const auth   = useAuthStore()
@@ -214,6 +227,12 @@ const router = useRouter()
 const { t }  = useLanguage()
 const limitStore = useLimitStore()
 const isProfileOpen = ref(false)
+const isInitializing = ref(true)
+const profileDropdownRef = ref<HTMLElement | null>(null)
+
+onClickOutside(profileDropdownRef, () => {
+  isProfileOpen.value = false
+})
 
 // Initialize default blocks if empty
 if (store.data.experience.length === 0) store.addExp()
@@ -269,6 +288,24 @@ async function onDownload() {
     router.push('/')
   }
 }
+
+onMounted(async () => {
+  if (!store.cloudId) {
+    const canCreate = await limitStore.checkCanCreate(false)
+    if (!canCreate) {
+      // Watch for the limit dialogs to close, then redirect
+      const unwatch = watch(() => limitStore.showPremiumDialog || limitStore.showGuestDialog, (isShowing) => {
+        if (!isShowing) {
+          unwatch()
+          router.push(auth.user ? '/my-resumes' : '/')
+        }
+      })
+      isInitializing.value = false
+      return
+    }
+  }
+  isInitializing.value = false
+})
 </script>
 
 <style>

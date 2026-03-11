@@ -24,9 +24,7 @@
         <button v-if="!auth.user" @click="auth.openAuthModal" class="btn-ghost hidden sm:flex text-[12px] sm:text-[13.5px] font-medium !py-1.5 sm:!py-2 !px-3 cursor-pointer">
           Kirish
         </button>
-        <div v-else class="relative hidden sm:block">
-          <!-- Dropdown Overlay -->
-          <div v-if="isProfileOpen" @click="isProfileOpen = false" class="fixed inset-0 z-40"></div>
+        <div v-else class="relative hidden sm:block" ref="profileDropdownRef">
 
           <button @click="isProfileOpen = !isProfileOpen" class="relative z-50 flex items-center gap-2 cursor-pointer outline-none pl-2">
             <img v-if="auth.user.user_metadata?.avatar_url" :src="auth.user.user_metadata.avatar_url" class="w-8 h-8 rounded-full object-cover shadow-sm bg-gray-100" />
@@ -53,9 +51,18 @@
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                     {{ t.limit.premium }}
                   </div>
-                  <div v-else class="text-[13px] font-semibold text-gray-800 dark:text-gray-200">
-                    <span v-if="limitStore.availableLimit && limitStore.availableLimit > 0" class="flex items-center gap-1.5 text-gray-700 dark:text-gray-300">{{ t.limit.limitLeft.replace('{count}', String(limitStore.availableLimit)) }}</span>
-                    <span v-else class="text-xs text-orange-500 dark:text-orange-400 flex items-center gap-1">{{ t.limit.limitOver }} <span class="text-gray-400 dark:text-gray-500 font-normal">{{ t.limit.hours24 }}</span></span>
+                  <div v-else class="flex flex-col gap-0.5">
+                    <div class="text-[13px] font-bold text-gray-800 dark:text-gray-200">
+                      {{ t.limit.free }}
+                    </div>
+                    <div class="text-[12.5px] font-medium text-gray-500 dark:text-gray-400">
+                      <span v-if="limitStore.availableLimit && limitStore.availableLimit > 0" class="text-gray-600 dark:text-gray-300">
+                        {{ t.limit.dailyLimitLeft.replace('{count}', String(limitStore.availableLimit)) }}
+                      </span>
+                      <span v-else class="text-orange-500 dark:text-orange-400">
+                        {{ t.limit.dailyLimitOver }}
+                      </span>
+                    </div>
                   </div>
                 </div>
 
@@ -94,6 +101,7 @@ import { useLanguage } from '@/composables/useLanguage'
 import { useAuthStore } from '@/stores/auth'
 import { useLimitStore } from '@/stores/limit'
 import { useCVStore } from '@/stores/cv'
+import { onClickOutside } from '@vueuse/core'
 
 const { t } = useLanguage()
 const router = useRouter()
@@ -102,15 +110,17 @@ const limitStore = useLimitStore()
 const cvStore = useCVStore()
 const isChecking = ref(false)
 const isProfileOpen = ref(false)
+const profileDropdownRef = ref<HTMLElement | null>(null)
+
+onClickOutside(profileDropdownRef, () => {
+  isProfileOpen.value = false
+})
 
 async function handleBoshlash() {
   isChecking.value = true
   try {
-    const canCreate = await limitStore.checkCanCreate()
-    if (canCreate) {
-      cvStore.reset()
-      router.push('/builder')
-    }
+    cvStore.reset()
+    router.push('/builder')
   } finally {
     isChecking.value = false
   }

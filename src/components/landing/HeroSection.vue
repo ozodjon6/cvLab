@@ -110,11 +110,8 @@ async function handleBoshlash() {
   trackBoshlashClick('hero')
   isChecking.value = true
   try {
-    const canCreate = await limitStore.checkCanCreate()
-    if (canCreate) {
-      cvStore.reset()
-      router.push('/builder')
-    }
+    cvStore.reset()
+    router.push('/builder')
   } finally {
     isChecking.value = false
   }
