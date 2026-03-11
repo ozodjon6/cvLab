@@ -36,8 +36,8 @@
         </div>
         <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Hali hech qanday rezyume yo'q</h3>
         <p class="text-gray-500 dark:text-gray-400 mb-6 text-sm">Yangi professional rezyumeni bepul yarating</p>
-        <button class="btn-primary cursor-pointer mt-2 flex items-center justify-center mx-auto" @click="createNew" :disabled="isChecking">
-          <span v-if="isChecking" class="inline-block h-3.5 w-3.5 rounded-full border-2 border-white/30 border-t-white animate-spin mr-1.5"></span>
+        <button class="btn-primary cursor-pointer mt-2 flex items-center justify-center mx-auto" @click="createNewStart" :disabled="isCheckingStart">
+          <span v-if="isCheckingStart" class="inline-block h-3.5 w-3.5 rounded-full border-2 border-white/30 border-t-white animate-spin mr-1.5"></span>
           Boshlash
         </button>
       </div>
@@ -81,6 +81,7 @@ const authStore = useAuthStore()
 const cvStore = useCVStore()
 const limitStore = useLimitStore()
 const isChecking = ref(false)
+const isCheckingStart = ref(false)
 
 const resumes = ref<any[]>([])
 const loading = ref(true)
@@ -163,6 +164,19 @@ async function createNew() {
     }
   } finally {
     isChecking.value = false
+  }
+}
+
+async function createNewStart() {
+  isCheckingStart.value = true
+  try {
+    const canCreate = await limitStore.checkCanCreate()
+    if (canCreate) {
+      cvStore.reset()
+      router.push('/builder')
+    }
+  } finally {
+    isCheckingStart.value = false
   }
 }
 </script>
