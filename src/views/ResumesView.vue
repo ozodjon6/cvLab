@@ -20,7 +20,10 @@
       <template v-else>
         <div class="flex items-center justify-between mb-8">
           <h1 class="text-3xl font-display font-bold text-gray-900">Mening rezyumelarim</h1>
-          <router-link to="/builder" class="btn-primary cursor-pointer" @click="createNew">Yangi yaratish</router-link>
+          <button class="btn-primary cursor-pointer flex items-center justify-center" @click="createNew" :disabled="limitStore.isChecking">
+            <span v-if="limitStore.isChecking" class="inline-block h-3.5 w-3.5 rounded-full border-2 border-white/30 border-t-white animate-spin mr-1.5"></span>
+            Yangi yaratish
+          </button>
         </div>
 
         <div v-if="loading" class="flex justify-center py-20">
@@ -33,7 +36,10 @@
         </div>
         <h3 class="text-xl font-bold text-gray-900 mb-2">Hali hech qanday rezyume yo'q</h3>
         <p class="text-gray-500 mb-6 text-sm">Yangi professional rezyumeni bepul yarating</p>
-        <router-link to="/builder" class="btn-primary cursor-pointer" @click="createNew">Boshlash</router-link>
+        <button class="btn-primary cursor-pointer mt-2 flex items-center justify-center mx-auto" @click="createNew" :disabled="limitStore.isChecking">
+          <span v-if="limitStore.isChecking" class="inline-block h-3.5 w-3.5 rounded-full border-2 border-white/30 border-t-white animate-spin mr-1.5"></span>
+          Boshlash
+        </button>
       </div>
 
       <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -65,6 +71,7 @@ import { useRouter } from 'vue-router'
 import { supabase } from '@/lib/supabase'
 import { useAuthStore } from '@/stores/auth'
 import { useCVStore } from '@/stores/cv'
+import { useLimitStore } from '@/stores/limit'
 import AppNav from '@/components/layout/AppNav.vue'
 import AppFooter from '@/components/layout/AppFooter.vue'
 import type { CVData, TemplateId } from '@/types/cv'
@@ -72,6 +79,7 @@ import type { CVData, TemplateId } from '@/types/cv'
 const router = useRouter()
 const authStore = useAuthStore()
 const cvStore = useCVStore()
+const limitStore = useLimitStore()
 
 const resumes = ref<any[]>([])
 const loading = ref(true)
@@ -144,7 +152,12 @@ function openResume(item: any) {
   router.push('/builder')
 }
 
-function createNew() {
-  cvStore.reset()
+async function createNew() {
+  const canCreate = await limitStore.checkCanCreate()
+  if (canCreate) {
+    cvStore.reset()
+    // It's checked, go to builder
+    router.push('/builder')
+  }
 }
 </script>

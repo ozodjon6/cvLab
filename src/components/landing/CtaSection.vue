@@ -7,21 +7,38 @@
       <span class="text-blue-300 font-light">{{ t.cta.titleLine2 }}</span>
     </h2>
     <p class="text-white/45 text-[15px] mb-8 relative z-10">{{ t.cta.subtitle }}</p>
-    <router-link
-      to="/builder"
-      class="relative z-10 inline-flex items-center gap-2 bg-white text-navy-800
+    <button
+      class="relative z-10 inline-flex items-center justify-center gap-2 bg-white text-navy-800
              px-8 py-3.5 rounded-xl font-bold text-sm
              shadow-[0_4px_18px_rgba(0,0,0,.18)]
-             transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_26px_rgba(0,0,0,.22)]"
-      @click="trackBoshlashClick('cta')"
+             transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_26px_rgba(0,0,0,.22)] disabled:opacity-80 disabled:cursor-not-allowed"
+      @click="handleBoshlash"
+      :disabled="limitStore.isChecking"
     >
+      <span v-if="limitStore.isChecking" class="inline-block h-4 w-4 rounded-full border-2 border-navy-800/30 border-t-navy-800 animate-spin"></span>
       {{ t.cta.button }}
-    </router-link>
+    </button>
   </div>
 </template>
 <script setup lang="ts">
+import { useRouter } from 'vue-router'
 import { trackBoshlashClick } from '@/composables/useAnalytics'
 import { useLanguage } from '@/composables/useLanguage'
+import { useLimitStore } from '@/stores/limit'
+import { useCVStore } from '@/stores/cv'
 
 const { t } = useLanguage()
+const router = useRouter()
+const limitStore = useLimitStore()
+const cvStore = useCVStore()
+
+async function handleBoshlash() {
+  trackBoshlashClick('cta')
+  const canCreate = await limitStore.checkCanCreate()
+  if (canCreate) {
+    cvStore.reset()
+    limitStore.incrementGuestCount()
+    router.push('/builder')
+  }
+}
 </script>

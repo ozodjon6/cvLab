@@ -14,9 +14,10 @@
         <img src="/buyme-coffe.webp" alt="Buy me a coffee" class="h-7 w-auto drop-shadow-sm rounded-md" />
       </a>
 
-      <router-link to="/builder" class="btn-primary !py-1.5 sm:!py-2 !px-4 sm:!px-5 !text-[12px] sm:!text-[13.5px]">
+      <button @click="handleBoshlash" class="btn-primary !py-1.5 sm:!py-2 !px-4 sm:!px-5 !text-[12px] sm:!text-[13.5px]" :disabled="limitStore.isChecking">
+        <span v-if="limitStore.isChecking" class="inline-block h-3.5 w-3.5 rounded-full border-2 border-white/30 border-t-white animate-spin mr-1.5"></span>
         {{ t.nav.start }}
-      </router-link>
+      </button>
 
       <!-- Auth -->
       <template v-if="!auth.loading">
@@ -57,9 +58,24 @@
 <script setup lang="ts">
 import Logo from './Logo.vue'
 import LanguageSwitcher from './LanguageSwitcher.vue'
+import { useRouter } from 'vue-router'
 import { useLanguage } from '@/composables/useLanguage'
 import { useAuthStore } from '@/stores/auth'
+import { useLimitStore } from '@/stores/limit'
+import { useCVStore } from '@/stores/cv'
 
 const { t } = useLanguage()
+const router = useRouter()
 const auth = useAuthStore()
+const limitStore = useLimitStore()
+const cvStore = useCVStore()
+
+async function handleBoshlash() {
+  const canCreate = await limitStore.checkCanCreate()
+  if (canCreate) {
+    cvStore.reset()
+    limitStore.incrementGuestCount()
+    router.push('/builder')
+  }
+}
 </script>

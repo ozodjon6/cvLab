@@ -3,6 +3,7 @@
     <router-view />
     <ToastContainer />
     <AuthModal />
+    <LimitModal />
     
     <!-- Logout Loader -->
     <transition name="fade">
@@ -18,6 +19,7 @@
 import { onMounted } from 'vue'
 import ToastContainer from '@/components/ui/ToastContainer.vue'
 import AuthModal from '@/components/ui/AuthModal.vue'
+import LimitModal from '@/components/ui/LimitModal.vue'
 import { useLanguage } from '@/composables/useLanguage'
 import { useAuthStore } from '@/stores/auth'
 

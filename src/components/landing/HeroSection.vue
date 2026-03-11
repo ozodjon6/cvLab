@@ -32,12 +32,13 @@
       </p>
 
       <div class="flex gap-3 flex-wrap animate-fade-up-d3 md:justify-center xl:justify-start">
-        <router-link to="/builder" class="btn-primary text-[14px] !px-7 !py-3.5" @click="trackBoshlashClick('hero')">
+        <button @click="handleBoshlash" class="btn-primary text-[14px] !px-7 !py-3.5">
+          <span v-if="limitStore.isChecking" class="h-4 w-4 rounded-full border-2 border-white/30 border-t-white animate-spin mr-2"></span>
           {{ t.hero.startBtn }}
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="ml-1">
             <path d="M5 12h14M12 5l7 7-7 7"/>
           </svg>
-        </router-link>
+        </button>
         <a href="https://buymeacoffee.com/ozodbro" target="_blank" rel="noopener" class="flex items-center justify-center bg-[rgb(255,221,0)] rounded-lg px-3 py-2 hover:-translate-y-0.5 transition-transform duration-200">
           <img src="/buyme-coffe.webp" alt="Buy me a coffee" class="h-[32px] w-auto drop-shadow-sm rounded-lg" />
         </a>
@@ -85,12 +86,28 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import MiniBar from './MiniBar.vue'
 import { trackBoshlashClick } from '@/composables/useAnalytics'
 import { useLanguage } from '@/composables/useLanguage'
+import { useLimitStore } from '@/stores/limit'
+import { useCVStore } from '@/stores/cv'
 
 const { t } = useLanguage()
+const router = useRouter()
+const limitStore = useLimitStore()
+const cvStore = useCVStore()
 const svgRef = ref<SVGElement | null>(null)
+
+async function handleBoshlash() {
+  trackBoshlashClick('hero')
+  const canCreate = await limitStore.checkCanCreate()
+  if (canCreate) {
+    cvStore.reset()
+    limitStore.incrementGuestCount()
+    router.push('/builder')
+  }
+}
 
 function buildGrid() {
   const svg = svgRef.value
