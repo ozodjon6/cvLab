@@ -46,7 +46,7 @@
     </div>
 
     <!-- CV Mockup -->
-    <div class="absolute right-10 top-1/2 -translate-y-1/2 w-[460px] animate-float-in z-10 hidden xl:block">
+    <div class="absolute right-10 top-1/2 -translate-y-1/2 w-1/3 animate-float-in z-10 hidden xl:block">
       <div class="bg-white rounded-2xl overflow-hidden
                   shadow-[0_28px_70px_rgba(10,37,64,.18),0_0_0_1px_rgba(10,37,64,.06)]
                   [transform:perspective(900px)_rotateY(-8deg)_rotateX(2deg)]

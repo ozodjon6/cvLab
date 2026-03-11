@@ -108,6 +108,8 @@ export const useLimitStore = defineStore('limit', () => {
 
     function getGuestCount(): number {
         try {
+            // Eskicha qolgan ma'lumotni tozalash
+            localStorage.removeItem('guest_cv_count')
             const val = localStorage.getItem('_cv_gen_t')
             if (!val) return 0
             return parseInt(atob(val)) || 0

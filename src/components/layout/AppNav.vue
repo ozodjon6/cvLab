@@ -34,12 +34,12 @@
 
           <div class="absolute right-0 top-full pt-2 w-56 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all transform origin-top-right">
             <div class="bg-white rounded-xl shadow-lg border border-gray-100 py-1">
-              
+
               <!-- Plan Tarifingiz -->
               <div class="px-4 py-3 border-b border-gray-50 bg-gray-50/30">
                 <p class="text-[11px] uppercase tracking-wider text-gray-400 font-semibold mb-1">{{ t.limit.plan }}</p>
                 <div v-if="limitStore.isPremiumPlan" class="text-[13px] font-bold text-blue-brand flex items-center gap-1.5">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> 
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                   {{ t.limit.premium }}
                 </div>
                 <div v-else class="text-[13px] font-semibold text-gray-800">

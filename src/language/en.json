@@ -17,7 +17,11 @@
         "hours24": "(24h)",
         "premium": "Premium",
         "success": "Payment verified! Limit removed 🎉",
-        "error": "Payment not verified yet. If you paid, wait 1-2 minutes or check your email correctness."
+        "error": "Payment not verified yet. If you paid, wait 1-2 minutes or check your email correctness.",
+        "bmacGuestTitle": "Log in to get Premium",
+        "bmacGuestDesc": "Thank you so much for supporting us as a guest! But to get the Premium plan and unlimited CV creation, please log in before buying a coffee.",
+        "bmacGuestContinue": "Just buy a coffee",
+        "bmacGuestLogin": "Log In"
     },
     "langName": "English",
     "langFlag": "🇬🇧",

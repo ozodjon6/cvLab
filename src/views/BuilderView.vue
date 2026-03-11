@@ -117,10 +117,10 @@
         <CvPreview />
 
         <!-- Optional Login button if unauthorized -->
-        <div v-if="!auth.user" class="mt-4 pb-6 px-4 w-full flex justify-center">
+        <div v-if="!auth.user" class="mt-4 px-4 w-full flex justify-center">
           <button
             @click="auth.openAuthModal"
-            class="btn-ghost text-[13px] !py-2.5 !px-6 border border-gray-200 hover:bg-white hover:border-blue-brand/30 hover:shadow-sm hover:text-blue-brand transition-all flex items-center justify-center gap-2 max-w-sm w-full"
+            class="animated-border-btn text-gray-700 hover:text-blue-brand font-medium text-[13px] !py-2.5 !px-6 transition-all flex items-center justify-center gap-2 max-w-sm w-full rounded-[10px]"
           >
             <svg class="shrink-0" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z" />
@@ -222,6 +222,25 @@ async function onDownload() {
 }
 .btn-attention {
   animation: soft-pulse 2s infinite;
+}
+
+.animated-border-btn {
+  background: linear-gradient(#fff, #fff) padding-box,
+              linear-gradient(90deg, #93c5fd, #34d399, #93c5fd) border-box;
+  border: 1.5px solid transparent;
+  background-size: 100% 100%, 200% 100%;
+  animation: border-pan 3s linear infinite;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+}
+.animated-border-btn:hover {
+  background: linear-gradient(#f8fafc, #f8fafc) padding-box,
+              linear-gradient(90deg, #60a5fa, #10b981, #60a5fa) border-box;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+}
+
+@keyframes border-pan {
+  0%   { background-position: 0% 50%, 0% 50%; }
+  100% { background-position: 0% 50%, 200% 50%; }
 }
 
 /* ── Responsive builder layout ── */

@@ -17,7 +17,11 @@
         "hours24": "(24s)",
         "premium": "Premium",
         "success": "To'lov tasdiqlandi! Limit olib tashlandi 🎉",
-        "error": "Hali to'lov tasdiqlanmadi. Agar to'lov qilgan bo'lsangiz 1-2 daqiqa kuting yoki emailingiz to'g'riligini tekshiring."
+        "error": "Hali to'lov tasdiqlanmadi. Agar to'lov qilgan bo'lsangiz 1-2 daqiqa kuting yoki emailingiz to'g'riligini tekshiring.",
+        "bmacGuestTitle": "Premium olish uchun kiring",
+        "bmacGuestDesc": "Tizimga kirmasdan qo'llab-quvvatlayotganingiz uchun ham katta Rahmat! Ammo Premium tarifiga ega bo'lish uchun avval tizimga kiring, shundan so'ng qahva ulashsangiz cheksiz CV yaratish imkoniyati ochiladi.",
+        "bmacGuestContinue": "Shunchaki qahva olib berish",
+        "bmacGuestLogin": "Tizimga kirish"
     },
     "langName": "O'zbek",
     "langFlag": "🇺🇿",
