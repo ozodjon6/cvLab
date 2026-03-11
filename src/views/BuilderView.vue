@@ -2,13 +2,13 @@
   <div class="min-h-screen bg-gray-50 dark:bg-navy-900 transition-colors duration-300" style="padding-top:56px">
 
     <!-- Loading State -->
-    <div v-if="isInitializing" class="fixed inset-0 z-[9999] bg-white dark:bg-navy-900 flex flex-col items-center justify-center">
-      <div class="w-12 h-12 rounded-full border-4 border-gray-200 dark:border-gray-700 border-t-blue-brand dark:border-t-blue-400 animate-spin mb-4"></div>
-      <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Tekshirilmoqda...</p>
+    <div v-if="isInitializing" class="fixed inset-0 z-[9999] bg-white/70 dark:bg-navy-900/70 backdrop-blur-[3px] flex flex-col items-center justify-center transition-all duration-300">
+      <div class="w-12 h-12 rounded-full border-4 border-gray-200 dark:border-gray-700 border-t-blue-brand dark:border-t-blue-400 animate-spin mb-4 shadow-sm"></div>
+      <p class="text-sm font-semibold tracking-wide text-gray-700 dark:text-gray-300">{{ t.nav.verifying }}</p>
     </div>
 
     <!-- ── Top nav ── -->
-    <nav v-show="!isInitializing" class="fixed top-0 inset-x-0 z-[300] h-14 flex items-center justify-between px-3 sm:px-6
+    <nav class="fixed top-0 inset-x-0 z-[300] h-14 flex items-center justify-between px-3 sm:px-6
                 bg-white/72 dark:bg-navy-900/80 backdrop-blur-[28px] border-b border-white/40 dark:border-white/10
                 shadow-[0_1px_0_rgba(0,0,0,.06)] dark:shadow-none transition-colors duration-300">
 
@@ -87,7 +87,7 @@
             </div>
           </Transition>
         </div>
-        
+
         <router-link to="/" class="no-underline shrink-0 hidden sm:flex items-center gap-1.5 ml-2">
           <Logo size="sm" />
           <span class="text-[9px] font-semibold text-blue-brand/80 dark:text-blue-400 bg-blue-brand/8 dark:bg-blue-900/40 rounded-full px-1.5 py-0.5 tracking-wide">v2.0</span>
@@ -96,7 +96,7 @@
     </nav>
 
     <!-- ── Main split ── -->
-    <div v-show="!isInitializing" class="builder-layout overflow-hidden" style="height:calc(100vh - 56px)">
+    <div class="builder-layout overflow-hidden transition-opacity duration-300" :class="{ 'opacity-50 pointer-events-none': isInitializing }" style="height:calc(100vh - 56px)">
 
       <!-- ── Form panel ── -->
       <div
@@ -279,7 +279,7 @@ async function onDownload() {
   const fn = store.fullName || 'cv'
   const name = fn.toLowerCase().replace(/\s+/g, '_') + '.pdf'
   await pdf.exportPdf('cv-preview', name)
-  
+
   store.step = 1
 
   if (auth.user) {

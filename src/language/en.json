@@ -28,6 +28,7 @@
     "nav": {
         "coffee": "☕ Buy me a coffee",
         "start": "Get Started →",
+        "verifying": "Verifying...",
         "ariaHome": "cvLab home page",
         "signingOut": "Signing out..."
     },

@@ -28,6 +28,7 @@
     "nav": {
         "coffee": "☕ Kofe olib ber",
         "start": "Boshlash →",
+        "verifying": "Tekshirilmoqda...",
         "ariaHome": "cvLab bosh sahifa",
         "signingOut": "Tizimdan chiqilmoqda..."
     },
