@@ -14,8 +14,8 @@
         <img src="/buyme-coffe.webp" alt="Buy me a coffee" class="h-7 w-auto drop-shadow-sm rounded-md" />
       </a>
 
-      <button @click="handleBoshlash" class="btn-primary !py-1.5 sm:!py-2 !px-4 sm:!px-5 !text-[12px] sm:!text-[13.5px]" :disabled="limitStore.isChecking">
-        <span v-if="limitStore.isChecking" class="inline-block h-3.5 w-3.5 rounded-full border-2 border-white/30 border-t-white animate-spin mr-1.5"></span>
+      <button @click="handleBoshlash" class="btn-primary !py-1.5 sm:!py-2 !px-4 sm:!px-5 !text-[12px] sm:!text-[13.5px]" :disabled="isChecking">
+        <span v-if="isChecking" class="inline-block h-3.5 w-3.5 rounded-full border-2 border-white/30 border-t-white animate-spin mr-1.5"></span>
         {{ t.nav.start }}
       </button>
 
@@ -37,14 +37,14 @@
               
               <!-- Plan Tarifingiz -->
               <div class="px-4 py-3 border-b border-gray-50 bg-gray-50/30">
-                <p class="text-[11px] uppercase tracking-wider text-gray-400 font-semibold mb-1">Tarifingiz</p>
+                <p class="text-[11px] uppercase tracking-wider text-gray-400 font-semibold mb-1">{{ t.limit.plan }}</p>
                 <div v-if="limitStore.isPremiumPlan" class="text-[13px] font-bold text-blue-brand flex items-center gap-1.5">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> 
-                  Premium
+                  {{ t.limit.premium }}
                 </div>
                 <div v-else class="text-[13px] font-semibold text-gray-800">
-                  <span v-if="limitStore.availableLimit && limitStore.availableLimit > 0" class="flex items-center gap-1.5 text-gray-700">Limit: {{ limitStore.availableLimit }} ta</span>
-                  <span v-else class="text-xs text-orange-500 flex items-center gap-1">Limit tugadi <span class="text-gray-400 font-normal">(24s)</span></span>
+                  <span v-if="limitStore.availableLimit && limitStore.availableLimit > 0" class="flex items-center gap-1.5 text-gray-700">{{ t.limit.limitLeft.replace('{count}', String(limitStore.availableLimit)) }}</span>
+                  <span v-else class="text-xs text-orange-500 flex items-center gap-1">{{ t.limit.limitOver }} <span class="text-gray-400 font-normal">{{ t.limit.hours24 }}</span></span>
                 </div>
               </div>
 
@@ -70,7 +70,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, watch } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import Logo from './Logo.vue'
 import LanguageSwitcher from './LanguageSwitcher.vue'
 import { useRouter } from 'vue-router'
@@ -84,13 +84,19 @@ const router = useRouter()
 const auth = useAuthStore()
 const limitStore = useLimitStore()
 const cvStore = useCVStore()
+const isChecking = ref(false)
 
 async function handleBoshlash() {
-  const canCreate = await limitStore.checkCanCreate()
-  if (canCreate) {
-    cvStore.reset()
-    limitStore.incrementGuestCount()
-    router.push('/builder')
+  isChecking.value = true
+  try {
+    const canCreate = await limitStore.checkCanCreate()
+    if (canCreate) {
+      cvStore.reset()
+      limitStore.incrementGuestCount()
+      router.push('/builder')
+    }
+  } finally {
+    isChecking.value = false
   }
 }
 

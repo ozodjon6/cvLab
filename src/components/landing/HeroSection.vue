@@ -32,8 +32,8 @@
       </p>
 
       <div class="flex gap-3 flex-wrap animate-fade-up-d3 md:justify-center xl:justify-start">
-        <button @click="handleBoshlash" class="btn-primary text-[14px] !px-7 !py-3.5">
-          <span v-if="limitStore.isChecking" class="h-4 w-4 rounded-full border-2 border-white/30 border-t-white animate-spin mr-2"></span>
+        <button @click="handleBoshlash" class="btn-primary text-[14px] !px-7 !py-3.5" :disabled="isChecking">
+          <span v-if="isChecking" class="h-4 w-4 rounded-full border-2 border-white/30 border-t-white animate-spin mr-2"></span>
           {{ t.hero.startBtn }}
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="ml-1">
             <path d="M5 12h14M12 5l7 7-7 7"/>
@@ -98,14 +98,20 @@ const router = useRouter()
 const limitStore = useLimitStore()
 const cvStore = useCVStore()
 const svgRef = ref<SVGElement | null>(null)
+const isChecking = ref(false)
 
 async function handleBoshlash() {
   trackBoshlashClick('hero')
-  const canCreate = await limitStore.checkCanCreate()
-  if (canCreate) {
-    cvStore.reset()
-    limitStore.incrementGuestCount()
-    router.push('/builder')
+  isChecking.value = true
+  try {
+    const canCreate = await limitStore.checkCanCreate()
+    if (canCreate) {
+      cvStore.reset()
+      limitStore.incrementGuestCount()
+      router.push('/builder')
+    }
+  } finally {
+    isChecking.value = false
   }
 }
 

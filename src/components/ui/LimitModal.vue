@@ -25,15 +25,15 @@
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
                 </svg>
               </div>
-              <h3 class="text-xl font-display font-bold text-gray-900 mb-2">Limit tugadi</h3>
+              <h3 class="text-xl font-display font-bold text-gray-900 mb-2">{{ t.limit.guestTitle }}</h3>
               <p class="text-[14px] text-gray-500 mb-6 leading-relaxed">
-                Siz ro'yxatdan o'tmasdan turib ketma-ket 2 marta rezyume yaratdingiz. Yana rezyume yaratish va ularni doimiy saqlab qolish uchun tizimga kiring.
+                {{ t.limit.guestDesc }}
               </p>
               <button 
                 @click="openAuth" 
                 class="w-full btn-primary text-[14px] !py-2.5"
               >
-                Kirish / Ro'yxatdan o'tish
+                {{ t.limit.loginRegBtn }}
               </button>
             </div>
 
@@ -44,9 +44,9 @@
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                 </svg>
               </div>
-              <h3 class="text-xl font-display font-bold text-gray-900 mb-2">Premium cheklov</h3>
+              <h3 class="text-xl font-display font-bold text-gray-900 mb-2">{{ t.limit.premiumTitle }}</h3>
               <p class="text-[13px] text-gray-500 mb-4 leading-relaxed">
-                Sizning limitingiz tugadi. 24 soatdan so'ng bepul tahrirlash imkoni ochiladi yoki limitni hozir olib tashlash uchun bizga qahva olib bering!
+                {{ t.limit.premiumDesc }}
               </p>
               
               <div class="flex flex-col items-center justify-center mt-2 p-4 bg-gray-50 rounded-xl border border-gray-100 mb-5">
@@ -60,8 +60,8 @@
                 class="w-full bg-blue-50/50 text-blue-800 rounded-xl text-[14px] !py-3 mb-2 flex flex-col items-center justify-center transition-colors border border-blue-100"
               >
                 <span class="inline-block h-5 w-5 rounded-full border-2 border-blue-200 border-t-blue-brand animate-spin mb-2"></span>
-                <span class="font-medium mb-0.5">To'lov kutilmoqda...</span>
-                <span class="text-[12px] opacity-70">1-2 daqiqa olishi mumkin</span>
+                <span class="font-medium mb-0.5">{{ t.limit.waitPayment }}</span>
+                <span class="text-[12px] opacity-70">{{ t.limit.waitMinutes }}</span>
               </div>
 
               <button 
@@ -69,7 +69,7 @@
                 class="w-full bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 font-medium rounded-lg text-[14px] px-4 py-2.5 transition-colors"
                 :disabled="limitStore.isVerifying"
               >
-                Tushunarli, yopish
+                {{ t.limit.closeBtn }}
               </button>
             </div>
 
@@ -86,7 +86,9 @@ import { useRouter } from 'vue-router'
 import { useLimitStore } from '@/stores/limit'
 import { useAuthStore } from '@/stores/auth'
 import { useToast } from '@/composables/useToast'
+import { useLanguage } from '@/composables/useLanguage'
 
+const { t } = useLanguage()
 const limitStore = useLimitStore()
 const authStore = useAuthStore()
 const toast = useToast()
@@ -107,7 +109,7 @@ watch(() => limitStore.showPremiumDialog, (isOpen) => {
       const isPremium = await limitStore.verifyPayment()
       if (isPremium) {
         clearInterval(pollInterval)
-        toast.success("To'lov muvaffaqiyatli amalga oshirildi! Limit olib tashlandi 🎉")
+        toast.success(t.value.limit.success)
         setTimeout(() => {
           limitStore.closeDialogs()
           router.push('/builder')

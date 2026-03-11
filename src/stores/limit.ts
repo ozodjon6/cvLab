@@ -8,7 +8,6 @@ export const useLimitStore = defineStore('limit', () => {
 
     const showGuestDialog = ref(false)
     const showPremiumDialog = ref(false)
-    const isChecking = ref(false)
     const isVerifying = ref(false)
     const availableLimit = ref<number | null>(null)
     const isPremiumPlan = ref(false)
@@ -48,7 +47,6 @@ export const useLimitStore = defineStore('limit', () => {
     }
 
     async function checkCanCreate(): Promise<boolean> {
-        isChecking.value = true
         try {
             if (!authStore.user) {
                 // Mehmon uchun tekshiruv
@@ -102,8 +100,9 @@ export const useLimitStore = defineStore('limit', () => {
                 }
                 return true
             }
-        } finally {
-            isChecking.value = false
+        } catch (e) {
+            console.error(e)
+            return false
         }
     }
 
@@ -145,7 +144,6 @@ export const useLimitStore = defineStore('limit', () => {
     return {
         showGuestDialog,
         showPremiumDialog,
-        isChecking,
         isVerifying,
         availableLimit,
         isPremiumPlan,

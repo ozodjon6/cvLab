@@ -1,5 +1,24 @@
 {
     "lang": "en",
+    "limit": {
+        "guestTitle": "Limit Reached",
+        "guestDesc": "You have created 2 resumes in a row without registering. Please log in to create more resumes and save them permanently.",
+        "loginRegBtn": "Login / Register",
+        "premiumTitle": "Premium Limit",
+        "premiumDesc": "Your limit is reached. Free editing will open in 24 hours, or buy us a coffee to remove the limit right now!",
+        "checkingPayment": "Checking payment...",
+        "waitPayment": "Waiting for payment...",
+        "waitMinutes": "May take 1-2 minutes",
+        "checkPaymentBtn": "I paid, check now",
+        "closeBtn": "Got it, close",
+        "plan": "Your Plan",
+        "limitLeft": "Limit: {count}",
+        "limitOver": "Limit reached",
+        "hours24": "(24h)",
+        "premium": "Premium",
+        "success": "Payment verified! Limit removed 🎉",
+        "error": "Payment not verified yet. If you paid, wait 1-2 minutes or check your email correctness."
+    },
     "langName": "English",
     "langFlag": "🇬🇧",
     "nav": {
@@ -46,8 +65,8 @@
                 "desc": "Download in professional PDF format."
             },
             {
-                "title": "Completely free",
-                "desc": "No charges. Create and download."
+                "title": "Completely free (with limit)",
+                "desc": "Create your first 2 CVs without restrictions."
             },
             {
                 "title": "ATS friendly",
@@ -83,7 +102,7 @@
             },
             {
                 "question": "Is cvLab free to use?",
-                "answer": "Yes, cvLab is completely free. On the site you can choose any template, fill in your details and download a high-quality PDF without any restrictions."
+                "answer": "Yes, you can create and download 2 resumes completely free of charge. For subsequent resumes, you can wait 24 hours or upgrade to the Premium plan which offers unlimited access."
             },
             {
                 "question": "How to write a proper and professional CV?",

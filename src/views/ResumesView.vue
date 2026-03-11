@@ -20,8 +20,8 @@
       <template v-else>
         <div class="flex items-center justify-between mb-8">
           <h1 class="text-3xl font-display font-bold text-gray-900">Mening rezyumelarim</h1>
-          <button class="btn-primary cursor-pointer flex items-center justify-center" @click="createNew" :disabled="limitStore.isChecking">
-            <span v-if="limitStore.isChecking" class="inline-block h-3.5 w-3.5 rounded-full border-2 border-white/30 border-t-white animate-spin mr-1.5"></span>
+          <button class="btn-primary cursor-pointer flex items-center justify-center" @click="createNew" :disabled="isChecking">
+            <span v-if="isChecking" class="inline-block h-3.5 w-3.5 rounded-full border-2 border-white/30 border-t-white animate-spin mr-1.5"></span>
             Yangi yaratish
           </button>
         </div>
@@ -36,8 +36,8 @@
         </div>
         <h3 class="text-xl font-bold text-gray-900 mb-2">Hali hech qanday rezyume yo'q</h3>
         <p class="text-gray-500 mb-6 text-sm">Yangi professional rezyumeni bepul yarating</p>
-        <button class="btn-primary cursor-pointer mt-2 flex items-center justify-center mx-auto" @click="createNew" :disabled="limitStore.isChecking">
-          <span v-if="limitStore.isChecking" class="inline-block h-3.5 w-3.5 rounded-full border-2 border-white/30 border-t-white animate-spin mr-1.5"></span>
+        <button class="btn-primary cursor-pointer mt-2 flex items-center justify-center mx-auto" @click="createNew" :disabled="isChecking">
+          <span v-if="isChecking" class="inline-block h-3.5 w-3.5 rounded-full border-2 border-white/30 border-t-white animate-spin mr-1.5"></span>
           Boshlash
         </button>
       </div>
@@ -80,6 +80,7 @@ const router = useRouter()
 const authStore = useAuthStore()
 const cvStore = useCVStore()
 const limitStore = useLimitStore()
+const isChecking = ref(false)
 
 const resumes = ref<any[]>([])
 const loading = ref(true)
@@ -153,11 +154,16 @@ function openResume(item: any) {
 }
 
 async function createNew() {
-  const canCreate = await limitStore.checkCanCreate()
-  if (canCreate) {
-    cvStore.reset()
-    // It's checked, go to builder
-    router.push('/builder')
+  isChecking.value = true
+  try {
+    const canCreate = await limitStore.checkCanCreate()
+    if (canCreate) {
+      cvStore.reset()
+      // It's checked, go to builder
+      router.push('/builder')
+    }
+  } finally {
+    isChecking.value = false
   }
 }
 </script>

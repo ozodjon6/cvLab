@@ -13,14 +13,15 @@
              shadow-[0_4px_18px_rgba(0,0,0,.18)]
              transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_26px_rgba(0,0,0,.22)] disabled:opacity-80 disabled:cursor-not-allowed"
       @click="handleBoshlash"
-      :disabled="limitStore.isChecking"
+      :disabled="isChecking"
     >
-      <span v-if="limitStore.isChecking" class="inline-block h-4 w-4 rounded-full border-2 border-navy-800/30 border-t-navy-800 animate-spin"></span>
+      <span v-if="isChecking" class="inline-block h-4 w-4 rounded-full border-2 border-navy-800/30 border-t-navy-800 animate-spin"></span>
       {{ t.cta.button }}
     </button>
   </div>
 </template>
 <script setup lang="ts">
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { trackBoshlashClick } from '@/composables/useAnalytics'
 import { useLanguage } from '@/composables/useLanguage'
@@ -31,14 +32,20 @@ const { t } = useLanguage()
 const router = useRouter()
 const limitStore = useLimitStore()
 const cvStore = useCVStore()
+const isChecking = ref(false)
 
 async function handleBoshlash() {
   trackBoshlashClick('cta')
-  const canCreate = await limitStore.checkCanCreate()
-  if (canCreate) {
-    cvStore.reset()
-    limitStore.incrementGuestCount()
-    router.push('/builder')
+  isChecking.value = true
+  try {
+    const canCreate = await limitStore.checkCanCreate()
+    if (canCreate) {
+      cvStore.reset()
+      limitStore.incrementGuestCount()
+      router.push('/builder')
+    }
+  } finally {
+    isChecking.value = false
   }
 }
 </script>

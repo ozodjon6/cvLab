@@ -1,5 +1,24 @@
 {
     "lang": "uz",
+    "limit": {
+        "guestTitle": "Limit tugadi",
+        "guestDesc": "Siz ro'yxatdan o'tmasdan turib ketma-ket 2 marta rezyume yaratdingiz. Yana rezyume yaratish va ularni doimiy saqlab qolish uchun tizimga kiring.",
+        "loginRegBtn": "Kirish / Ro'yxatdan o'tish",
+        "premiumTitle": "Premium cheklov",
+        "premiumDesc": "Sizning limitingiz tugadi. 24 soatdan so'ng bepul tahrirlash imkoni ochiladi yoki limitni hozir olib tashlash uchun bizga qahva olib bering!",
+        "checkingPayment": "To'lov tekshirilmoqda...",
+        "waitPayment": "To'lov kutilmoqda...",
+        "waitMinutes": "1-2 daqiqa olishi mumkin",
+        "checkPaymentBtn": "To'lov qildim, tekshirish",
+        "closeBtn": "Tushunarli, yopish",
+        "plan": "Tarifingiz",
+        "limitLeft": "Limit: {count} ta",
+        "limitOver": "Limit tugadi",
+        "hours24": "(24s)",
+        "premium": "Premium",
+        "success": "To'lov tasdiqlandi! Limit olib tashlandi 🎉",
+        "error": "Hali to'lov tasdiqlanmadi. Agar to'lov qilgan bo'lsangiz 1-2 daqiqa kuting yoki emailingiz to'g'riligini tekshiring."
+    },
     "langName": "O'zbek",
     "langFlag": "🇺🇿",
     "nav": {
@@ -46,8 +65,8 @@
                 "desc": "Professional PDF formatida yuklab oling."
             },
             {
-                "title": "Mutlaqo bepul",
-                "desc": "Hech qanday to'lov yo'q. Yarating va yuklab oling."
+                "title": "Mutlaqo bepul (Limit bilan)",
+                "desc": "2 ta CV ni cheklovsiz yarating."
             },
             {
                 "title": "ATS friendly",
@@ -83,7 +102,7 @@
             },
             {
                 "question": "cvLab dan foydalanish bepulmi?",
-                "answer": "Ha, cvLab mutlaqo bepul. Saytda har qanday shablonni tanlab, o'z ma'lumotlaringizni to'ldirishingiz va hech qanday cheklovlarsiz yuqori sifatli PDF formatida yuklab olishingiz mumkin."
+                "answer": "Ha, cvLab orqali 2 ta rezyumeni mutlaqo bepul yaratishingiz va yuklab olishingiz mumkin. Keyingi rezyumelarni yaratish uchun 24 soat kutishingiz yoki cheksiz imkoniyatlar taqdim etuvchi Premium tarifiga a'zo bo'lishingiz mumkin."
             },
             {
                 "question": "Qanday qilib to'g'ri va professional CV yozish mumkin?",
