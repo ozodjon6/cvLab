@@ -5,7 +5,7 @@
 
     <router-link to="/" class="no-underline flex items-center gap-1.5" :aria-label="t.nav.ariaHome">
       <Logo />
-      <span class="hidden sm:inline-block text-[9px] font-semibold text-blue-brand/60 bg-blue-brand/8 rounded-full px-1.5 py-0.5 tracking-wide">v1.0</span>
+      <span class="hidden sm:inline-block text-[9px] font-semibold text-blue-brand/60 bg-blue-brand/8 rounded-full px-1.5 py-0.5 tracking-wide">v2.0</span>
     </router-link>
 
     <div class="flex items-center gap-2 sm:gap-3.5">
@@ -67,12 +67,15 @@
       </template>
     </div>
   </nav>
+
+  <WhatsNewModal />
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue'
 import Logo from './Logo.vue'
 import LanguageSwitcher from './LanguageSwitcher.vue'
+import WhatsNewModal from '@/components/ui/WhatsNewModal.vue'
 import { useRouter } from 'vue-router'
 import { useLanguage } from '@/composables/useLanguage'
 import { useAuthStore } from '@/stores/auth'
