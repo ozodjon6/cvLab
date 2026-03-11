@@ -71,9 +71,9 @@ async function onGoogleSignIn() {
   isLoading.value = true
   try {
     await authStore.signInWithGoogle()
+    // Muaffaqiyatli bo'lsa isLoading false qilinmaydi, sahifa avtomat refresh bo'ladi (Google ga o'tadi)
   } catch (error) {
     console.error(error)
-  } finally {
     isLoading.value = false
   }
 }

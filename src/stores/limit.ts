@@ -10,6 +10,42 @@ export const useLimitStore = defineStore('limit', () => {
     const showPremiumDialog = ref(false)
     const isChecking = ref(false)
     const isVerifying = ref(false)
+    const availableLimit = ref<number | null>(null)
+    const isPremiumPlan = ref(false)
+
+    async function loadPlanStatus() {
+        if (!authStore.user) return
+        try {
+            const { data: { user } } = await supabase.auth.getUser()
+            if (user) authStore.user.user_metadata = user.user_metadata
+            
+            isPremiumPlan.value = authStore.user?.user_metadata?.is_premium === true
+            
+            const { data: resumes, count } = await supabase
+                .from('resumes')
+                .select('created_at', { count: 'exact' })
+                .eq('user_id', authStore.user.id)
+                .order('created_at', { ascending: false })
+                .limit(1)
+
+            if (isPremiumPlan.value) {
+                availableLimit.value = 999
+            } else {
+                if (count !== null && count >= 2) {
+                    if (resumes && resumes.length > 0) {
+                        const diffInHours = (new Date().getTime() - new Date(resumes[0].created_at).getTime()) / (1000 * 60 * 60)
+                        availableLimit.value = diffInHours >= 24 ? 1 : 0
+                    } else {
+                        availableLimit.value = 0
+                    }
+                } else {
+                    availableLimit.value = 2 - (count || 0)
+                }
+            }
+        } catch (e) {
+            console.error(e)
+        }
+    }
 
     async function checkCanCreate(): Promise<boolean> {
         isChecking.value = true
@@ -37,7 +73,10 @@ export const useLimitStore = defineStore('limit', () => {
                     return true // Xatolik bo'lsa o'tkazib yuboramiz
                 }
 
-                // Premium statusini tekshiramiz.
+                // Premium statusini eng so'nggi ma'lumot qilib serverdan tortamiz! (Token keshlanib qolishini olish logikasi)
+                const { data: { user } } = await supabase.auth.getUser()
+                if (user) authStore.user.user_metadata = user.user_metadata
+
                 const isPremium = authStore.user.user_metadata?.is_premium === true
 
                 // Agar u premium bo'lmasa va bazada allaqachon 2 yoki undan ko'p CV bo'lsa
@@ -108,6 +147,9 @@ export const useLimitStore = defineStore('limit', () => {
         showPremiumDialog,
         isChecking,
         isVerifying,
+        availableLimit,
+        isPremiumPlan,
+        loadPlanStatus,
         checkCanCreate,
         incrementGuestCount,
         closeDialogs,
