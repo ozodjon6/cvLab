@@ -31,6 +31,30 @@
         "ariaHome": "cvLab bosh sahifa",
         "signingOut": "Tizimdan chiqilmoqda..."
     },
+    "whatsNew": {
+        "versionBadge": "Yangilanish - v2.0",
+        "title": "Yangi imkoniyatlar",
+        "description": "cvLab hamisha rivojlanmoqda! v2.0 dagi asosiy o'zgarishlar bilan tanishing:",
+        "closeBtn": "Ajoyib, tushunarli!",
+        "items": {
+            "auth": {
+                "title": "Avtorizatsiya va saqlash",
+                "desc": "Endi rezyumelarni Google orqali bulutli xotiraga umrbod bepul saqlashingiz mumkin."
+            },
+            "language": {
+                "title": "Ko'p tillilik",
+                "desc": "Sayt endi to'liq o'zbek, rus va ingliz tillarida ishlaydi."
+            },
+            "theme": {
+                "title": "Dark va light mode",
+                "desc": "Interfeys uchun dark va light mode qo'shildi, endi siz o'zingizga qulay ko'rinishni tanlaysiz."
+            },
+            "limit": {
+                "title": "Premium va limitlar",
+                "desc": "Kunlik barqaror limitlar joriy etildi. Cheksiz ishlatish uchun bitta qahva bilan Premium oling."
+            }
+        }
+    },
     "hero": {
         "badge": "Rezyume platformasi",
         "titleLine1": "Professional CV va",

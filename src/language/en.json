@@ -31,6 +31,30 @@
         "ariaHome": "cvLab home page",
         "signingOut": "Signing out..."
     },
+    "whatsNew": {
+        "versionBadge": "Update - v2.0",
+        "title": "What's new",
+        "description": "cvLab keeps evolving. Here are the main changes in v2.0:",
+        "closeBtn": "Awesome, got it!",
+        "items": {
+            "auth": {
+                "title": "Authentication and saving",
+                "desc": "You can now sign in with Google and store your resumes in cloud storage for free."
+            },
+            "language": {
+                "title": "Multilingual support",
+                "desc": "The site is now fully available in Uzbek, Russian, and English."
+            },
+            "theme": {
+                "title": "Dark and light mode",
+                "desc": "Dark and light themes are now available, so you can choose the interface that fits you best."
+            },
+            "limit": {
+                "title": "Premium and limits",
+                "desc": "Stable daily limits are now in place. Buy a coffee to unlock Premium and use it without limits."
+            }
+        }
+    },
     "hero": {
         "badge": "Uzbekistan's resume platform",
         "titleLine1": "Create professional CV &",
