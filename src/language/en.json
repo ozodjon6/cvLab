@@ -191,7 +191,20 @@
     "templateSelector": {
         "title": "Choose a template",
         "subtitle": "Select the look for your resume",
-        "fillExample": "Preview with example data"
+        "fillExample": "Preview with example data",
+        "premiumLockTitle": "You can edit the entered data, but you need Premium to change the template"
+    },
+    "myResumes": {
+        "preview": "Preview",
+        "previewPremium": "Preview (Premium)",
+        "delete": "Delete",
+        "deletePremium": "Delete (Premium)",
+        "confirmDeleteTitle": "Confirm deletion?",
+        "confirmDeleteDesc": "Are you sure you want to permanently delete this resume? It cannot be restored.",
+        "cancel": "Cancel",
+        "yesDelete": "Yes, delete",
+        "deleting": "Deleting...",
+        "deleteError": "An error occurred while deleting the resume."
     },
     "personalForm": {
         "title": "Personal Information",

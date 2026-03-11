@@ -19,7 +19,7 @@
     </div>
     <div class="relative mt-2">
       <!-- Premium Overlay for Free users editing existing CV -->
-      <div v-if="isLockedForFree" class="absolute inset-0 z-20 cursor-pointer" @click="limitStore.showPremiumDialog = true" title="Kiritilgan ma'lumotlarni tahrirlashingiz mumkin, lekin shablonni o'zgartirish uchun Premium kerak"></div>
+      <div v-if="isLockedForFree" class="absolute inset-0 z-20 cursor-pointer" @click="limitStore.showPremiumDialog = true" :title="t.templateSelector.premiumLockTitle"></div>
 
       <div class="grid grid-cols-2 gap-2.5 transition-all duration-300" :class="{ 'blur-[3px] opacity-60 select-none': isLockedForFree }">
         <div v-for="tmpl in templates" :key="tmpl.id"

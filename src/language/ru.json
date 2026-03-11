@@ -191,7 +191,20 @@
     "templateSelector": {
         "title": "Выберите шаблон",
         "subtitle": "Выберите внешний вид вашего резюме",
-        "fillExample": "Заполнить образцом"
+        "fillExample": "Заполнить образцом",
+        "premiumLockTitle": "Вы можете редактировать введенные данные, но для изменения шаблона нужен Premium"
+    },
+    "myResumes": {
+        "preview": "Просмотр",
+        "previewPremium": "Просмотр (Premium)",
+        "delete": "Удалить",
+        "deletePremium": "Удалить (Premium)",
+        "confirmDeleteTitle": "Подтверждаете удаление?",
+        "confirmDeleteDesc": "Вы действительно хотите навсегда удалить это резюме? Восстановить его будет невозможно.",
+        "cancel": "Отмена",
+        "yesDelete": "Да, удалить",
+        "deleting": "Удаление...",
+        "deleteError": "Произошла ошибка при удалении резюме."
     },
     "personalForm": {
         "title": "Личные данные",
