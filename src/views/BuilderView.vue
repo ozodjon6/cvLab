@@ -143,6 +143,7 @@ import { usePdfExport }    from '@/composables/usePdfExport'
 import { useResizable }    from '@/composables/useResizable'
 import { trackBuilderStep }from '@/composables/useAnalytics'
 import { useLanguage }     from '@/composables/useLanguage'
+import { useLimitStore }   from '@/stores/limit'
 import Logo                from '@/components/layout/Logo.vue'
 import LanguageSwitcher    from '@/components/layout/LanguageSwitcher.vue'
 import StepProgress        from '@/components/builder/StepProgress.vue'
@@ -160,6 +161,7 @@ const toast  = useToast()
 const pdf    = usePdfExport()
 const resize = useResizable()
 const { t }  = useLanguage()
+const limitStore = useLimitStore()
 
 // Initialize default blocks if empty
 if (store.data.experience.length === 0) store.addExp()
@@ -196,10 +198,14 @@ function onNext() {
   }
 }
 
-function onDownload() {
+async function onDownload() {
+  const canCreate = await limitStore.checkCanCreate()
+  if (!canCreate) return
+
   const fn = store.fullName || 'cv'
   const name = fn.toLowerCase().replace(/\s+/g, '_') + '.pdf'
-  pdf.exportPdf('cv-preview', name)
+  await pdf.exportPdf('cv-preview', name)
+  limitStore.incrementGuestCount()
 }
 </script>
 

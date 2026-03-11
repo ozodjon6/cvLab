@@ -107,7 +107,6 @@ async function handleBoshlash() {
     const canCreate = await limitStore.checkCanCreate()
     if (canCreate) {
       cvStore.reset()
-      limitStore.incrementGuestCount()
       router.push('/builder')
     }
   } finally {

@@ -29,9 +29,9 @@
               <p class="text-[14px] text-gray-500 mb-6 leading-relaxed">
                 {{ t.limit.guestDesc }}
               </p>
-              <button 
-                @click="openAuth" 
-                class="w-full btn-primary text-[14px] !py-2.5"
+              <button
+                @click="openAuth"
+                class="w-full btn-primary flex items-center justify-center text-[14px] !py-2.5"
               >
                 {{ t.limit.loginRegBtn }}
               </button>
@@ -48,7 +48,7 @@
               <p class="text-[13px] text-gray-500 mb-4 leading-relaxed">
                 {{ t.limit.premiumDesc }}
               </p>
-              
+
               <div class="flex flex-col items-center justify-center mt-2 p-4 bg-gray-50 rounded-xl border border-gray-100 mb-5">
                 <img src="/qr-code.png" alt="Buy Me a Coffee QR Code" class="h-32 w-32 object-contain mb-3 rounded-lg shadow-sm" />
                 <a href="https://buymeacoffee.com/ozodbro" target="_blank" rel="noopener noreferrer" class="hover:-translate-y-0.5 transition-transform duration-200">
@@ -56,7 +56,7 @@
                 </a>
               </div>
 
-              <div 
+              <div
                 class="w-full bg-blue-50/50 text-blue-800 rounded-xl text-[14px] !py-3 mb-2 flex flex-col items-center justify-center transition-colors border border-blue-100"
               >
                 <span class="inline-block h-5 w-5 rounded-full border-2 border-blue-200 border-t-blue-brand animate-spin mb-2"></span>
@@ -64,8 +64,8 @@
                 <span class="text-[12px] opacity-70">{{ t.limit.waitMinutes }}</span>
               </div>
 
-              <button 
-                @click="limitStore.closeDialogs" 
+              <button
+                @click="limitStore.closeDialogs"
                 class="w-full bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 font-medium rounded-lg text-[14px] px-4 py-2.5 transition-colors"
                 :disabled="limitStore.isVerifying"
               >

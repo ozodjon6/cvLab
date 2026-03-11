@@ -50,7 +50,7 @@ export const useLimitStore = defineStore('limit', () => {
         try {
             if (!authStore.user) {
                 // Mehmon uchun tekshiruv
-                const count = parseInt(localStorage.getItem('guest_cv_count') || '0')
+                const count = getGuestCount()
                 if (count >= 2) {
                     showGuestDialog.value = true
                     return false
@@ -106,10 +106,20 @@ export const useLimitStore = defineStore('limit', () => {
         }
     }
 
+    function getGuestCount(): number {
+        try {
+            const val = localStorage.getItem('_cv_gen_t')
+            if (!val) return 0
+            return parseInt(atob(val)) || 0
+        } catch {
+            return 0
+        }
+    }
+
     function incrementGuestCount() {
         if (!authStore.user) {
-            const count = parseInt(localStorage.getItem('guest_cv_count') || '0')
-            localStorage.setItem('guest_cv_count', (count + 1).toString())
+            const count = getGuestCount()
+            localStorage.setItem('_cv_gen_t', btoa((count + 1).toString()))
         }
     }
 

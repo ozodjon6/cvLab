@@ -159,7 +159,6 @@ async function createNew() {
     const canCreate = await limitStore.checkCanCreate()
     if (canCreate) {
       cvStore.reset()
-      // It's checked, go to builder
       router.push('/builder')
     }
   } finally {
