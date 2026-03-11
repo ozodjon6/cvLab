@@ -2,7 +2,7 @@
   <button
     class="theme-toggle"
     :class="{ 'theme-toggle--dark': isDark }"
-    @click="toggleDark()"
+    @click="toggleDarkWithTransition()"
     aria-label="Toggle Dark Mode"
   >
     <!-- Sun icon (left side) -->
@@ -35,7 +35,7 @@
 <script setup lang="ts">
 import { useDarkMode } from '@/composables/useDarkMode'
 
-const { isDark, toggleDark } = useDarkMode()
+const { isDark, toggleDarkWithTransition } = useDarkMode()
 </script>
 
 <style>

@@ -1,4 +1,5 @@
 import { useDark, useToggle } from '@vueuse/core'
+import { usePageTransition } from '@/composables/usePageTransition'
 
 // Single shared instance across the entire app
 const isDark = useDark({
@@ -11,5 +12,13 @@ const isDark = useDark({
 const toggleDark = useToggle(isDark)
 
 export function useDarkMode() {
-  return { isDark, toggleDark }
+  const { runPageTransition } = usePageTransition()
+
+  function toggleDarkWithTransition() {
+    runPageTransition(() => {
+      toggleDark()
+    })
+  }
+
+  return { isDark, toggleDark, toggleDarkWithTransition }
 }

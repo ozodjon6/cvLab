@@ -1,10 +1,10 @@
 <template>
-  <div :class="{ 'lang-transitioning': transitioning }">
+  <div class="app-shell" :class="{ 'page-transitioning': transitioning }">
     <router-view />
     <ToastContainer />
     <AuthModal />
     <LimitModal />
-    
+
     <!-- Logout Loader -->
     <transition name="fade">
       <div v-if="authStore.isSigningOut" class="fixed inset-0 z-[9999] bg-white/80 dark:bg-navy-900/80 backdrop-blur-sm flex flex-col items-center justify-center">
@@ -23,12 +23,12 @@ import LimitModal from '@/components/ui/LimitModal.vue'
 import { useLanguage } from '@/composables/useLanguage'
 import { useAuthStore } from '@/stores/auth'
 import { useDarkMode } from '@/composables/useDarkMode'
+import { usePageTransition } from '@/composables/usePageTransition'
 
-const { t, transitioning, currentLang } = useLanguage()
+const { t, currentLang } = useLanguage()
+const { transitioning } = usePageTransition()
 const authStore = useAuthStore()
 
-// Initialize dark mode at app level — this ensures dark class
-// is applied from localStorage on every page load (including Builder)
 useDarkMode()
 
 onMounted(() => {
@@ -38,13 +38,18 @@ onMounted(() => {
 </script>
 
 <style>
-.lang-transitioning {
+.app-shell {
+  transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.page-transitioning {
   opacity: 0;
   transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-:not(.lang-transitioning) {
-  transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+.page-transitioning,
+.page-transitioning * {
+  pointer-events: none;
 }
 
 .fade-enter-active,
