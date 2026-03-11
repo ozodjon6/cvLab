@@ -31,37 +31,49 @@
         <LanguageSwitcher />
 
         <!-- User profile dropdown (same as AppNav logic) -->
-        <div v-if="auth.user" class="relative group hidden sm:block ml-2 mr-2">
-          <button class="flex items-center gap-2 cursor-pointer outline-none">
+        <div v-if="auth.user" class="relative hidden sm:block ml-2 mr-2">
+          <!-- Dropdown Overlay -->
+          <div v-if="isProfileOpen" @click="isProfileOpen = false" class="fixed inset-0 z-[290]"></div>
+
+          <button @click="isProfileOpen = !isProfileOpen" class="relative z-[310] flex items-center gap-2 cursor-pointer outline-none pl-2">
             <img v-if="auth.user.user_metadata?.avatar_url" :src="auth.user.user_metadata.avatar_url" class="w-8 h-8 rounded-full object-cover shadow-sm bg-gray-100" />
             <div v-else class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-800 font-bold text-xs uppercase">
               {{ auth.user.email?.[0] || 'U' }}
             </div>
           </button>
 
-          <div class="absolute right-0 top-full pt-2 w-56 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all transform origin-top-right">
-            <div class="bg-white dark:bg-navy-800 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700 py-1">
-              <!-- Plan Tarifingiz -->
-              <div class="px-4 py-3 border-b border-gray-50 dark:border-gray-700 bg-gray-50/30 dark:bg-navy-900/40">
-                <p class="text-[11px] uppercase tracking-wider text-gray-400 dark:text-gray-500 font-semibold mb-1">{{ t.limit.plan }}</p>
-                <div v-if="limitStore.isPremiumPlan" class="text-[13px] font-bold text-blue-brand dark:text-blue-400 flex items-center gap-1.5">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                  {{ t.limit.premium }}
+          <Transition
+            enter-active-class="transition ease-out duration-200"
+            enter-from-class="transform opacity-0 scale-95"
+            enter-to-class="transform opacity-100 scale-100"
+            leave-active-class="transition ease-in duration-150"
+            leave-from-class="transform opacity-100 scale-100"
+            leave-to-class="transform opacity-0 scale-95"
+          >
+            <div v-if="isProfileOpen" class="absolute right-0 top-full pt-2 w-56 z-[300] origin-top-right">
+              <div class="bg-white dark:bg-navy-800 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700 py-1">
+                <!-- Plan Tarifingiz -->
+                <div class="px-4 py-3 border-b border-gray-50 dark:border-gray-700 bg-gray-50/30 dark:bg-navy-900/40">
+                  <p class="text-[11px] uppercase tracking-wider text-gray-400 dark:text-gray-500 font-semibold mb-1">{{ t.limit.plan }}</p>
+                  <div v-if="limitStore.isPremiumPlan" class="text-[13px] font-bold text-blue-brand dark:text-blue-400 flex items-center gap-1.5">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    {{ t.limit.premium }}
+                  </div>
+                  <div v-else class="text-[13px] font-semibold text-gray-800 dark:text-gray-200">
+                    <span v-if="limitStore.availableLimit && limitStore.availableLimit > 0" class="flex items-center gap-1.5 text-gray-700 dark:text-gray-300">{{ t.limit.limitLeft.replace('{count}', String(limitStore.availableLimit)) }}</span>
+                    <span v-else class="text-xs text-orange-500 dark:text-orange-400 flex items-center gap-1">{{ t.limit.limitOver }} <span class="text-gray-400 dark:text-gray-500 font-normal">{{ t.limit.hours24 }}</span></span>
+                  </div>
                 </div>
-                <div v-else class="text-[13px] font-semibold text-gray-800 dark:text-gray-200">
-                  <span v-if="limitStore.availableLimit && limitStore.availableLimit > 0" class="flex items-center gap-1.5 text-gray-700 dark:text-gray-300">{{ t.limit.limitLeft.replace('{count}', String(limitStore.availableLimit)) }}</span>
-                  <span v-else class="text-xs text-orange-500 dark:text-orange-400 flex items-center gap-1">{{ t.limit.limitOver }} <span class="text-gray-400 dark:text-gray-500 font-normal">{{ t.limit.hours24 }}</span></span>
-                </div>
-              </div>
 
-              <router-link to="/my-resumes" class="w-full text-left px-4 py-2 mt-1 text-[13px] text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-navy-900 flex items-center gap-2 cursor-pointer transition-colors">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"></path>
-                </svg>
-                Mening rezyumelarim
-              </router-link>
+                <router-link @click="isProfileOpen = false" to="/my-resumes" class="w-full text-left px-4 py-2 mt-1 text-[13px] text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-navy-900 flex items-center gap-2 cursor-pointer transition-colors">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"></path>
+                  </svg>
+                  Mening rezyumelarim
+                </router-link>
+              </div>
             </div>
-          </div>
+          </Transition>
         </div>
         
         <router-link to="/" class="no-underline shrink-0 hidden sm:flex items-center gap-1.5 ml-2">
@@ -171,7 +183,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, watch }  from 'vue'
+import { computed, watch, ref }  from 'vue'
 import { useRouter }       from 'vue-router'
 import { useCVStore }      from '@/stores/cv'
 import { useAuthStore }    from '@/stores/auth'
@@ -201,6 +213,7 @@ const resize = useResizable()
 const router = useRouter()
 const { t }  = useLanguage()
 const limitStore = useLimitStore()
+const isProfileOpen = ref(false)
 
 // Initialize default blocks if empty
 if (store.data.experience.length === 0) store.addExp()
@@ -238,13 +251,16 @@ function onNext() {
 }
 
 async function onDownload() {
-  const canCreate = await limitStore.checkCanCreate()
-  if (!canCreate) return
+  if (!auth.user) {
+    const canCreate = await limitStore.checkCanCreate()
+    if (!canCreate) return
+    limitStore.incrementGuestCount()
+  }
 
   const fn = store.fullName || 'cv'
   const name = fn.toLowerCase().replace(/\s+/g, '_') + '.pdf'
   await pdf.exportPdf('cv-preview', name)
-  limitStore.incrementGuestCount()
+  
   store.step = 1
 
   if (auth.user) {

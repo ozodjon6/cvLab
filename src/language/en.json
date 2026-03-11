@@ -14,7 +14,7 @@
         "plan": "Your Plan",
         "limitLeft": "Limit: {count}",
         "limitOver": "Limit reached",
-        "hours24": "(24h)",
+        "hours24": "(Wait 24h)",
         "premium": "Premium",
         "success": "Payment verified! Limit removed 🎉",
         "error": "Payment not verified yet. If you paid, wait 1-2 minutes or check your email correctness.",
