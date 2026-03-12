@@ -209,12 +209,16 @@
         "fontFamily": "Font family",
         "sectionOrder": "Section order",
         "sectionOrderHint": "Drag and drop sections or use the buttons to reorder.",
+        "publicLink": "Resume Link (URL)",
+        "publicLinkDesc": "Create a public link for your resume and share it with anyone.",
+        "enableLink": "Enable public link",
+        "copyLink": "Copy",
+        "linkCopied": "Link copied!",
         "sections": {
             "experience": "Work Experience",
             "education": "Education",
             "projects": "Projects",
-            "skills": "Skills",
-            "languages": "Languages"
+            "skills": "Skills"
         }
     },
     "myResumes": {

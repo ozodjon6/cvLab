@@ -152,6 +152,8 @@ export const useCVStore = defineStore('cv', () => {
         title: fullName.value || 'My Resume',
         data: data.value,
         template: template.value,
+        slug: data.value.settings?.publicSlug || null,
+        is_public: data.value.settings?.isPublic || false,
         updated_at: new Date().toISOString()
       }
 

@@ -196,6 +196,13 @@
 .dark ::-webkit-scrollbar-thumb { background: #334155; }
 .dark ::-webkit-scrollbar-thumb:hover { background: #475569; }
 
+.custom-scrollbar::-webkit-scrollbar { width: 4px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background: #E2E8F0; border-radius: 10px; }
+.custom-scrollbar:hover::-webkit-scrollbar-thumb { background: #CBD5E0; }
+.dark .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; }
+.dark .custom-scrollbar:hover::-webkit-scrollbar-thumb { background: #475569; }
+
 /* ── Toast transitions ── */
 .toast-enter-active { animation: toastIn .25s ease; }
 .toast-leave-active { animation: toastOut .25s ease forwards; }

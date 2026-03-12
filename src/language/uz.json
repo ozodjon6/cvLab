@@ -202,19 +202,23 @@
     "customizer": {
         "title": "Dizayn sozlamalari",
         "subtitle": "Rezyumengizni o'zingizga moslang. Bu imkoniyat faqat Premium uchun.",
-        "premiumTitle": "Bu Premium funksiya",
-        "premiumDesc": "Rang, shrift va seksiya tartibini o'zgartirish faqat Premium tarifda mavjud.",
+        "premiumTitle": "Bu Premium imkoniyat",
+        "premiumDesc": "Shaxsiy ranglar, shriftlar va rezyume havolasidan (link) foydalanish uchun Premium-ga o'ting.",
         "themeColor": "Mavzu rangi",
-        "customColor": "Maxsus rang tanlash",
         "fontFamily": "Shrift turi",
+        "customColor": "Boshqa rang",
         "sectionOrder": "Seksiyalar tartibi",
         "sectionOrderHint": "Seksiyalarni qo'lingiz bilan sudrab yoki tugmalar orqali qayta tartiblang.",
+        "publicLink": "Rezyume havolasi (Link)",
+        "publicLinkDesc": "Rezyumengizga shaxsiy havola yarating va uni hamma bilan ulashing.",
+        "enableLink": "Havolani yoqish",
+        "copyLink": "Nusxalash",
+        "linkCopied": "Havola nusxalandi!",
         "sections": {
             "experience": "Ish tajribasi",
             "education": "Ta'lim",
             "projects": "Loyihalar",
-            "skills": "Ko'nikmalar",
-            "languages": "Tillar"
+            "skills": "Ko'nikmalar"
         }
     },
     "myResumes": {

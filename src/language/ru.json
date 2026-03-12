@@ -209,12 +209,16 @@
         "fontFamily": "Шрифт",
         "sectionOrder": "Порядок разделов",
         "sectionOrderHint": "Перетащите разделы перетаскиванием или с помощью кнопок.",
+        "publicLink": "Ссылка на резюме (Link)",
+        "publicLinkDesc": "Создайте персональную ссылку на свое резюме и делитесь ею со всеми.",
+        "enableLink": "Включить ссылку",
+        "copyLink": "Копировать",
+        "linkCopied": "Ссылка скопирована!",
         "sections": {
             "experience": "Опыт работы",
             "education": "Образование",
             "projects": "Проекты",
-            "skills": "Навыки",
-            "languages": "Языки"
+            "skills": "Навыки"
         }
     },
     "myResumes": {

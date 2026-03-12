@@ -30,6 +30,14 @@ const routes: RouteRecordRaw[] = [
     },
   },
   {
+    path: '/r/:slug',
+    name: 'public-resume',
+    component: () => import('@/views/PublicResumeView.vue'),
+    meta: {
+      title: "CV Ko'rish — cvLab",
+    },
+  },
+  {
     path: '/:pathMatch(.*)*',
     name: 'not-found',
     component: () => import('@/views/NotFoundView.vue'),

@@ -60,6 +60,8 @@ export interface CVSettings {
   themeColor: string
   fontFamily: string
   sectionOrder: string[]
+  isPublic?: boolean
+  publicSlug?: string
 }
 
 export interface CVData {
@@ -136,7 +138,9 @@ export function emptyCV(): CVData {
     settings: {
       themeColor: '#1A56DB', // Default blue
       fontFamily: 'Inter',
-      sectionOrder: ['experience', 'education', 'projects', 'skills']
+      sectionOrder: ['experience', 'education', 'projects', 'skills'],
+      isPublic: false,
+      publicSlug: ''
     }
   }
 }
