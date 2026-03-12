@@ -2,59 +2,122 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { useAuthStore } from './auth'
 import { supabase } from '@/lib/supabase'
+import type { User } from '@supabase/supabase-js'
 
 export const useLimitStore = defineStore('limit', () => {
     const authStore = useAuthStore()
 
     const showGuestDialog = ref(false)
     const showPremiumDialog = ref(false)
+    const guestDialogVariant = ref<'limit' | 'premium'>('limit')
     const isVerifying = ref(false)
     const availableLimit = ref<number | null>(null)
     const isPremiumPlan = ref(false)
+    let planStatusPromise: Promise<void> | null = null
+    let lastPlanStatusAt = 0
 
-    async function loadPlanStatus() {
-        if (!authStore.user) return
+    function setPlanState(user: User | null) {
+        isPremiumPlan.value = user?.user_metadata?.is_premium === true
+    }
+
+    function setGuestLimitState() {
+        isPremiumPlan.value = false
+        availableLimit.value = Math.max(0, 2 - getGuestCount())
+    }
+
+    function setUserLimitState(count: number | null, latestCreatedAt?: string) {
+        if (isPremiumPlan.value) {
+            availableLimit.value = 999
+            return
+        }
+
+        if (count === null) {
+            availableLimit.value = 0
+            return
+        }
+
+        if (count < 2) {
+            availableLimit.value = 2 - count
+            return
+        }
+
+        if (!latestCreatedAt) {
+            availableLimit.value = 0
+            return
+        }
+
+        const diffInHours = (Date.now() - new Date(latestCreatedAt).getTime()) / (1000 * 60 * 60)
+        availableLimit.value = diffInHours >= 24 ? 1 : 0
+    }
+
+    async function getAuthUser(force = false): Promise<User | null> {
+        if (!force && authStore.user) {
+            return authStore.user
+        }
+
+        const { data: { user } } = await supabase.auth.getUser()
+
+        if (user && authStore.user) {
+            authStore.user.user_metadata = user.user_metadata
+        }
+
+        return user ?? authStore.user ?? null
+    }
+
+    async function loadPlanStatus(force = false) {
+        const now = Date.now()
+
+        if (planStatusPromise) {
+            return planStatusPromise
+        }
+
+        if (!force && now - lastPlanStatusAt < 10000) {
+            return
+        }
+
+        planStatusPromise = (async () => {
         try {
-            const { data: { user } } = await supabase.auth.getUser()
-            if (user) authStore.user.user_metadata = user.user_metadata
-            
-            isPremiumPlan.value = authStore.user?.user_metadata?.is_premium === true
+            const user = await getAuthUser(force)
+
+            if (!user) {
+                setGuestLimitState()
+                return
+            }
+
+            if (authStore.user) {
+                authStore.user.user_metadata = user.user_metadata
+            }
+            setPlanState(user)
             
             const { data: resumes, count } = await supabase
                 .from('resumes')
                 .select('created_at', { count: 'exact' })
-                .eq('user_id', authStore.user.id)
+                .eq('user_id', user.id)
                 .order('created_at', { ascending: false })
                 .limit(1)
 
-            if (isPremiumPlan.value) {
-                availableLimit.value = 999
-            } else {
-                if (count !== null && count >= 2) {
-                    if (resumes && resumes.length > 0) {
-                        const diffInHours = (new Date().getTime() - new Date(resumes[0].created_at).getTime()) / (1000 * 60 * 60)
-                        availableLimit.value = diffInHours >= 24 ? 1 : 0
-                    } else {
-                        availableLimit.value = 0
-                    }
-                } else {
-                    availableLimit.value = 2 - (count || 0)
-                }
-            }
+            setUserLimitState(count, resumes?.[0]?.created_at)
+            lastPlanStatusAt = Date.now()
         } catch (e) {
             console.error(e)
+        } finally {
+            planStatusPromise = null
         }
+        })()
+
+        return planStatusPromise
     }
 
     async function checkCanCreate(silent = false): Promise<boolean> {
         try {
-            const { data: { user: supabaseUser } } = await supabase.auth.getUser()
+            const supabaseUser = await getAuthUser()
 
             if (!supabaseUser && !authStore.user) {
                 // Mehmon uchun tekshiruv
                 const count = getGuestCount()
+                setGuestLimitState()
                 if (count >= 2) {
-                    if (!silent) showGuestDialog.value = true
+                    if (!silent) openGuestDialog('limit')
                     return false
                 }
                 return true
@@ -86,6 +149,9 @@ export const useLimitStore = defineStore('limit', () => {
                 } else if (authStore.user) {
                     isPremium = authStore.user.user_metadata?.is_premium === true
                 }
+
+                isPremiumPlan.value = isPremium
+                setUserLimitState(count, resumes?.[0]?.created_at)
 
                 // Agar u premium bo'lmasa va bazada allaqachon 2 yoki undan ko'p CV bo'lsa
                 if (!isPremium && count !== null && count >= 2) {
@@ -138,18 +204,37 @@ export const useLimitStore = defineStore('limit', () => {
     function closeDialogs() {
         showGuestDialog.value = false
         showPremiumDialog.value = false
+        guestDialogVariant.value = 'limit'
+    }
+
+    function openGuestDialog(variant: 'limit' | 'premium' = 'limit') {
+        guestDialogVariant.value = variant
+        showPremiumDialog.value = false
+        showGuestDialog.value = true
+    }
+
+    function openPremiumAccessDialog() {
+        if (authStore.user) {
+            showGuestDialog.value = false
+            showPremiumDialog.value = true
+            guestDialogVariant.value = 'limit'
+            return
+        }
+
+        openGuestDialog('premium')
     }
 
     async function verifyPayment(): Promise<boolean> {
         isVerifying.value = true
         try {
-            const { data: { user }, error } = await supabase.auth.getUser()
-            if (error) throw error
+            const user = await getAuthUser(true)
             
             if (user && user.user_metadata?.is_premium === true) {
                 if (authStore.user) {
                     authStore.user.user_metadata = user.user_metadata
                 }
+                setPlanState(user)
+                availableLimit.value = 999
                 return true
             }
             // Add a small delay so the user perceives a check if it's too fast
@@ -166,6 +251,7 @@ export const useLimitStore = defineStore('limit', () => {
     return {
         showGuestDialog,
         showPremiumDialog,
+        guestDialogVariant,
         isVerifying,
         availableLimit,
         isPremiumPlan,
@@ -173,6 +259,8 @@ export const useLimitStore = defineStore('limit', () => {
         checkCanCreate,
         incrementGuestCount,
         closeDialogs,
+        openGuestDialog,
+        openPremiumAccessDialog,
         verifyPayment
     }
 })

@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen bg-gray-50 dark:bg-navy-900 flex flex-col transition-colors duration-300">
     <AppNav />
-    <main class="flex-1 pt-24 px-4 sm:px-8 max-w-7xl mx-auto w-full">
+    <main class="flex-1 pt-20 sm:pt-24 px-4 sm:px-8 max-w-7xl mx-auto w-full pb-8">
       <!-- Not found state if strictly not matching / logging out -->
       <div v-if="showNotFound" class="flex-1 flex flex-col items-center justify-center px-4 py-24 text-center w-full">
         <div class="h-24 w-24 bg-blue-50 dark:bg-blue-900/40 text-blue-brand dark:text-blue-400 rounded-full flex items-center justify-center mb-6 mx-auto">
@@ -18,11 +18,12 @@
       </div>
 
       <template v-else>
-        <div class="flex items-center justify-between mb-8">
-          <h1 class="text-3xl font-display font-bold text-gray-900 dark:text-white">{{ t.myResumes.title }}</h1>
-          <button class="btn-primary cursor-pointer flex items-center justify-center" @click="createNew" :disabled="isChecking">
+        <div class="flex items-center justify-between mb-6 sm:mb-8 gap-3">
+          <h1 class="text-2xl sm:text-3xl font-display font-bold text-gray-900 dark:text-white">{{ t.myResumes.title }}</h1>
+          <button class="btn-primary cursor-pointer flex items-center justify-center shrink-0 !py-2 !px-3 sm:!px-5 text-[12.5px] sm:text-[13.5px]" @click="createNew" :disabled="isChecking">
             <span v-if="isChecking" class="inline-block h-3.5 w-3.5 rounded-full border-2 border-white/30 border-t-white animate-spin mr-1.5"></span>
-            {{ t.myResumes.createNew }}
+            <svg v-else class="w-4 h-4 sm:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 5v14M5 12h14"/></svg>
+            <span class="hidden sm:inline">{{ t.myResumes.createNew }}</span>
           </button>
         </div>
 
@@ -42,32 +43,42 @@
         </button>
       </div>
 
-      <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         <div v-for="item in resumes" :key="item.id"
              class="group bg-white dark:bg-navy-800 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm overflow-hidden hover:shadow-md transition-shadow cursor-pointer flex flex-col hover:border-blue-brand/50"
              @click="openResume(item)">
-          <div class="p-6 flex-1">
-            <h3 class="font-bold text-lg text-gray-900 dark:text-gray-100 mb-2 group-hover:text-blue-brand dark:group-hover:text-blue-400 transition-colors">{{ item.title || t.myResumes.defaultTitle }}</h3>
+          <div class="p-4 sm:p-6 flex-1">
+            <h3 class="font-bold text-base sm:text-lg text-gray-900 dark:text-gray-100 mb-2 group-hover:text-blue-brand dark:group-hover:text-blue-400 transition-colors">{{ item.title || t.myResumes.defaultTitle }}</h3>
             <div class="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
                <span>{{ t.myResumes.templateLabel }} <span class="capitalize text-gray-700 dark:text-gray-300">{{ item.template }}</span></span>
                <span>{{ formatDate(item.updated_at) }}</span>
             </div>
           </div>
-          <div class="px-6 py-3 bg-gray-50 gap-2 dark:bg-navy-900 border-t border-gray-100 dark:border-gray-700 flex items-center justify-between transition-colors">
-            <button @click.stop="openResume(item)" class="text-[13px] font-medium text-blue-brand dark:text-blue-400 flex items-center hover:opacity-80 transition-opacity">
+          <div class="px-4 sm:px-6 py-3 bg-gray-50 dark:bg-navy-900 border-t border-gray-100 dark:border-gray-700 flex items-center justify-between gap-2 transition-colors">
+            <button @click.stop="openResume(item)" class="text-[12.5px] font-medium text-blue-brand dark:text-blue-400 flex items-center hover:opacity-80 transition-opacity shrink-0">
               {{ t.myResumes.edit }}
               <svg class="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
             </button>
-            <div class="flex items-center gap-2">
+            <div class="flex items-center gap-1.5">
                <!-- Preview button -->
-               <button @click.stop="handlePreview(item)" :class="{'blur-[1px] opacity-60': !limitStore.isPremiumPlan}" class="flex items-center justify-center gap-1.5 px-3 py-1.5 bg-gray-100 hover:bg-gray-200 dark:bg-navy-400 dark:hover:bg-navy-600 text-gray-700 dark:text-gray-200 text-[12.5px] font-semibold rounded-lg transition-colors" :title="t.myResumes.previewPremium">
-                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
-                 {{ t.myResumes.preview }}
+               <button
+                 @click.stop="handlePreview(item)"
+                 :class="{'blur-[1px] opacity-60': !limitStore.isPremiumPlan}"
+                 class="flex items-center justify-center gap-1.5 px-2.5 py-1.5 bg-gray-100 hover:bg-gray-200 dark:bg-navy-400 dark:hover:bg-navy-600 text-gray-700 dark:text-gray-200 text-[11.5px] font-semibold rounded-lg transition-colors"
+                 :title="t.myResumes.previewPremium"
+               >
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+                <span class="hidden sm:inline">{{ t.myResumes.preview }}</span>
                </button>
                <!-- Delete button -->
-               <button @click.stop="confirmDelete(item)" :class="{'blur-[1px] opacity-60': !limitStore.isPremiumPlan}" class="flex items-center justify-center gap-1.5 px-3 py-1.5 bg-red-50 hover:bg-red-100 dark:bg-red-900/30 dark:hover:bg-red-900/50 text-red-600 dark:text-red-400 text-[12.5px] font-semibold rounded-lg transition-colors" :title="t.myResumes.deletePremium">
-                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-                 {{ t.myResumes.delete }}
+               <button
+                 @click.stop="confirmDelete(item)"
+                 :class="{'blur-[1px] opacity-60': !limitStore.isPremiumPlan}"
+                 class="flex items-center justify-center gap-1.5 px-2.5 py-1.5 bg-red-50 hover:bg-red-100 dark:bg-red-900/30 dark:hover:bg-red-900/50 text-red-600 dark:text-red-400 text-[11.5px] font-semibold rounded-lg transition-colors"
+                 :title="t.myResumes.deletePremium"
+               >
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                <span class="hidden sm:inline">{{ t.myResumes.delete }}</span>
                </button>
             </div>
           </div>
@@ -194,7 +205,7 @@ onMounted(() => {
   }
 })
 
-watch(() => authStore.user, () => {
+watch(() => authStore.user?.id, () => {
   handleAuthValidation()
 })
 
@@ -243,7 +254,7 @@ async function createNewStart() {
 
 function handlePreview(item: any) {
   if (!limitStore.isPremiumPlan) {
-    limitStore.showPremiumDialog = true
+    limitStore.openPremiumAccessDialog()
     return
   }
   cvStore.data = item.data as CVData
@@ -264,7 +275,7 @@ async function onDownloadFromPreview() {
 
 function confirmDelete(item: any) {
   if (!limitStore.isPremiumPlan) {
-    limitStore.showPremiumDialog = true
+    limitStore.openPremiumAccessDialog()
     return
   }
   deleteItem.value = item

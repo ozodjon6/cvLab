@@ -21,7 +21,8 @@
         "bmacGuestTitle": "Premium olish uchun kiring",
         "bmacGuestDesc": "Tizimga kirmasdan qo'llab-quvvatlayotganingiz uchun ham katta Rahmat! Ammo Premium tarifiga ega bo'lish uchun avval tizimga kiring, shundan so'ng qahva ulashsangiz cheksiz CV yaratish imkoniyati ochiladi.",
         "bmacGuestContinue": "Shunchaki qahva olib berish",
-        "bmacGuestLogin": "Tizimga kirish"
+        "bmacGuestLogin": "Tizimga kirish",
+        "getPremium": "Premium olish"
     },
     "langName": "O'zbek",
     "langFlag": "🇺🇿",
@@ -186,13 +187,35 @@
         "s5label": "Ta'lim",
         "s5desc": "Ta'lim",
         "s6label": "Ko'nikmalar",
-        "s6desc": "Ko'nikmalar & Tillar"
+        "s6desc": "Ko'nikmalar & Tillar",
+        "s7label": "Dizayn",
+        "s7desc": "Rang, shrift va tartib"
     },
     "templateSelector": {
         "title": "Shablon tanlang",
         "subtitle": "Rezyumengiz uchun ko'rinish tanlang",
         "fillExample": "Namuna bilan ko'rish",
-        "premiumLockTitle": "Kiritilgan ma'lumotlarni tahrirlashingiz mumkin, lekin shablonni o'zgartirish uchun Premium kerak"
+        "premiumLockTitle": "Kiritilgan ma'lumotlarni tahrirlashingiz mumkin, lekin shablonni o'zgartirish uchun Premium kerak",
+        "premiumTitle": "Bu Premium funksiya",
+        "premiumDesc": "Mavjud rezyume uchun shablonni o'zgartirish faqat Premium tarifda mavjud."
+    },
+    "customizer": {
+        "title": "Dizayn sozlamalari",
+        "subtitle": "Rezyumengizni o'zingizga moslang. Bu imkoniyat faqat Premium uchun.",
+        "premiumTitle": "Bu Premium funksiya",
+        "premiumDesc": "Rang, shrift va seksiya tartibini o'zgartirish faqat Premium tarifda mavjud.",
+        "themeColor": "Mavzu rangi",
+        "customColor": "Maxsus rang tanlash",
+        "fontFamily": "Shrift turi",
+        "sectionOrder": "Seksiyalar tartibi",
+        "sectionOrderHint": "Seksiyalarni qo'lingiz bilan sudrab yoki tugmalar orqali qayta tartiblang.",
+        "sections": {
+            "experience": "Ish tajribasi",
+            "education": "Ta'lim",
+            "projects": "Loyihalar",
+            "skills": "Ko'nikmalar",
+            "languages": "Tillar"
+        }
     },
     "myResumes": {
         "title": "Mening rezyumelarim",

@@ -37,10 +37,18 @@
                 </a>
               </div>
 
+              <button
+                @click="checkPayment"
+                :disabled="limitStore.isVerifying"
+                class="w-full bg-blue-brand hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed text-white rounded-xl text-[14px] py-3 mb-2 flex items-center justify-center gap-2 transition-colors"
+              >
+                <span v-if="limitStore.isVerifying" class="inline-block h-4 w-4 rounded-full border-2 border-white/30 border-t-white animate-spin"></span>
+                <span>{{ limitStore.isVerifying ? t.limit.checkingPayment : t.limit.checkPaymentBtn }}</span>
+              </button>
+
               <div
                 class="w-full bg-blue-50/50 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 rounded-xl text-[14px] !py-3 mb-2 flex flex-col items-center justify-center transition-colors border border-blue-100 dark:border-blue-900/50"
               >
-                <span class="inline-block h-5 w-5 rounded-full border-2 border-blue-200 dark:border-blue-700 border-t-blue-brand dark:border-t-blue-400 animate-spin mb-2"></span>
                 <span class="font-medium mb-0.5">{{ t.limit.waitPayment }}</span>
                 <span class="text-[12px] opacity-70">{{ t.limit.waitMinutes }}</span>
               </div>
@@ -61,7 +69,6 @@
 </template>
 
 <script setup lang="ts">
-import { watch, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
 import { useLimitStore } from '@/stores/limit'
 import { useToast } from '@/composables/useToast'
@@ -72,31 +79,19 @@ const limitStore = useLimitStore()
 const toast = useToast()
 const router = useRouter()
 
-let pollInterval: any = null
-
-watch(() => limitStore.showPremiumDialog, (isOpen) => {
-  if (isOpen) {
-    if (pollInterval) clearInterval(pollInterval)
-    pollInterval = setInterval(async () => {
-      // Background verification
-      const isPremium = await limitStore.verifyPayment()
-      if (isPremium) {
-        clearInterval(pollInterval)
-        toast.success(t.value.limit.success)
-        setTimeout(() => {
-          limitStore.closeDialogs()
-          router.push('/builder')
-        }, 1500)
-      }
-    }, 4000)
-  } else {
-    if (pollInterval) clearInterval(pollInterval)
+async function checkPayment() {
+  const isPremium = await limitStore.verifyPayment()
+  if (isPremium) {
+    toast.success(t.value.limit.success)
+    setTimeout(() => {
+      limitStore.closeDialogs()
+      router.push('/builder')
+    }, 1500)
+    return
   }
-})
 
-onBeforeUnmount(() => {
-  if (pollInterval) clearInterval(pollInterval)
-})
+  toast.error(t.value.limit.error)
+}
 </script>
 
 <style scoped>

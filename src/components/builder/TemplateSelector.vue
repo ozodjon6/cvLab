@@ -18,10 +18,23 @@
       </label>
     </div>
     <div class="relative mt-2">
-      <!-- Premium Overlay for Free users editing existing CV -->
-      <div v-if="isLockedForFree" class="absolute inset-0 z-20 cursor-pointer" @click="limitStore.showPremiumDialog = true" :title="t.templateSelector.premiumLockTitle"></div>
+      <div
+        v-if="isLockedForFree"
+        class="absolute inset-0 z-20 cursor-pointer rounded-xl flex flex-col items-center justify-center gap-3 bg-white/60 dark:bg-navy-900/60 backdrop-blur-[2px]"
+        @click="limitStore.openPremiumAccessDialog()"
+        :title="t.templateSelector.premiumLockTitle"
+      >
+        <div class="w-12 h-12 rounded-full bg-blue-50 dark:bg-blue-900/40 flex items-center justify-center text-blue-brand dark:text-blue-400">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <div class="text-center px-4 max-w-[280px]">
+          <p class="text-sm font-bold text-gray-800 dark:text-gray-100 mb-1">{{ t.templateSelector.premiumTitle }}</p>
+          <p class="text-xs text-gray-500 dark:text-gray-400">{{ t.templateSelector.premiumDesc }}</p>
+        </div>
+        <button class="btn-primary !py-2 !px-5 !text-xs">{{ t.limit.getPremium }}</button>
+      </div>
 
-      <div class="grid grid-cols-2 gap-2.5 transition-all duration-300" :class="{ 'blur-[3px] opacity-60 select-none': isLockedForFree }">
+      <div class="grid grid-cols-2 gap-2.5 transition-all duration-300" :class="{ 'blur-[3px] opacity-60 select-none pointer-events-none': isLockedForFree }">
         <div v-for="tmpl in templates" :key="tmpl.id"
              class="relative border-2 rounded-[10px] overflow-hidden
                     transition-all duration-200 bg-white dark:bg-navy-800"

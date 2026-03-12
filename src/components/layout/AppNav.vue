@@ -24,12 +24,12 @@
         <button v-if="!auth.user" @click="auth.openAuthModal" class="btn-ghost hidden sm:flex text-[12px] sm:text-[13.5px] font-medium !py-1.5 sm:!py-2 !px-3 cursor-pointer">
           Kirish
         </button>
-        <div v-else class="relative hidden sm:block" ref="profileDropdownRef">
+        <div v-else class="relative ml-1" ref="profileDropdownRef">
 
-          <button @click="isProfileOpen = !isProfileOpen" class="relative z-50 flex items-center gap-2 cursor-pointer outline-none pl-2">
-            <img v-if="auth.user.user_metadata?.avatar_url" :src="auth.user.user_metadata.avatar_url" class="w-8 h-8 rounded-full object-cover shadow-sm bg-gray-100" />
-            <div v-else class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-800 font-bold text-xs uppercase">
-              {{ auth.user.email?.[0] || 'U' }}
+          <button @click="isProfileOpen = !isProfileOpen" class="relative z-50 flex items-center gap-2 cursor-pointer outline-none">
+            <img v-if="auth.user.user_metadata?.avatar_url" :src="auth.user.user_metadata.avatar_url" class="w-7 h-7 sm:w-8 sm:h-8 rounded-full object-cover shadow-sm bg-gray-100 ring-2 ring-white dark:ring-navy-900" />
+            <div v-else class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center text-blue-800 dark:text-blue-300 font-bold text-xs uppercase ring-2 ring-white dark:ring-navy-900">
+              {{ auth.user.email?.[0]?.toUpperCase() || 'U' }}
             </div>
           </button>
 
@@ -91,7 +91,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue'
+import { ref, watch } from 'vue'
 import Logo from './Logo.vue'
 import LanguageSwitcher from './LanguageSwitcher.vue'
 import ThemeSwitcher from './ThemeSwitcher.vue'
@@ -126,15 +126,9 @@ async function handleBoshlash() {
   }
 }
 
-onMounted(() => {
-  if (auth.user) {
+watch(() => auth.user?.id, (userId) => {
+  if (userId) {
     limitStore.loadPlanStatus()
   }
-})
-
-watch(() => auth.user, (newVal) => {
-  if (newVal) {
-    limitStore.loadPlanStatus()
-  }
-})
+}, { immediate: true })
 </script>

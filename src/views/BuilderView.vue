@@ -22,8 +22,8 @@
         <span class="hidden sm:inline">{{ t.builder.back }}</span>
       </router-link>
 
-      <!-- Steps -->
-      <div class="flex-1 mx-4 min-w-0">
+      <!-- Steps: scrollable on mobile -->
+      <div class="flex-1 mx-2 sm:mx-4 min-w-0 overflow-x-auto scrollbar-none">
         <StepProgress
           :current="store.step"
           :maxReached="store.maxStep"
@@ -36,12 +36,16 @@
         <ThemeSwitcher />
         <LanguageSwitcher />
 
-        <!-- User profile dropdown (same as AppNav logic) -->
-        <div v-if="auth.user" class="relative hidden sm:block ml-2 mr-2" ref="profileDropdownRef">
-          <button @click="isProfileOpen = !isProfileOpen" class="relative z-[310] flex items-center gap-2 cursor-pointer outline-none pl-2">
-            <img v-if="auth.user.user_metadata?.avatar_url" :src="auth.user.user_metadata.avatar_url" class="w-8 h-8 rounded-full object-cover shadow-sm bg-gray-100" />
-            <div v-else class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-800 font-bold text-xs uppercase">
-              {{ auth.user.email?.[0] || 'U' }}
+        <!-- User profile dropdown: visible on sm+ screens -->
+        <div v-if="auth.user" class="relative sm:block ml-1" ref="profileDropdownRef">
+          <button @click="isProfileOpen = !isProfileOpen" class="relative z-[310] flex items-center gap-2 cursor-pointer outline-none">
+            <img
+              v-if="auth.user.user_metadata?.avatar_url"
+              :src="auth.user.user_metadata.avatar_url"
+              class="w-7 h-7 sm:w-8 sm:h-8 rounded-full object-cover shadow-sm bg-gray-100 ring-2 ring-white dark:ring-navy-800"
+            />
+            <div v-else class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center text-blue-800 dark:text-blue-300 font-bold text-xs uppercase ring-2 ring-white dark:ring-navy-800">
+              {{ auth.user.email?.[0]?.toUpperCase() || 'U' }}
             </div>
           </button>
 
@@ -112,11 +116,12 @@
               :selected="store.template"
               @update:selected="store.setTemplate"
             />
-            <PersonalForm   v-else-if="store.step === 2" :key="2" />
-            <ExperienceForm v-else-if="store.step === 3" :key="3" />
-            <ProjectForm    v-else-if="store.step === 4" :key="4" />
-            <EducationForm  v-else-if="store.step === 5" :key="5" />
-            <SkillsForm     v-else                        :key="6" />
+            <PersonalForm    v-else-if="store.step === 2" :key="2" />
+            <ExperienceForm  v-else-if="store.step === 3" :key="3" />
+            <ProjectForm     v-else-if="store.step === 4" :key="4" />
+            <EducationForm   v-else-if="store.step === 5" :key="5" />
+            <SkillsForm      v-else-if="store.step === 6" :key="6" />
+            <CvCustomizer    v-else                       :key="7" />
           </Transition>
         </div>
 
@@ -128,9 +133,9 @@
             @click="store.prev()"
           >{{ t.builder.backArrow }}</button>
 
-          <!-- Step 6: download PDF -->
+          <!-- Step 7: download PDF -->
           <button
-            v-if="store.step === 6"
+            v-if="store.step === 7"
             class="btn-primary text-[12.5px] !py-2 !px-5"
             :disabled="pdf.exporting.value"
             @click="onDownload"
@@ -141,7 +146,7 @@
             {{ pdf.exporting.value ? t.builder.preparing : t.builder.downloadPdf }}
           </button>
 
-          <!-- Steps 1–5: next -->
+          <!-- Steps 1–6: next -->
           <button
             v-else
             class="btn-primary text-[12.5px] !py-2 !px-4 sm:!px-5 shrink-0"
@@ -182,8 +187,9 @@
             @click="auth.openAuthModal"
             class="animated-border-btn dark:animated-border-btn-dark !text-gray-700 dark:!text-gray-600 hover:!text-blue-brand dark:hover:!text-blue-400 font-medium text-[13px] !py-2.5 !px-6 transition-all flex items-center justify-center gap-2 max-w-sm w-full rounded-[10px]"
           >
+            <!-- Lock icon for auth -->
             <svg class="shrink-0" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
             </svg>
             {{ t.builder.loginToSave }}
           </button>
@@ -195,7 +201,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, watch, ref, onMounted }  from 'vue'
+import { computed, watch, ref, onMounted, onBeforeUnmount }  from 'vue'
 import { useRouter }       from 'vue-router'
 import { useCVStore }      from '@/stores/cv'
 import { useAuthStore }    from '@/stores/auth'
@@ -215,6 +221,7 @@ import ExperienceForm      from '@/components/builder/ExperienceForm.vue'
 import ProjectForm         from '@/components/builder/ProjectForm.vue'
 import EducationForm       from '@/components/builder/EducationForm.vue'
 import SkillsForm          from '@/components/builder/SkillsForm.vue'
+import CvCustomizer        from '@/components/builder/CvCustomizer.vue'
 import CvPreview           from '@/components/preview/CvPreview.vue'
 import { onClickOutside }  from '@vueuse/core'
 
@@ -229,6 +236,8 @@ const limitStore = useLimitStore()
 const isProfileOpen = ref(false)
 const isInitializing = ref(true)
 const profileDropdownRef = ref<HTMLElement | null>(null)
+let autosaveTimer: ReturnType<typeof setTimeout> | null = null
+let lastAutosaveSnapshot = ''
 
 onClickOutside(profileDropdownRef, () => {
   isProfileOpen.value = false
@@ -242,6 +251,39 @@ if (store.data.languages.length  === 0) store.addLang()
 
 const panelW = resize.width
 
+function hasMeaningfulDraft() {
+  const personal = Object.entries(store.data.personal).some(([key, value]) => {
+    if (key === 'photoUrl') return Boolean(value)
+    return typeof value === 'string' && value.trim().length > 0
+  })
+
+  const experience = store.data.experience.some(item =>
+    [item.jobTitle, item.company, item.location, item.startDate, item.endDate, item.description].some(Boolean) || item.isCurrent
+  )
+  const projects = store.data.projects.some(item =>
+    [item.name, item.description, item.link, item.startDate, item.endDate].some(Boolean)
+  )
+  const education = store.data.education.some(item =>
+    [item.institution, item.degree, item.location, item.startDate, item.endDate, item.notes].some(Boolean) || item.isCurrent
+  )
+  const languages = store.data.languages.some(item => Boolean(item.name))
+
+  return personal || experience || projects || education || languages || store.data.skills.length > 0
+}
+
+async function waitForAuthReady() {
+  if (!auth.loading) return
+
+  await new Promise<void>((resolve) => {
+    const stop = watch(() => auth.loading, (isLoading) => {
+      if (!isLoading) {
+        stop()
+        resolve()
+      }
+    }, { immediate: true })
+  })
+}
+
 // Only apply fixed desktop panel width on wide screens
 const desktopPanelStyle = computed(() => {
   if (typeof window !== 'undefined' && window.innerWidth < 768) return {}
@@ -253,6 +295,29 @@ watch(() => store.step, (newStep) => {
   trackBuilderStep(newStep)
 }, { immediate: true })
 
+watch(
+  () => [auth.user?.id, store.template, store.data],
+  () => {
+    if (!auth.user || isInitializing.value || !hasMeaningfulDraft()) return
+
+    if (autosaveTimer) clearTimeout(autosaveTimer)
+    autosaveTimer = setTimeout(async () => {
+      const snapshot = JSON.stringify({
+        template: store.template,
+        data: store.data,
+      })
+
+      if (snapshot === lastAutosaveSnapshot) return
+
+      const saved = await store.saveToCloud(true)
+      if (saved) {
+        lastAutosaveSnapshot = snapshot
+      }
+    }, 1200)
+  },
+  { deep: true }
+)
+
 function onNext() {
   const ok = store.next()
   if (!ok) {
@@ -261,11 +326,7 @@ function onNext() {
       const key = errs[0].messageKey as keyof typeof t.value.validation
       toast.error(t.value.validation[key] || errs[0].messageKey)
     }
-  } else if (store.step <= 6) {
-    if (auth.user) {
-      // Auto save in background
-      store.saveToCloud(true)
-    }
+  } else if (store.step <= 7) {
   }
 }
 
@@ -290,6 +351,21 @@ async function onDownload() {
 }
 
 onMounted(async () => {
+  await waitForAuthReady()
+  await limitStore.loadPlanStatus()
+
+  if (auth.user && hasMeaningfulDraft()) {
+    lastAutosaveSnapshot = JSON.stringify({
+      template: store.template,
+      data: store.data,
+    })
+  }
+
+  if (!store.cloudId && !hasMeaningfulDraft()) {
+    store.step = 1
+    store.maxStep = 1
+  }
+
   if (!store.cloudId) {
     const canCreate = await limitStore.checkCanCreate(false)
     if (!canCreate) {
@@ -305,6 +381,10 @@ onMounted(async () => {
     }
   }
   isInitializing.value = false
+})
+
+onBeforeUnmount(() => {
+  if (autosaveTimer) clearTimeout(autosaveTimer)
 })
 </script>
 

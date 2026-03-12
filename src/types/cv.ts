@@ -1,7 +1,7 @@
 // ── Core types ────────────────────────────────────────────
 
 export type TemplateId = 'modern' | 'clean' | 'bold' | 'minimal' | 'academic'
-export type StepId = 1 | 2 | 3 | 4 | 5 | 6
+export type StepId = 1 | 2 | 3 | 4 | 5 | 6 | 7
 export type LanguageLevel = 'Ona tili' | 'C2' | 'C1' | 'B2' | 'B1' | 'A2' | 'A1'
 
 export interface PersonalInfo {
@@ -56,6 +56,12 @@ export interface LanguageItem {
   level: LanguageLevel
 }
 
+export interface CVSettings {
+  themeColor: string
+  fontFamily: string
+  sectionOrder: string[]
+}
+
 export interface CVData {
   personal: PersonalInfo
   experience: ExperienceItem[]
@@ -63,6 +69,7 @@ export interface CVData {
   projects: ProjectItem[]
   skills: string[]
   languages: LanguageItem[]
+  settings?: CVSettings
 }
 
 // ── Step config ───────────────────────────────────────────
@@ -80,6 +87,7 @@ export const BUILDER_STEPS: BuilderStep[] = [
   { id: 4, labelKey: 's4label', descKey: 's4desc' },
   { id: 5, labelKey: 's5label', descKey: 's5desc' },
   { id: 6, labelKey: 's6label', descKey: 's6desc' },
+  { id: 7, labelKey: 's7label', descKey: 's7desc' },
 ]
 
 export const LANGUAGE_LEVELS: LanguageLevel[] = [
@@ -125,6 +133,11 @@ export function emptyCV(): CVData {
     projects: [],
     skills: [],
     languages: [],
+    settings: {
+      themeColor: '#1A56DB', // Default blue
+      fontFamily: 'Inter',
+      sectionOrder: ['experience', 'education', 'projects', 'skills']
+    }
   }
 }
 

@@ -9,8 +9,11 @@ export const useAuthStore = defineStore('auth', () => {
     const isAuthModalOpen = ref(false)
     const loading = ref(true)
     const isSigningOut = ref(false)
+    let authListenerInitialized = false
 
     async function checkSession() {
+        if (authListenerInitialized) return
+
         loading.value = true
         const { data } = await supabase.auth.getSession()
         user.value = data.session?.user || null
@@ -18,6 +21,7 @@ export const useAuthStore = defineStore('auth', () => {
         supabase.auth.onAuthStateChange((_, session) => {
             user.value = session?.user || null
         })
+        authListenerInitialized = true
         loading.value = false
     }
 

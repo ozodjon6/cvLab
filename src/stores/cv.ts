@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref, computed, watch } from 'vue'
-import type { CVData, TemplateId, StepId, ExperienceItem, EducationItem, LanguageItem, ProjectItem } from '@/types/cv'
+import type { CVData, CVSettings, TemplateId, StepId, ExperienceItem, EducationItem, LanguageItem, ProjectItem } from '@/types/cv'
 import { emptyCV, newExp, newEdu, newLang, newProj, validateStep } from '@/types/cv'
 import { exampleCVData } from '@/types/example'
 import { supabase } from '@/lib/supabase'
@@ -43,13 +43,19 @@ export const useCVStore = defineStore('cv', () => {
   function closeBuilder() { open.value = false }
 
   // ── Navigation ─────────────────────────────────────
-  function setTemplate(t: TemplateId) { template.value = t }
+  function setTemplate(t: TemplateId) {
+    template.value = t
+
+    if (t === 'academic') {
+      setSettings({ fontFamily: 'EB Garamond' })
+    }
+  }
 
   /** Returns false if current step validation fails */
   function next(): boolean {
     const errs = validateStep(step.value, data.value)
     if (errs.length) return false
-    if (step.value < 6) {
+    if (step.value < 7) {
       step.value = (step.value + 1) as StepId
       if (step.value > maxStep.value) maxStep.value = step.value as StepId
     }
@@ -104,6 +110,22 @@ export const useCVStore = defineStore('cv', () => {
   function setLang(id: string, field: keyof LanguageItem, val: string) {
     const item = data.value.languages.find(l => l.id === id)
     if (item) (item as Record<string, unknown>)[field] = val
+  }
+
+  // ── Settings ───────────────────────────────────────────
+  function setSettings(patch: Partial<CVSettings>) {
+    if (!data.value.settings) {
+      data.value.settings = {
+        themeColor: '#1A56DB',
+        fontFamily: 'Inter',
+        sectionOrder: ['experience', 'education', 'projects', 'skills']
+      }
+    }
+    // 'languages' always renders alongside 'skills' — keep it out of user-controlled order
+    if (patch.sectionOrder) {
+      patch.sectionOrder = patch.sectionOrder.filter(s => s !== 'languages')
+    }
+    Object.assign(data.value.settings, patch)
   }
 
   // ── Reset ──────────────────────────────────────────
@@ -162,6 +184,7 @@ export const useCVStore = defineStore('cv', () => {
     addSkill, rmSkill,
     addLang, rmLang, setLang,
     reset,
-    saveToCloud
+    saveToCloud,
+    setSettings
   }
 })

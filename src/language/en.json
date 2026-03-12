@@ -21,7 +21,8 @@
         "bmacGuestTitle": "Log in to get Premium",
         "bmacGuestDesc": "Thank you so much for supporting us as a guest! But to get the Premium plan and unlimited CV creation, please log in before buying a coffee.",
         "bmacGuestContinue": "Just buy a coffee",
-        "bmacGuestLogin": "Log In"
+        "bmacGuestLogin": "Log In",
+        "getPremium": "Get Premium"
     },
     "langName": "English",
     "langFlag": "🇬🇧",
@@ -186,13 +187,35 @@
         "s5label": "Education",
         "s5desc": "Education",
         "s6label": "Skills",
-        "s6desc": "Skills & Languages"
+        "s6desc": "Skills & Languages",
+        "s7label": "Design",
+        "s7desc": "Color, font & order"
     },
     "templateSelector": {
         "title": "Choose a template",
         "subtitle": "Select the look for your resume",
         "fillExample": "Preview with example data",
-        "premiumLockTitle": "You can edit the entered data, but you need Premium to change the template"
+        "premiumLockTitle": "You can edit the entered data, but you need Premium to change the template",
+        "premiumTitle": "This is a Premium feature",
+        "premiumDesc": "Changing the template for an existing resume is only available on the Premium plan."
+    },
+    "customizer": {
+        "title": "Design Settings",
+        "subtitle": "Personalize your resume. This feature is available for Premium only.",
+        "premiumTitle": "This is a Premium feature",
+        "premiumDesc": "Changing the color, font, and section order is only available on the Premium plan.",
+        "themeColor": "Theme color",
+        "customColor": "Pick a custom color",
+        "fontFamily": "Font family",
+        "sectionOrder": "Section order",
+        "sectionOrderHint": "Drag and drop sections or use the buttons to reorder.",
+        "sections": {
+            "experience": "Work Experience",
+            "education": "Education",
+            "projects": "Projects",
+            "skills": "Skills",
+            "languages": "Languages"
+        }
     },
     "myResumes": {
         "title": "My Resumes",

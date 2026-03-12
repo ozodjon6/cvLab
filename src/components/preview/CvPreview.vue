@@ -5,12 +5,18 @@
       id="cv-preview"
       ref="cvRef"
       class="cv-paper bg-white"
-      :style="[paperStyle, { display: 'flex', flexDirection: 'column' }]"
+      :style="[paperStyle, {
+        display: 'flex',
+        flexDirection: 'column',
+        fontFamily: normalizeFontFamily(settings.fontFamily),
+        '--cv-theme': settings.themeColor,
+        '--cv-font': normalizeFontFamily(settings.fontFamily),
+      }]"
     >
       <!-- ── MODERN ─────────────────────────────────────────── -->
       <template v-if="tpl === 'modern'">
         <!-- Header -->
-        <div style="background:#0A2540;color:#fff;padding:18px 24px;overflow:hidden;">
+        <div :style="{ background: settings.themeColor, color: '#fff', padding: '18px 24px', overflow: 'hidden' }">
           <div style="float:left;margin-right:16px;"><CvAvatar :photo="p.photoUrl" :initials="store.initials" :size="84" /></div>
           <div>
             <div class="font-display font-bold text-[21px]" style="line-height:1.25;word-break:break-word;">{{ fullName }}</div>
@@ -21,7 +27,7 @@
             </div>
           </div>
         </div>
-        <!-- Two-column body -->
+        <!-- Two-column body — Modern keeps fixed layout (sidebar left, main right) -->
         <div style="display:flex;flex:1">
           <div style="width:220px;flex-shrink:0;background:#F7F9FC;border-right:1px solid #E2E8F0;padding:16px 14px">
             <div v-if="p.phone || p.telegram || p.website || p.linkedin || p.github" class="cv-sec mb-3">
@@ -40,17 +46,20 @@
           </div>
           <div style="flex:1;padding:16px 18px;min-width:0">
             <CvAbout :bio="p.bio" />
-            <CvExp   :items="cv.experience" />
-            <CvProj  :items="cv.projects" />
+            <!-- ordered main sections for Modern -->
+            <template v-for="sec in settings.sectionOrder" :key="sec">
+              <CvExp  v-if="sec === 'experience'" :items="cv.experience" />
+              <CvProj v-else-if="sec === 'projects'" :items="cv.projects" />
+            </template>
           </div>
         </div>
       </template>
 
       <!-- ── CLEAN ──────────────────────────────────────────── -->
       <template v-else-if="tpl === 'clean'">
-        <div class="px-7 pt-5 pb-3.5" style="border-bottom:2.5px solid #0A2540">
+        <div class="px-7 pt-5 pb-3.5" :style="{ borderBottom: '2.5px solid ' + settings.themeColor }">
           <div class="font-display font-extrabold text-[22px] tracking-[-1px]" style="line-height:1.3;padding-bottom:2px;word-break:break-word;">{{ fullName }}</div>
-          <div class="text-[12px] mt-0.5" style="color:#1A56DB">{{ p.jobTitle }}</div>
+          <div class="text-[12px] mt-0.5" :style="{ color: settings.themeColor }">{{ p.jobTitle }}</div>
           <div class="flex items-center gap-4 mt-2 flex-wrap">
             <CvContact icon="email" :value="p.email" />
             <CvContact icon="phone" :value="p.phone" />
@@ -63,17 +72,21 @@
         </div>
         <div class="px-7 py-5">
           <CvAbout :bio="p.bio" />
-          <CvExp   :items="cv.experience" />
-          <CvProj  :items="cv.projects" />
-          <CvSkills :skills="cv.skills" />
-          <CvLangs  :langs="cv.languages" />
-          <CvEdu    :items="cv.education" />
+          <template v-for="sec in settings.sectionOrder" :key="sec">
+            <CvExp    v-if="sec === 'experience'" :items="cv.experience" />
+            <CvProj   v-else-if="sec === 'projects'" :items="cv.projects" />
+            <template v-else-if="sec === 'skills'">
+              <CvSkills :skills="cv.skills" />
+              <CvLangs  :langs="cv.languages" />
+            </template>
+            <CvEdu    v-else-if="sec === 'education'" :items="cv.education" />
+          </template>
         </div>
       </template>
 
       <!-- ── BOLD ───────────────────────────────────────────── -->
       <template v-else-if="tpl === 'bold'">
-        <div class="px-7 py-6" style="background:#1A56DB;color:#fff">
+        <div class="px-7 py-6" :style="{ background: settings.themeColor, color: '#fff' }">
           <div class="font-display font-extrabold text-[22px] tracking-[-1px] mb-0.5" style="line-height:1.3;padding-bottom:2px;word-break:break-word;">{{ fullName }}</div>
           <div class="text-[10px] uppercase tracking-[.07em] opacity-65 mb-2.5">{{ p.jobTitle }}</div>
           <div class="flex items-center gap-3 flex-wrap">
@@ -88,11 +101,15 @@
         </div>
         <div class="px-7 py-5">
           <CvAbout :bio="p.bio" />
-          <CvExp   :items="cv.experience" />
-          <CvProj  :items="cv.projects" />
-          <CvSkills :skills="cv.skills" />
-          <CvLangs  :langs="cv.languages" />
-          <CvEdu    :items="cv.education" />
+          <template v-for="sec in settings.sectionOrder" :key="sec">
+            <CvExp    v-if="sec === 'experience'" :items="cv.experience" />
+            <CvProj   v-else-if="sec === 'projects'" :items="cv.projects" />
+            <template v-else-if="sec === 'skills'">
+              <CvSkills :skills="cv.skills" />
+              <CvLangs  :langs="cv.languages" />
+            </template>
+            <CvEdu    v-else-if="sec === 'education'" :items="cv.education" />
+          </template>
         </div>
       </template>
 
@@ -102,7 +119,7 @@
           <CvAvatar :photo="p.photoUrl" :initials="store.initials" :size="84" light />
           <div class="min-w-0">
             <div class="font-display font-bold text-[18px] tracking-[-0.5px]" style="line-height:1.3;padding-bottom:2px;word-break:break-word;">{{ fullName }}</div>
-            <div class="text-[11px] font-medium mt-0.5" style="color:#1A56DB">{{ p.jobTitle }}</div>
+            <div class="text-[11px] font-medium mt-0.5" :style="{ color: settings.themeColor }">{{ p.jobTitle }}</div>
             <div class="flex items-center gap-3 mt-1 flex-wrap">
               <CvContact icon="email" :value="p.email" />
               <CvContact icon="phone" :value="p.phone" />
@@ -116,25 +133,29 @@
         </div>
         <div class="px-7 py-4">
           <CvAbout :bio="p.bio" />
-          <CvExp   :items="cv.experience" />
-          <CvProj  :items="cv.projects" />
-          <CvSkills :skills="cv.skills" />
-          <CvLangs  :langs="cv.languages" />
-          <CvEdu    :items="cv.education" />
+          <template v-for="sec in settings.sectionOrder" :key="sec">
+            <CvExp    v-if="sec === 'experience'" :items="cv.experience" />
+            <CvProj   v-else-if="sec === 'projects'" :items="cv.projects" />
+            <template v-else-if="sec === 'skills'">
+              <CvSkills :skills="cv.skills" />
+              <CvLangs  :langs="cv.languages" />
+            </template>
+            <CvEdu    v-else-if="sec === 'education'" :items="cv.education" />
+          </template>
         </div>
       </template>
 
       <!-- ── ACADEMIC ─────────────────────────────────────────── -->
       <template v-else>
-        <div class="academic-layout px-10 py-8 font-eb-garamond text-black font-medium">
+        <div class="academic-layout px-10 py-8 text-black font-medium">
           <div class="text-center font-medium">
-            <h1 class="uppercase tracking-[1px] mb-1 font-eb-garamond" style="font-size: 28px; line-height: 1.2; padding-bottom: 2px;">{{ fullName }}</h1>
+            <h1 class="uppercase tracking-[1px] mb-1 font-bold" style="font-size: 28px; line-height: 1.2; padding-bottom: 2px;">{{ fullName }}</h1>
             <div style="font-size: 14px; margin-bottom: 3px;" v-if="p.jobTitle || p.city">
               <span v-if="p.jobTitle">{{ p.jobTitle }}</span>
               <span v-if="p.jobTitle && p.city"> | </span>
               <span v-if="p.city">{{ p.city }}</span>
             </div>
-            <div class="flex items-center justify-center font-eb-garamond gap-x-4 gap-y-1 flex-wrap mt-2" style="font-size: 12px;">
+            <div class="flex items-center justify-center gap-x-4 gap-y-1 flex-wrap mt-2" style="font-size: 12px;">
               <CvContact v-if="p.phone" icon="phone" :value="p.phone" />
               <CvContact v-if="p.email" icon="email" :value="p.email" />
               <CvContact v-if="p.linkedin" icon="linkedin" :value="p.linkedin" :href="toUrl(p.linkedin)" />
@@ -146,72 +167,75 @@
 
           <!-- Profile -->
           <div v-if="p.bio" class="mt-4">
-            <h2 class="font-eb-garamond font-bold text-[15px] mb-1 pb-0.5 border-b border-black">{{ t.cv.profile }}</h2>
+            <h2 class="font-bold text-[15px] mb-1 pb-0.5 border-b border-black">{{ t.cv.profile }}</h2>
             <div style="font-size: 12px; line-height: 1.5; margin-top: 4px;" class="rich-text" v-html="p.bio"></div>
           </div>
 
-          <!-- Experience -->
-          <div v-if="cv.experience.filter(e => e.company || e.jobTitle).length" class="mt-4">
-            <h2 class="font-eb-garamond font-bold text-[15px] mb-1" style="border-bottom: 1px solid #000; padding-bottom: 2px;">{{ t.cv.experience }}</h2>
-            <div v-for="e in cv.experience.filter(e => e.company || e.jobTitle)" :key="e.id" style="margin-top: 6px; margin-bottom: 8px;">
-              <div class="flex justify-between items-baseline" style="font-size: 12.5px;">
-                <span class="font-bold">{{ e.company }}</span>
-                <span class="font-bold" style="font-size: 12px;">
-                  {{ formatDate(e.startDate) }}{{ formatDate(e.startDate) && (e.isCurrent || e.endDate) ? ' – ' : '' }}{{ e.isCurrent ? t.cv.present : formatDate(e.endDate) }}
-                </span>
+          <!-- Ordered Sections for Academic -->
+          <template v-for="sec in settings.sectionOrder" :key="sec">
+            <!-- Experience -->
+            <div v-if="sec === 'experience' && cv.experience.filter(e => e.company || e.jobTitle).length" class="mt-4">
+              <h2 class="font-bold text-[15px] mb-1" style="border-bottom: 1px solid #000; padding-bottom: 2px;">{{ t.cv.experience }}</h2>
+              <div v-for="e in cv.experience.filter(e => e.company || e.jobTitle)" :key="e.id" style="margin-top: 6px; margin-bottom: 8px;">
+                <div class="flex justify-between items-baseline" style="font-size: 12.5px;">
+                  <span class="font-bold">{{ e.company }}</span>
+                  <span class="font-bold" style="font-size: 12px;">
+                    {{ formatDate(e.startDate) }}{{ formatDate(e.startDate) && (e.isCurrent || e.endDate) ? ' – ' : '' }}{{ e.isCurrent ? t.cv.present : formatDate(e.endDate) }}
+                  </span>
+                </div>
+                <div class="flex justify-between items-baseline italic" style="font-size: 12px; margin-top: 1px;">
+                  <span>{{ e.jobTitle }}</span>
+                  <span>{{ e.location }}</span>
+                </div>
+                <div v-if="e.description" style="font-size: 12px; line-height: 1.4; margin-top: 3px;" class="rich-text" v-html="e.description"></div>
               </div>
-              <div class="flex justify-between items-baseline italic" style="font-size: 12px; margin-top: 1px;">
-                <span>{{ e.jobTitle }}</span>
-                <span>{{ e.location }}</span>
-              </div>
-              <div v-if="e.description" style="font-size: 12px; line-height: 1.4; margin-top: 3px;" class="rich-text" v-html="e.description"></div>
             </div>
-          </div>
 
-          <!-- Projects -->
-          <div v-if="cv.projects.filter(p => p.name).length" class="mt-4">
-            <h2 class="font-eb-garamond font-bold text-[15px] mb-1" style="border-bottom: 1px solid #000; padding-bottom: 2px;">{{ t.cv.projects }}</h2>
-            <div v-for="proj in cv.projects.filter(p => p.name)" :key="proj.id" style="margin-top: 6px; margin-bottom: 8px;">
-              <div class="flex justify-between items-baseline" style="font-size: 12.5px;">
-                <span class="font-bold">{{ proj.name }} <a v-if="proj.link" :href="toUrl(proj.link)" target="_blank" style="text-decoration:none;font-weight:normal;color:#000;">[Link]</a></span>
-                <span class="font-bold" style="font-size: 12px;">
-                  {{ formatDate(proj.startDate) }}{{ formatDate(proj.startDate) && formatDate(proj.endDate) ? ' – ' : '' }}{{ formatDate(proj.endDate) }}
-                </span>
+            <!-- Projects -->
+            <div v-else-if="sec === 'projects' && cv.projects.filter(p => p.name).length" class="mt-4">
+              <h2 class="font-bold text-[15px] mb-1" style="border-bottom: 1px solid #000; padding-bottom: 2px;">{{ t.cv.projects }}</h2>
+              <div v-for="proj in cv.projects.filter(p => p.name)" :key="proj.id" style="margin-top: 6px; margin-bottom: 8px;">
+                <div class="flex justify-between items-baseline" style="font-size: 12.5px;">
+                  <span class="font-bold">{{ proj.name }} <a v-if="proj.link" :href="toUrl(proj.link)" target="_blank" style="text-decoration:none;font-weight:normal;color:#000;">[Link]</a></span>
+                  <span class="font-bold" style="font-size: 12px;">
+                    {{ formatDate(proj.startDate) }}{{ formatDate(proj.startDate) && formatDate(proj.endDate) ? ' – ' : '' }}{{ formatDate(proj.endDate) }}
+                  </span>
+                </div>
+                <div v-if="proj.description" style="font-size: 12px; line-height: 1.4; margin-top: 3px;" class="rich-text" v-html="proj.description"></div>
               </div>
-              <div v-if="proj.description" style="font-size: 12px; line-height: 1.4; margin-top: 3px;" class="rich-text" v-html="proj.description"></div>
             </div>
-          </div>
 
-          <!-- Technical Skills -->
-          <div v-if="cv.skills.length > 0 || cv.languages.length > 0" class="mt-4">
-            <h2 class="font-bold text-[15px] mb-1" style="border-bottom: 1px solid #000; padding-bottom: 2px;">{{ t.cv.technicalSkills }}</h2>
-            <div style="font-size: 12px; line-height: 1.5; margin-top: 4px;">
-              <div v-if="cv.languages.length" style="margin-bottom: 2px;">
-                <span class="font-bold">{{ t.cv.languages }}:</span> {{ cv.languages.map(l => l.name).join(', ') }}
-              </div>
-              <div v-if="cv.skills.length" style="margin-bottom: 2px;">
-                <span class="font-bold">{{ t.cv.technologiesFrameworks }}:</span> {{ cv.skills.join(', ') }}
+            <!-- Skills + Languages (combined for Academic) -->
+            <div v-else-if="sec === 'skills' && (cv.skills.length > 0 || cv.languages.length > 0)" class="mt-4">
+              <h2 class="font-bold text-[15px] mb-1" style="border-bottom: 1px solid #000; padding-bottom: 2px;">{{ t.cv.technicalSkills }}</h2>
+              <div style="font-size: 12px; line-height: 1.5; margin-top: 4px;">
+                <div v-if="cv.languages.length" style="margin-bottom: 2px;">
+                  <span class="font-bold">{{ t.cv.languages }}:</span> {{ cv.languages.map(l => l.name).join(', ') }}
+                </div>
+                <div v-if="cv.skills.length" style="margin-bottom: 2px;">
+                  <span class="font-bold">{{ t.cv.technologiesFrameworks }}:</span> {{ cv.skills.join(', ') }}
+                </div>
               </div>
             </div>
-          </div>
 
-          <!-- Education -->
-          <div v-if="cv.education.filter(e => e.institution).length" class="mt-4">
-            <h2 class="font-eb-garamond font-bold text-[15px] mb-1" style="border-bottom: 1px solid #000; padding-bottom: 2px;">{{ t.cv.education }}</h2>
-            <div v-for="e in cv.education.filter(e => e.institution)" :key="e.id" style="margin-top: 6px; margin-bottom: 8px;">
-              <div class="flex justify-between items-baseline" style="font-size: 12.5px;">
-                <span class="font-bold">{{ e.institution }}</span>
-                <span class="font-bold" style="font-size: 12px;">
-                  {{ formatDate(e.startDate) }}{{ formatDate(e.startDate) && (e.isCurrent || e.endDate) ? ' – ' : '' }}{{ e.isCurrent ? t.cv.present : formatDate(e.endDate) }}
-                </span>
+            <!-- Education -->
+            <div v-else-if="sec === 'education' && cv.education.filter(e => e.institution).length" class="mt-4">
+              <h2 class="font-bold text-[15px] mb-1" style="border-bottom: 1px solid #000; padding-bottom: 2px;">{{ t.cv.education }}</h2>
+              <div v-for="e in cv.education.filter(e => e.institution)" :key="e.id" style="margin-top: 6px; margin-bottom: 8px;">
+                <div class="flex justify-between items-baseline" style="font-size: 12.5px;">
+                  <span class="font-bold">{{ e.institution }}</span>
+                  <span class="font-bold" style="font-size: 12px;">
+                    {{ formatDate(e.startDate) }}{{ formatDate(e.startDate) && (e.isCurrent || e.endDate) ? ' – ' : '' }}{{ e.isCurrent ? t.cv.present : formatDate(e.endDate) }}
+                  </span>
+                </div>
+                <div class="flex justify-between items-baseline italic" style="font-size: 12px; margin-top: 1px;">
+                  <span>{{ e.degree }}</span>
+                  <span>{{ e.location }}</span>
+                </div>
+                <div v-if="e.notes" style="font-size: 12px; line-height: 1.4; margin-top: 3px;" class="rich-text" v-html="e.notes"></div>
               </div>
-              <div class="flex justify-between items-baseline italic" style="font-size: 12px; margin-top: 1px;">
-                <span>{{ e.degree }}</span>
-                <span>{{ e.location }}</span>
-              </div>
-              <div v-if="e.notes" style="font-size: 12px; line-height: 1.4; margin-top: 3px;" class="rich-text" v-html="e.notes"></div>
             </div>
-          </div>
+          </template>
         </div>
       </template>
 
@@ -245,6 +269,33 @@ const { t } = useLanguage()
 const { template: tpl, currentData: cv, fullName } = storeToRefs(store)
 const p = computed(() => cv.value.personal)
 
+const DEFAULT_ORDER = ['experience', 'education', 'projects', 'skills']
+
+const settings = computed(() => ({
+  themeColor: cv.value.settings?.themeColor ?? '#1A56DB',
+  fontFamily: tpl.value === 'academic' ? 'EB Garamond' : (cv.value.settings?.fontFamily ?? 'Inter'),
+  sectionOrder: (cv.value.settings?.sectionOrder ?? DEFAULT_ORDER).filter(s => s !== 'languages'),
+}))
+
+// Dynamically load Google Fonts when fontFamily changes
+const GOOGLE_FONTS: Record<string, string> = {
+  'EB Garamond': 'EB+Garamond:wght@400;500;600;700;800',
+  'Inter': 'Inter:wght@400;500;600;700',
+  'Roboto': 'Roboto:wght@400;500;700',
+  'Outfit': 'Outfit:wght@400;500;600;700',
+  'Plus Jakarta Sans': 'Plus+Jakarta+Sans:wght@400;500;600;700',
+}
+
+const loadedFonts = new Set<string>()
+watch(() => settings.value.fontFamily, (font) => {
+  if (!GOOGLE_FONTS[font] || loadedFonts.has(font)) return
+  const link = document.createElement('link')
+  link.rel = 'stylesheet'
+  link.href = `https://fonts.googleapis.com/css2?family=${GOOGLE_FONTS[font]}&display=swap`
+  document.head.appendChild(link)
+  loadedFonts.add(font)
+}, { immediate: true })
+
 function toUrl(val: string): string {
   if (!val) return ''
   return val.match(/^https?:\/\//) ? val : `https://${val}`
@@ -252,6 +303,10 @@ function toUrl(val: string): string {
 
 function formatDate(val: string) {
   return fmtDate(val, t.value.months)
+}
+
+function normalizeFontFamily(font: string) {
+  return font.includes(' ') ? `'${font}'` : font
 }
 
 const wrapRef = ref<HTMLElement | null>(null)
