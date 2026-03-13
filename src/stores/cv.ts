@@ -174,13 +174,15 @@ export const useCVStore = defineStore('cv', () => {
         if (res) cloudId.value = res.id
       }
       return true
-    } catch (e) {
-      console.error(e)
+    } catch (e: any) {
+      console.error('Save failed:', e)
+      // Only show alert if NOT a quiet save (autosave is quiet)
+      if (!quiet) alert("Saqlashda xatolik yuz berdi: " + (e.message || "No error message"))
       return false
     } finally {
       isSaving.value = false
     }
-  }
+}
 
   return {
     data, currentData, template, step, maxStep, open, showExample, isSaving, cloudId,

@@ -193,14 +193,13 @@ async function fetchResumes() {
 
     if (error) throw error
     resumes.value = data || []
-    
-    // Set loading to false early so user sees the list while we check limits
     loading.value = false
     
-    // Load plan status in background
+    // Check limits in background
     limitStore.loadPlanStatus()
-  } catch (err) {
+  } catch (err: any) {
     console.error(err)
+    alert("Ma'lumotlarni yuklashda xatolik: " + err.message)
     loading.value = false
   }
 }
@@ -375,4 +374,3 @@ async function createNewStart() {
   }
 }
 </script>
-```

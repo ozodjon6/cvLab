@@ -346,6 +346,11 @@ async function onDownload() {
   const name = fn.toLowerCase().replace(/\s+/g, '_') + '.pdf'
   await pdf.exportPdf('cv-preview', name)
 
+  // Explicitly save to cloud after successful export if user is logged in
+  if (auth.user) {
+    await store.saveToCloud(true)
+  }
+
   store.step = 1
 
   if (auth.user) {
