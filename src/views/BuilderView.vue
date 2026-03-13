@@ -298,7 +298,12 @@ watch(() => store.step, (newStep) => {
 watch(
   () => [auth.user?.id, store.template, store.data],
   () => {
-    if (!auth.user || isInitializing.value || !hasMeaningfulDraft()) return
+    // Only autosave if user is logged in, and NOT initializing
+    if (!auth.user || isInitializing.value) return
+    
+    // Only save if it's already an existing cloud document OR user reached at least Step 3 (post-personal)
+    const canSave = store.cloudId || store.maxStep >= 3
+    if (!canSave || !hasMeaningfulDraft()) return
 
     if (autosaveTimer) clearTimeout(autosaveTimer)
     autosaveTimer = setTimeout(async () => {

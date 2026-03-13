@@ -27,8 +27,24 @@
           </button>
         </div>
 
-        <div v-if="loading" class="flex justify-center py-20">
-          <div class="h-8 w-8 rounded-full border-4 border-gray-200 border-t-blue-brand animate-spin"></div>
+        <!-- Skeleton Loader -->
+        <div v-if="loading" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 animate-pulse">
+          <div v-for="i in 3" :key="i" class="bg-white dark:bg-navy-800 rounded-2xl border border-gray-100 dark:border-gray-700 h-40 flex flex-col">
+            <div class="p-6 flex-1 space-y-3">
+              <div class="h-5 bg-gray-100 dark:bg-navy-900 rounded-lg w-2/3"></div>
+              <div class="flex justify-between">
+                <div class="h-3 bg-gray-50 dark:bg-navy-900 rounded-lg w-1/4"></div>
+                <div class="h-3 bg-gray-50 dark:bg-navy-900 rounded-lg w-1/4"></div>
+              </div>
+            </div>
+            <div class="px-6 py-4 bg-gray-50 dark:bg-navy-900 border-t border-gray-100 dark:border-gray-700 flex justify-between">
+              <div class="h-4 bg-gray-200 dark:bg-navy-700 rounded-lg w-16"></div>
+              <div class="flex gap-2">
+                <div class="h-7 w-12 bg-gray-200 dark:bg-navy-700 rounded-lg"></div>
+                <div class="h-7 w-12 bg-gray-200 dark:bg-navy-700 rounded-lg"></div>
+              </div>
+            </div>
+          </div>
         </div>
 
       <div v-else-if="resumes.length === 0" class="text-center py-20 bg-white dark:bg-navy-800 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm">

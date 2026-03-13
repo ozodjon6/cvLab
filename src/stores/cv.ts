@@ -65,7 +65,15 @@ export const useCVStore = defineStore('cv', () => {
     if (step.value > 1) step.value = (step.value - 1) as StepId
   }
   function goTo(s: StepId) {
-    if (s <= maxStep.value) step.value = s
+    if (s === step.value) return
+    if (s < step.value) {
+      step.value = s
+      return
+    }
+    // Jumping forward: only allowed if current step is valid and s <= maxStep
+    if (s <= maxStep.value && next()) {
+      step.value = s
+    }
   }
 
   // ── Personal ───────────────────────────────────────

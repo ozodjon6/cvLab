@@ -3,9 +3,9 @@
     <template v-for="(s, i) in BUILDER_STEPS" :key="s.id">
       <button
         class="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11.5px] font-semibold
-               transition-all duration-300 whitespace-nowrap shrink-0 cursor-default"
+               transition-all duration-300 whitespace-nowrap shrink-0 cursor-pointer disabled:cursor-not-allowed"
         :class="{
-          'bg-blue-light dark:bg-blue-900/40 text-blue-brand dark:text-blue-400 cursor-pointer': current === s.id,
+          'bg-blue-light dark:bg-blue-900/40 text-blue-brand dark:text-blue-400': current === s.id,
           'text-emerald-500 dark:text-emerald-400': isDone(s.id),
           'text-gray-400 dark:text-gray-500':   !isDone(s.id) && current !== s.id,
         }"

@@ -4,18 +4,33 @@
     <p class="text-xs text-gray-400 dark:text-gray-500 mb-4">{{ t.personalForm.subtitle }}</p>
 
     <!-- Photo -->
-    <div v-if="showPhoto" class="mb-4">
+    <div v-if="showPhoto" class="mb-5">
       <label class="field-label">{{ t.personalForm.photo }}</label>
-      <div class="border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-[10px] p-4 text-center
+      
+      <div v-if="store.data.personal.photoUrl" class="flex items-center gap-4 p-3 bg-gray-50 dark:bg-navy-900/50 rounded-xl border border-gray-100 dark:border-gray-700">
+        <img :src="store.data.personal.photoUrl" class="w-16 h-16 rounded-full object-cover border-2 border-white dark:border-navy-800 shadow-sm" />
+        <div class="flex flex-col gap-1.5">
+          <button @click="fileRef?.click()" class="text-[12px] font-bold text-blue-brand dark:text-blue-400 hover:underline flex items-center gap-1">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 3a2.828 2.828 0 114 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+            {{ t.personalForm.photoChange }}
+          </button>
+          <button @click="store.setPersonal('photoUrl', null)" class="text-[12px] font-bold text-red-500 hover:underline flex items-center gap-1">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+            {{ t.personalForm.photoRemove }}
+          </button>
+        </div>
+        <input ref="fileRef" type="file" accept="image/*" class="hidden" @change="onFile" />
+      </div>
+
+      <div v-else 
+           class="border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-xl p-6 text-center
                   cursor-pointer transition-all duration-200 hover:border-blue-brand dark:hover:border-blue-500 hover:bg-blue-light dark:hover:bg-blue-900/30 relative"
            @click="fileRef?.click()">
         <input ref="fileRef" type="file" accept="image/*" class="hidden" @change="onFile" />
-        <img v-if="store.data.personal.photoUrl" :src="store.data.personal.photoUrl"
-             class="w-14 h-14 rounded-full object-cover mx-auto mb-2 border-2 border-gray-200 dark:border-gray-700" />
-        <template v-else>
-          <div class="text-3xl mb-1">🖼️</div>
-          <div class="text-[11px] text-gray-400 font-medium">{{ t.personalForm.photoUpload }}</div>
-        </template>
+        <div class="w-12 h-12 bg-blue-50 dark:bg-blue-900/40 rounded-full flex items-center justify-center mx-auto mb-2 text-blue-brand dark:text-blue-400">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+        </div>
+        <div class="text-[12px] text-gray-400 font-bold uppercase tracking-wider">{{ t.personalForm.photoUpload }}</div>
       </div>
     </div>
 
