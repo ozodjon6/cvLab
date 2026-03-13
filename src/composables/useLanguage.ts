@@ -18,8 +18,16 @@ function getSavedLang(): LangCode {
         if (saved && (saved === 'uz' || saved === 'ru' || saved === 'en')) {
             return saved
         }
+        
+        // Auto-detect based on browser language
+        const browserLang = navigator.language.toLowerCase()
+        if (browserLang.includes('uz')) return 'uz'
+        if (browserLang.includes('ru')) return 'ru'
+        
+        // Default to English for international users
+        return 'en'
     } catch { }
-    return 'uz'
+    return 'en'
 }
 
 // ── Shared reactive state (singleton) ──
