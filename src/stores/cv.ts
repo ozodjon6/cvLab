@@ -5,6 +5,7 @@ import { emptyCV, newExp, newEdu, newLang, newProj, validateStep } from '@/types
 import { exampleCVData } from '@/types/example'
 import { supabase } from '@/lib/supabase'
 import { useAuthStore } from './auth'
+import { useToast } from '@/composables/useToast'
 
 export const useCVStore = defineStore('cv', () => {
   // ── State ──────────────────────────────────────────
@@ -175,9 +176,10 @@ export const useCVStore = defineStore('cv', () => {
       }
       return true
     } catch (e: any) {
+      const toast = useToast()
       console.error('Save failed:', e)
-      // Only show alert if NOT a quiet save (autosave is quiet)
-      if (!quiet) alert("Saqlashda xatolik yuz berdi: " + (e.message || "No error message"))
+      // Only show toast if NOT a quiet save (autosave is quiet)
+      if (!quiet) toast.error("Saqlashda xatolik yuz berdi: " + (e.message || "No error message"))
       return false
     } finally {
       isSaving.value = false

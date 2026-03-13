@@ -159,10 +159,12 @@ import AppFooter from '@/components/layout/AppFooter.vue'
 import CvPreview from '@/components/preview/CvPreview.vue'
 import { useLanguage } from '@/composables/useLanguage'
 import { usePdfExport } from '@/composables/usePdfExport'
+import { useToast } from '@/composables/useToast'
 import type { CVData, TemplateId } from '@/types/cv'
 
 const router = useRouter()
 const { t } = useLanguage()
+const toast = useToast()
 const pdf = usePdfExport()
 const authStore = useAuthStore()
 const cvStore = useCVStore()
@@ -199,7 +201,7 @@ async function fetchResumes() {
     limitStore.loadPlanStatus()
   } catch (err: any) {
     console.error(err)
-    alert("Ma'lumotlarni yuklashda xatolik: " + err.message)
+    toast.error("Ma'lumotlarni yuklashda xatolik: " + err.message)
     loading.value = false
   }
 }
@@ -269,7 +271,7 @@ async function openResume(item: any) {
     router.push('/builder')
   } catch (err) {
     console.error(err)
-    alert("Rezyumeni yuklashda xatolik yuz berdi.")
+    toast.error("Rezyumeni yuklashda xatolik yuz berdi.")
   } finally {
     isFetching.value = false
   }
@@ -278,7 +280,7 @@ async function openResume(item: any) {
 async function handlePreview(item: any) {
   if (isFetching.value) return
   if (!limitStore.isPremiumPlan) {
-    limitStore.openPremiumAccessDialog()
+    limitStore.openPremiumAccessDialog('feature')
     return
   }
   
@@ -299,7 +301,7 @@ async function handlePreview(item: any) {
     previewItem.value = item
   } catch (err) {
     console.error(err)
-    alert("Rezyumeni yuklashda xatolik yuz berdi.")
+    toast.error("Rezyumeni yuklashda xatolik yuz berdi.")
   } finally {
     isFetching.value = false
   }
@@ -317,7 +319,7 @@ async function onDownloadFromPreview() {
 
 function confirmDelete(item: any) {
   if (!limitStore.isPremiumPlan) {
-    limitStore.openPremiumAccessDialog()
+    limitStore.openPremiumAccessDialog('feature')
     return
   }
   deleteItem.value = item
@@ -346,7 +348,7 @@ async function executeDelete() {
     deleteItem.value = null
   } catch (err) {
     console.error("Xatolik:", err)
-    alert(t.value.myResumes.deleteError)
+    toast.error(t.value.myResumes.deleteError)
   } finally {
     isDeleting.value = false
   }
