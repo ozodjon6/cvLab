@@ -36,26 +36,26 @@
         "signingOut": "Tizimdan chiqilmoqda..."
     },
     "whatsNew": {
-        "versionBadge": "Yangilanish - v2.0",
+        "versionBadge": "Yangilanish - v2.1",
         "title": "Yangi imkoniyatlar",
-        "description": "cvLab hamisha rivojlanmoqda! v2.0 dagi asosiy o'zgarishlar bilan tanishing:",
+        "description": "cvLab hamisha rivojlanmoqda! v2.1 dagi asosiy o'zgarishlar bilan tanishing:",
         "closeBtn": "Ajoyib, tushunarli!",
         "items": {
-            "auth": {
-                "title": "Avtorizatsiya va saqlash",
-                "desc": "Endi rezyumelarni Google orqali bulutli xotiraga umrbod bepul saqlashingiz mumkin."
+            "slug": {
+                "title": "Shaxsiy havola (Slug)",
+                "desc": "Endi rezyumengiz uchun cvlab.uz/r/ismingiz kabi chiroyli va qisqa havola tanlashingiz mumkin."
             },
-            "language": {
-                "title": "Ko'p tillilik",
-                "desc": "Sayt endi to'liq o'zbek, rus va ingliz tillarida ishlaydi."
+            "design": {
+                "title": "Dizayn boshqaruvi",
+                "desc": "Rezyume rangi, shrifti va seksiyalar tartibini o'zgartirish endi yanada qulay va tushunarli."
             },
             "theme": {
-                "title": "Dark va light mode",
-                "desc": "Interfeys uchun dark va light mode qo'shildi, endi siz o'zingizga qulay ko'rinishni tanlaysiz."
+                "title": "Silliq interfeys",
+                "desc": "Dark mode va boshqa interfeys elementlari uchun silliq animatsiyalar qo'shildi."
             },
-            "limit": {
-                "title": "Premium va limitlar",
-                "desc": "Kunlik barqaror limitlar joriy etildi. Cheksiz ishlatish uchun bitta qahva bilan Premium oling."
+            "auth": {
+                "title": "Avtorizatsiya",
+                "desc": "Rezyumelarni Google orqali bulutli xotiraga saqlash va istalgan qurilmada tahrirlash imkoniyati."
             }
         }
     },

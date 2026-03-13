@@ -36,26 +36,26 @@
         "signingOut": "Signing out..."
     },
     "whatsNew": {
-        "versionBadge": "Update - v2.0",
-        "title": "What's new",
-        "description": "cvLab keeps evolving. Here are the main changes in v2.0:",
-        "closeBtn": "Awesome, got it!",
+        "versionBadge": "Release - v2.1",
+        "title": "What's New",
+        "description": "cvLab is always evolving! Check out the main updates in v2.1:",
+        "closeBtn": "Got it, thanks!",
         "items": {
-            "auth": {
-                "title": "Authentication and saving",
-                "desc": "You can now sign in with Google and store your resumes in cloud storage for free."
+            "slug": {
+                "title": "Custom Public Links",
+                "desc": "Now you can choose a clean, professional link for your resume like cvlab.uz/r/yourname."
             },
-            "language": {
-                "title": "Multilingual support",
-                "desc": "The site is now fully available in Uzbek, Russian, and English."
+            "design": {
+                "title": "Design Controls",
+                "desc": "Refined controls for colors, fonts, and section ordering — now more intuitive than ever."
             },
             "theme": {
-                "title": "Dark and light mode",
-                "desc": "Dark and light themes are now available, so you can choose the interface that fits you best."
+                "title": "Smooth UI",
+                "desc": "Modern transitions and ripple effects for theme switching and other UI elements."
             },
-            "limit": {
-                "title": "Premium and limits",
-                "desc": "Stable daily limits are now in place. Buy a coffee to unlock Premium and use it without limits."
+            "auth": {
+                "title": "Cloud Storage",
+                "desc": "Securely save and edit your resumes across any device with Google Cloud integration."
             }
         }
     },
