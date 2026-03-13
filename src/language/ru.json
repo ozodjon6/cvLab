@@ -216,6 +216,10 @@
         "enableLink": "Включить ссылку",
         "copyLink": "Копировать",
         "linkCopied": "Ссылка скопирована!",
+        "checkAvailability": "Проверить",
+        "slugAvailable": "Свободно!",
+        "slugTaken": "Занято, выберите другое",
+        "invalidSlug": "Только буквы, цифры и тире (-)",
         "sections": {
             "experience": "Опыт работы",
             "education": "Образование",

@@ -216,6 +216,10 @@
         "enableLink": "Enable public link",
         "copyLink": "Copy",
         "linkCopied": "Link copied!",
+        "checkAvailability": "Check",
+        "slugAvailable": "Available!",
+        "slugTaken": "Taken, try another",
+        "invalidSlug": "Only letters, numbers and hyphens (-)",
         "sections": {
             "experience": "Work Experience",
             "education": "Education",
