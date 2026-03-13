@@ -51,51 +51,67 @@
           </div>
 
           <!-- Custom Slug Editor (Visible when public) -->
-          <div v-if="isPublic" class="space-y-2">
-             <div class="flex flex-col gap-2 p-3.5 bg-white dark:bg-navy-900 border border-blue-200/50 dark:border-gray-700 rounded-2xl shadow-sm transition-all focus-within:ring-2 focus-within:ring-blue-500/10 focus-within:border-blue-400">
-                <div class="flex items-center gap-2 overflow-hidden">
-                  <div class="flex items-center gap-1 text-gray-400 shrink-0">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
-                    <span class="text-[11px] font-medium">cvlab.uz/r/</span>
-                  </div>
-                  <input 
-                    v-model="editableSlug"
-                    @input="onSlugInput"
-                    placeholder="username"
-                    class="flex-1 bg-transparent border-none p-0 text-[13px] font-bold text-gray-900 dark:text-white focus:ring-0 placeholder:text-gray-300 dark:placeholder:text-gray-700"
-                  />
-                  
-                  <button 
-                    v-if="editableSlug !== currentSlug"
-                    @click="checkAvailability"
-                    :disabled="isChecking || !editableSlug"
-                    class="relative shrink-0 px-3 py-1.5 bg-blue-600 text-white text-[10px] font-bold rounded-lg hover:bg-blue-700 transition-all disabled:opacity-50 min-w-[70px] flex items-center justify-center overflow-hidden"
-                  >
-                    <span v-if="!isChecking">{{ t.customizer.checkAvailability }}</span>
-                    <div v-else class="flex gap-1">
-                      <span class="w-1.5 h-1.5 bg-white rounded-full animate-bounce"></span>
-                      <span class="w-1.5 h-1.5 bg-white rounded-full animate-bounce [animation-delay:0.2s]"></span>
-                      <span class="w-1.5 h-1.5 bg-white rounded-full animate-bounce [animation-delay:0.4s]"></span>
+          <div v-if="isPublic" class="space-y-3">
+             <div class="p-4 bg-white dark:bg-navy-900 border border-blue-200/50 dark:border-gray-700 rounded-2xl shadow-sm transition-all focus-within:shadow-md">
+                <p class="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2.5 px-1">{{ t.customizer.publicLink }}</p>
+                
+                <div class="flex flex-col gap-2">
+                  <div class="flex items-center gap-2 p-1.5 bg-gray-50 dark:bg-navy-950 border-2 border-transparent focus-within:border-blue-500/30 focus-within:bg-white dark:focus-within:bg-navy-900 rounded-xl transition-all shadow-inner overflow-hidden">
+                    <!-- Prefix (Link Icon + Text) -->
+                    <div class="flex items-center gap-1.5 px-2 py-1.5 bg-white dark:bg-navy-800 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700 shrink-0">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" class="text-blue-500"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+                      <span class="text-[10px] font-bold text-gray-400 tracking-tight">/r/</span>
                     </div>
-                  </button>
+                    
+                    <!-- Input -->
+                    <input 
+                      v-model="editableSlug"
+                      @input="onSlugInput"
+                      placeholder="your-name"
+                      class="min-w-0 flex-1 bg-transparent border-none p-0 px-1 text-[13.5px] font-bold text-gray-900 dark:text-white focus:ring-0 placeholder:text-gray-300 dark:placeholder:text-gray-700"
+                    />
+                    
+                    <!-- Action Button (Check or Copy) -->
+                    <div class="shrink-0 flex items-center gap-1 pr-0.5">
+                      <button 
+                        v-if="editableSlug !== currentSlug"
+                        @click="checkAvailability"
+                        :disabled="isChecking || !editableSlug"
+                        class="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-[10px] font-bold rounded-lg transition-all shadow-md active:scale-95 disabled:opacity-50 h-8 flex items-center justify-center min-w-[70px]"
+                      >
+                        <span v-if="!isChecking">{{ t.customizer.checkAvailability }}</span>
+                        <div v-else class="flex gap-1">
+                          <span class="w-1.5 h-1.5 bg-white rounded-full animate-bounce [animation-duration:0.6s]"></span>
+                          <span class="w-1.5 h-1.5 bg-white rounded-full animate-bounce [animation-duration:0.6s] [animation-delay:0.15s]"></span>
+                          <span class="w-1.5 h-1.5 bg-white rounded-full animate-bounce [animation-duration:0.6s] [animation-delay:0.3s]"></span>
+                        </div>
+                      </button>
 
-                  <button 
-                    v-else
-                    @click="copyPublicLink"
-                    class="shrink-0 w-8 h-8 rounded-lg flex items-center justify-center text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/40 transition-colors"
-                  >
-                    <svg v-if="!isCopied" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-                    <svg v-else width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" class="text-green-500 animate-in zoom-in duration-300"><path d="M20 6L9 17l-5-5"/></svg>
-                  </button>
+                      <button 
+                        v-else
+                        @click="copyPublicLink"
+                        class="w-8 h-8 rounded-lg flex items-center justify-center text-blue-500 hover:bg-white dark:hover:bg-navy-800 shadow-sm border border-transparent hover:border-gray-100 dark:hover:border-gray-700 transition-all shrink-0"
+                      >
+                        <svg v-if="!isCopied" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                        <svg v-else width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" class="text-green-500 animate-in zoom-in duration-300"><path d="M20 6L9 17l-5-5"/></svg>
+                      </button>
+                    </div>
+                  </div>
+                  
+                  <!-- Full Path Preview (Tiny) -->
+                  <div class="px-1 flex items-center gap-1.5">
+                    <span class="text-[9.5px] text-gray-400 font-medium">Full URL:</span>
+                    <span class="text-[9.5px] text-blue-500/70 font-bold truncate">cvlab.uz/r/{{ editableSlug || '...' }}</span>
+                  </div>
                 </div>
                 
                 <!-- Status Message -->
-                <div v-if="slugStatus !== 'idle'" class="flex items-center gap-1.5 mt-1 px-1 slide-in-from-top-1 animate-in duration-200">
-                  <div class="h-1 w-1 rounded-full" :class="{
+                <div v-if="slugStatus !== 'idle'" class="flex items-center gap-1.5 mt-2.5 px-1 slide-in-from-top-1 animate-in duration-200">
+                  <div class="h-1.5 w-1.5 rounded-full animate-pulse" :class="{
                     'bg-green-500': slugStatus === 'available',
                     'bg-red-500': slugStatus === 'taken' || slugStatus === 'invalid'
                   }"></div>
-                  <p class="text-[10px] font-semibold" :class="{
+                  <p class="text-[10px] font-bold" :class="{
                     'text-green-600 dark:text-green-400': slugStatus === 'available',
                     'text-red-500': slugStatus === 'taken' || slugStatus === 'invalid'
                   }">

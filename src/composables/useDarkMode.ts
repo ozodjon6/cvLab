@@ -12,12 +12,12 @@ const isDark = useDark({
 const toggleDark = useToggle(isDark)
 
 export function useDarkMode() {
-  const { runPageTransition } = usePageTransition()
+  const { runThemeTransition } = usePageTransition()
 
-  function toggleDarkWithTransition() {
-    runPageTransition(() => {
+  function toggleDarkWithTransition(event?: MouseEvent) {
+    runThemeTransition(() => {
       toggleDark()
-    })
+    }, event)
   }
 
   return { isDark, toggleDark, toggleDarkWithTransition }

@@ -2,12 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ── View Transitions (Daryo.uz style) ── */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
 @layer base {
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; font-family: 'Plus Jakarta Sans', sans-serif;}
   body {
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    @apply text-navy-800 bg-gray-50 antialiased transition-colors duration-300;
+    @apply text-navy-800 bg-gray-50 antialiased;
     @apply dark:bg-navy-900 dark:text-gray-100;
+    transition: background-color 0.4s ease, color 0.4s ease;
   }
 }
 

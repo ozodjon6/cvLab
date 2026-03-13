@@ -2,7 +2,7 @@
   <button
     class="theme-toggle"
     :class="{ 'theme-toggle--dark': isDark }"
-    @click="toggleDarkWithTransition()"
+    @click="toggleDarkWithTransition($event)"
     aria-label="Toggle Dark Mode"
   >
     <!-- Sun icon (left side) -->
