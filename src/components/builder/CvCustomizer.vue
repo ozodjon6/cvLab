@@ -91,30 +91,34 @@
                         class="min-w-0 flex-1 bg-transparent border-none p-0 px-4 text-[14px] font-bold text-gray-900 dark:text-white focus:ring-0 placeholder:text-gray-300 dark:placeholder:text-gray-600 h-full"
                       />
 
-                      <!-- Right Side Actions -->
-                      <div class="flex border-l items-center h-full cursor-pointer">
-                        <!-- Check Available Button -->
-                        <button
-                          v-if="editableSlug !== currentSlug"
-                          @click.stop="checkAvailability"
-                          :disabled="isChecking || !editableSlug"
-                          class="px-5 h-full bg-blue-600 hover:bg-blue-700 text-white text-[10px] font-black rounded-xl transition-all shadow-lg shadow-blue-600/20 active:scale-95 disabled:opacity-50 flex items-center justify-center min-w-[90px]"
-                        >
-                          <span v-if="!isChecking">{{ t.customizer.checkAvailability }}</span>
-                          <div v-else class="flex gap-1.5">
-                            <span class="w-1.5 h-1.5 bg-white rounded-full animate-bounce [animation-duration:0.6s]"></span>
-                            <span class="w-1.5 h-1.5 bg-white rounded-full animate-bounce [animation-duration:0.6s] [animation-delay:0.15s]"></span>
-                            <span class="w-1.5 h-1.5 bg-white rounded-full animate-bounce [animation-duration:0.6s] [animation-delay:0.3s]"></span>
-                          </div>
-                        </button>
+                      <!-- Right Side Actions (Fixed Width to prevent jumping) -->
+                      <div class="flex items-center justify-center w-14 h-full border-l border-gray-100 dark:border-gray-800 bg-gray-50/30 dark:bg-navy-900/30 cursor-pointer">
+                        <transition name="scale-fade" mode="out-in">
+                          <!-- Check Availability Icon Button (Visible when modified) -->
+                          <button
+                            v-if="editableSlug !== currentSlug"
+                            key="check"
+                            @click.stop="checkAvailability"
+                            :disabled="isChecking || !editableSlug"
+                            class="w-9 h-9 flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow-lg shadow-blue-600/30 transition-all active:scale-90 disabled:opacity-50"
+                            :title="t.customizer.checkAvailability"
+                          >
+                            <svg v-if="!isChecking" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                            <div v-else class="flex gap-1">
+                              <span class="w-1 h-1 bg-white rounded-full animate-bounce"></span>
+                              <span class="w-1 h-1 bg-white rounded-full animate-bounce [animation-delay:0.2s]"></span>
+                            </div>
+                          </button>
 
-                        <!-- Subtle Edit Hint (Static Mode) -->
-                        <div
-                          v-else
-                          class="w-9 h-9 flex items-center justify-center text-gray-300 group-hover/slug-input:text-blue-600/90 group-focus-within/slug-input:text-blue-500 transition-colors"
-                        >
-                          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 113 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-                        </div>
+                          <!-- Static Edit Icon (Visible when unchanged) -->
+                          <div
+                            v-else
+                            key="edit"
+                            class="w-9 h-9 flex items-center justify-center text-gray-400 group-hover/slug-input:text-blue-500 transition-colors"
+                          >
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 113 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                          </div>
+                        </transition>
                       </div>
                     </div>
                   </div>
@@ -390,10 +394,12 @@ const FONT_OPTIONS = [
   { value: 'Plus Jakarta Sans', label: 'Jakarta Sans', sampleText: 'Abc 123' },
 ]
 </script>
-
-<style scoped>
-.custom-scrollbar::-webkit-scrollbar { width: 4px; }
-.custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-.custom-scrollbar::-webkit-scrollbar-thumb { background: #E2E8F0; border-radius: 10px; }
-.dark .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; }
+<style scoped lang="css">
+.scale-fade-enter-active, .scale-fade-leave-active {
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.scale-fade-enter-from, .scale-fade-leave-to {
+  opacity: 0;
+  transform: scale(0.8) rotate(-10deg);
+}
 </style>
