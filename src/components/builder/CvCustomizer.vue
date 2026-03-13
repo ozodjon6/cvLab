@@ -17,7 +17,7 @@
           <p class="text-[11px] text-amber-800/70 dark:text-amber-400/70 leading-relaxed mb-3">
             {{ t.customizer.premiumDesc }}
           </p>
-          <button @click="limitStore.openPremiumAccessDialog()" class="px-4 py-1.5 bg-amber-500 hover:bg-amber-600 text-white text-[11px] font-bold rounded-lg transition-colors shadow-sm">
+          <button @click="limitStore.openPremiumAccessDialog('feature')" class="px-4 py-1.5 bg-amber-500 hover:bg-amber-600 text-white text-[11px] font-bold rounded-lg transition-colors shadow-sm">
             {{ t.limit.getPremium }}
           </button>
         </div>
@@ -27,7 +27,7 @@
     <!-- Content (No blur, just click tracking) -->
     <div 
       class="flex-1 overflow-y-auto pr-1 custom-scrollbar space-y-8"
-      @click.capture="isLocked ? (limitStore.openPremiumAccessDialog(), $event.stopPropagation()) : null"
+      @click.capture="isLocked ? (limitStore.openPremiumAccessDialog('feature'), $event.stopPropagation()) : null"
     >
       <!-- ── Public Link (Premium Feature) ── -->
       <div class="p-4 bg-blue-50/50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800/50 rounded-2xl relative group overflow-hidden">

@@ -25,9 +25,11 @@
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                 </svg>
               </div>
-              <h3 class="text-xl font-display font-bold text-gray-900 dark:text-white mb-2">{{ t.limit.premiumTitle }}</h3>
+              <h3 class="text-xl font-display font-bold text-gray-900 dark:text-white mb-2">
+                {{ limitStore.premiumDialogVariant === 'feature' ? t.limit.designPremiumTitle : t.limit.premiumTitle }}
+              </h3>
               <p class="text-[13px] text-gray-500 dark:text-gray-400 mb-4 leading-relaxed">
-                {{ t.limit.premiumDesc }}
+                {{ limitStore.premiumDialogVariant === 'feature' ? t.limit.designPremiumDesc : t.limit.premiumDesc }}
               </p>
 
               <div class="flex flex-col items-center justify-center mt-2 p-4 bg-gray-50 dark:bg-navy-900/40 rounded-xl border border-gray-100 dark:border-gray-700 mb-5">

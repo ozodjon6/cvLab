@@ -10,6 +10,7 @@ export const useLimitStore = defineStore('limit', () => {
     const showGuestDialog = ref(false)
     const showPremiumDialog = ref(false)
     const guestDialogVariant = ref<'limit' | 'premium'>('limit')
+    const premiumDialogVariant = ref<'limit' | 'feature'>('limit')
     const isVerifying = ref(false)
     const availableLimit = ref<number | null>(null)
     const isPremiumPlan = ref(false)
@@ -163,14 +164,20 @@ export const useLimitStore = defineStore('limit', () => {
 
                         // Agar oxirgi CV yaratilganiga 24 soat to'lmagan bo'lsa - O'TKAZMAYMIZ (LimitDialog)
                         if (diffInHours < 24) {
-                            if (!silent) showPremiumDialog.value = true
+                            if (!silent) {
+                                premiumDialogVariant.value = 'limit'
+                                showPremiumDialog.value = true
+                            }
                             return false
                         }
                         
                         // DIQQAT: Agar 24 soat o'tgan bo'lsa u bemalol yaratishda davom etaveradi (pastga o'tib true qaytaradi)
                     } else {
                          // Garchi sanasi xato bo'lsayu count >= 2 bo'lsa ham yopamiz (xavfsizlik uchun)
-                         if (!silent) showPremiumDialog.value = true
+                         if (!silent) {
+                             premiumDialogVariant.value = 'limit'
+                             showPremiumDialog.value = true
+                         }
                          return false
                     }
                 }
@@ -213,11 +220,11 @@ export const useLimitStore = defineStore('limit', () => {
         showGuestDialog.value = true
     }
 
-    function openPremiumAccessDialog() {
+    function openPremiumAccessDialog(variant: 'limit' | 'feature' = 'limit') {
         if (authStore.user) {
             showGuestDialog.value = false
+            premiumDialogVariant.value = variant
             showPremiumDialog.value = true
-            guestDialogVariant.value = 'limit'
             return
         }
 
@@ -252,6 +259,7 @@ export const useLimitStore = defineStore('limit', () => {
         showGuestDialog,
         showPremiumDialog,
         guestDialogVariant,
+        premiumDialogVariant,
         isVerifying,
         availableLimit,
         isPremiumPlan,

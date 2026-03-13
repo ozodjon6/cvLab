@@ -21,7 +21,7 @@
       <div
         v-if="isLockedForFree"
         class="absolute inset-0 z-20 cursor-pointer rounded-xl flex flex-col items-center justify-center gap-3 bg-white/60 dark:bg-navy-900/60 backdrop-blur-[2px]"
-        @click="limitStore.openPremiumAccessDialog()"
+        @click="limitStore.openPremiumAccessDialog('feature')"
         :title="t.templateSelector.premiumLockTitle"
       >
         <div class="w-12 h-12 rounded-full bg-blue-50 dark:bg-blue-900/40 flex items-center justify-center text-blue-brand dark:text-blue-400">
