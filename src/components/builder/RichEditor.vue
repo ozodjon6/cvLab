@@ -133,15 +133,20 @@ function emitValue() {
   pointer-events: none;
 }
 /* Basic list styles for editor content */
-:deep(.editor-content ul) {
-  list-style-type: disc;
-  margin-left: 1.5rem;
+.editor-content ul {
+  list-style-type: disc !important;
+  margin-left: 1.5rem !important;
+  display: block !important;
 }
-:deep(.editor-content ol) {
-  list-style-type: decimal;
-  margin-left: 1.5rem;
+.editor-content ol {
+  list-style-type: decimal !important;
+  margin-left: 1.5rem !important;
+  display: block !important;
 }
-:deep(.editor-content *) {
+.editor-content li {
+  display: list-item !important;
+}
+.editor-content * {
   font-family: inherit !important;
   color: inherit !important;
   background-color: transparent !important;

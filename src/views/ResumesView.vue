@@ -243,7 +243,7 @@ function openResume(item: any) {
 
   // Set the step safely to show the loaded data
   cvStore.step = 1
-  cvStore.maxStep = 6
+  cvStore.maxStep = 7
 
   router.push('/builder')
 }
