@@ -25,7 +25,7 @@
     </div>
 
     <!-- Content (No blur, just click tracking) -->
-    <div 
+    <div
       class="flex-1 overflow-y-auto pr-1 custom-scrollbar space-y-8"
       @click.capture="isLocked ? (limitStore.openPremiumAccessDialog('feature'), $event.stopPropagation()) : null"
     >
@@ -36,13 +36,13 @@
           <span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-400 uppercase tracking-wider">Premium</span>
         </div>
         <p class="text-[11px] text-gray-500 dark:text-gray-400 mb-4">{{ t.customizer.publicLinkDesc }}</p>
-        
+
         <div class="space-y-3">
           <!-- Toggle Link -->
           <div class="flex items-center justify-between p-3 bg-white dark:bg-navy-900 border border-blue-200/50 dark:border-gray-700 rounded-xl shadow-sm">
             <span class="text-[12.5px] font-semibold text-gray-700 dark:text-gray-300">{{ t.customizer.enableLink }}</span>
-            <button 
-              @click="togglePublic" 
+            <button
+              @click="togglePublic"
               class="relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none"
               :class="isPublic ? 'bg-blue-brand' : 'bg-gray-200 dark:bg-gray-700'"
             >
@@ -54,7 +54,7 @@
           <div v-if="isPublic" class="space-y-3">
              <div class="p-4 bg-white dark:bg-navy-900 border border-blue-200/50 dark:border-gray-700 rounded-2xl shadow-sm transition-all focus-within:shadow-md">
                 <p class="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2.5 px-1">{{ t.customizer.publicLink }}</p>
-                
+
                   <div class="flex flex-col gap-3">
                     <!-- URL Preview with Copy -->
                     <div class="flex items-center justify-between gap-3 p-2 px-3 bg-blue-50/50 dark:bg-blue-900/20 rounded-xl border border-blue-100/50 dark:border-blue-800/30">
@@ -62,7 +62,7 @@
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-blue-500 shrink-0"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
                         <span class="text-[11px] text-blue-600 dark:text-blue-400 font-bold truncate">cvlab.uz/r/{{ currentSlug }}</span>
                       </div>
-                      <button 
+                      <button
                         @click="copyPublicLink"
                         class="shrink-0 flex items-center gap-1.5 px-2 py-1 bg-white dark:bg-navy-800 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-navy-700 transition-all active:scale-95"
                       >
@@ -72,49 +72,53 @@
                       </button>
                     </div>
 
-                    <!-- Slug Input -->
-                    <div class="space-y-1.5">
-                      <div class="flex items-center gap-2 p-1 bg-gray-50 dark:bg-navy-950 border-2 border-transparent focus-within:border-blue-500/30 focus-within:bg-white dark:focus-within:bg-navy-900 rounded-xl transition-all shadow-inner overflow-hidden">
-                        <div class="flex items-center gap-1 px-2.5 py-1.5 bg-white dark:bg-navy-800 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700 shrink-0">
-                          <span class="text-[10px] font-bold text-gray-400 tracking-tight">/r/</span>
-                        </div>
-                        
-                        <input 
-                          ref="slugInputRef"
-                          v-model="editableSlug"
-                          @input="onSlugInput"
-                          placeholder="your-name"
-                          class="min-w-0 flex-1 bg-transparent border-none p-0 px-1 text-[13.5px] font-bold text-gray-900 dark:text-white focus:ring-0 placeholder:text-gray-300 dark:placeholder:text-gray-700"
-                        />
-                        
-                        <!-- Action Icon or Button -->
-                        <div class="shrink-0 flex items-center pr-1">
-                          <button 
-                            v-if="editableSlug !== currentSlug"
-                            @click="checkAvailability"
-                            :disabled="isChecking || !editableSlug"
-                            class="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-[10px] font-bold rounded-lg transition-all shadow-md active:scale-95 disabled:opacity-50 h-8 flex items-center justify-center min-w-[70px]"
-                          >
-                            <span v-if="!isChecking">{{ t.customizer.checkAvailability }}</span>
-                            <div v-else class="flex gap-1">
-                              <span class="w-1.5 h-1.5 bg-white rounded-full animate-bounce [animation-duration:0.6s]"></span>
-                              <span class="w-1.5 h-1.5 bg-white rounded-full animate-bounce [animation-duration:0.6s] [animation-delay:0.15s]"></span>
-                              <span class="w-1.5 h-1.5 bg-white rounded-full animate-bounce [animation-duration:0.6s] [animation-delay:0.3s]"></span>
-                            </div>
-                          </button>
+                    <!-- Unified, Premium Input Bar -->
+                    <div
+                      class="group/slug-input flex items-center h-12 bg-gray-50/50 dark:bg-navy-950/50 border-2 border-gray-100 dark:border-gray-800 focus-within:border-blue-500/40 focus-within:bg-white dark:focus-within:bg-navy-900 focus-within:ring-4 focus-within:ring-blue-500/5 rounded-2xl transition-all overflow-hidden cursor-text"
+                      @click="slugInputRef?.focus()"
+                    >
+                      <!-- Prefix Area -->
+                      <div class="px-4 flex items-center h-full bg-gray-100/50 dark:bg-navy-900/50 border-r border-gray-100 dark:border-gray-800 select-none">
+                        <span class="text-[12px] font-black text-gray-400 dark:text-gray-500 tracking-tight transition-colors group-focus-within/slug-input:text-blue-500/70">/r/</span>
+                      </div>
 
-                          <button 
-                            v-else
-                            @click="slugInputRef?.focus()"
-                            class="w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 hover:text-blue-500 hover:bg-white dark:hover:bg-navy-800 transition-all shrink-0"
-                          >
-                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 113 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-                          </button>
+                      <!-- Input Field -->
+                      <input
+                        ref="slugInputRef"
+                        v-model="editableSlug"
+                        @input="onSlugInput"
+                        placeholder="your-custom-link"
+                        class="min-w-0 flex-1 bg-transparent border-none p-0 px-4 text-[14px] font-bold text-gray-900 dark:text-white focus:ring-0 placeholder:text-gray-300 dark:placeholder:text-gray-600 h-full"
+                      />
+
+                      <!-- Right Side Actions -->
+                      <div class="flex border-l items-center h-full cursor-pointer">
+                        <!-- Check Available Button -->
+                        <button
+                          v-if="editableSlug !== currentSlug"
+                          @click.stop="checkAvailability"
+                          :disabled="isChecking || !editableSlug"
+                          class="px-5 h-full bg-blue-600 hover:bg-blue-700 text-white text-[10px] font-black rounded-xl transition-all shadow-lg shadow-blue-600/20 active:scale-95 disabled:opacity-50 flex items-center justify-center min-w-[90px]"
+                        >
+                          <span v-if="!isChecking">{{ t.customizer.checkAvailability }}</span>
+                          <div v-else class="flex gap-1.5">
+                            <span class="w-1.5 h-1.5 bg-white rounded-full animate-bounce [animation-duration:0.6s]"></span>
+                            <span class="w-1.5 h-1.5 bg-white rounded-full animate-bounce [animation-duration:0.6s] [animation-delay:0.15s]"></span>
+                            <span class="w-1.5 h-1.5 bg-white rounded-full animate-bounce [animation-duration:0.6s] [animation-delay:0.3s]"></span>
+                          </div>
+                        </button>
+
+                        <!-- Subtle Edit Hint (Static Mode) -->
+                        <div
+                          v-else
+                          class="w-9 h-9 flex items-center justify-center text-gray-300 group-hover/slug-input:text-blue-600/90 group-focus-within/slug-input:text-blue-500 transition-colors"
+                        >
+                          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 113 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
                         </div>
                       </div>
                     </div>
                   </div>
-                
+
                 <!-- Status Message -->
                 <div v-if="slugStatus !== 'idle'" class="flex items-center gap-1.5 mt-2.5 px-1 slide-in-from-top-1 animate-in duration-200">
                   <div class="h-1.5 w-1.5 rounded-full animate-pulse" :class="{
@@ -125,10 +129,10 @@
                     'text-green-600 dark:text-green-400': slugStatus === 'available',
                     'text-red-500': slugStatus === 'taken' || slugStatus === 'invalid'
                   }">
-                    {{ 
-                      slugStatus === 'available' ? t.customizer.slugAvailable : 
-                      slugStatus === 'taken' ? t.customizer.slugTaken : 
-                      slugStatus === 'invalid' ? t.customizer.invalidSlug : '' 
+                    {{
+                      slugStatus === 'available' ? t.customizer.slugAvailable :
+                      slugStatus === 'taken' ? t.customizer.slugTaken :
+                      slugStatus === 'invalid' ? t.customizer.invalidSlug : ''
                     }}
                   </p>
                 </div>
@@ -153,7 +157,7 @@
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4"><path d="M20 6L9 17l-5-5"/></svg>
             </span>
           </button>
-          
+
           <div class="relative group w-full aspect-square rounded-xl border-2 border-transparent">
              <input
               type="color"
@@ -197,7 +201,7 @@
       <div class="space-y-4">
         <p class="text-[11px] font-bold uppercase tracking-[.1em] text-gray-400 dark:text-gray-500">{{ t.customizer.sectionOrder }}</p>
         <p class="text-[11px] text-gray-400 mb-2">{{ t.customizer.sectionOrderHint }}</p>
-        
+
         <div class="space-y-2">
           <div
             v-for="(sec, idx) in localSectionOrder"
@@ -267,7 +271,7 @@ function onSlugInput() {
 async function checkAvailability() {
   const slug = editableSlug.value.trim()
   if (!slug) return
-  
+
   if (slug.length < 3) {
     slugStatus.value = 'invalid'
     return
@@ -275,7 +279,7 @@ async function checkAvailability() {
 
   isChecking.value = true
   slugStatus.value = 'loading'
-  
+
   try {
     // Check in Supabase
     const { data: existing, error } = await supabase

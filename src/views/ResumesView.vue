@@ -137,6 +137,10 @@
           </div>
         </div>
       </div>
+      <!-- Background Loading Overlay -->
+      <div v-if="isFetching" class="fixed inset-0 z-[2000] flex items-center justify-center bg-white/40 dark:bg-navy-900/40 backdrop-blur-[1px]">
+        <div class="h-10 w-10 rounded-full border-4 border-gray-200 border-t-blue-brand animate-spin"></div>
+      </div>
       </template>
     </main>
     <AppFooter class="mt-auto" v-if="authStore.user" />
@@ -183,17 +187,20 @@ async function fetchResumes() {
   try {
     const { data, error } = await supabase
       .from('resumes')
-      .select('id, title, template, updated_at, data')
+      .select('id, title, template, updated_at')
       .eq('user_id', authStore.user.id)
       .order('updated_at', { ascending: false })
 
     if (error) throw error
     resumes.value = data || []
-
-    await limitStore.loadPlanStatus()
+    
+    // Set loading to false early so user sees the list while we check limits
+    loading.value = false
+    
+    // Load plan status in background
+    limitStore.loadPlanStatus()
   } catch (err) {
     console.error(err)
-  } finally {
     loading.value = false
   }
 }
@@ -236,47 +243,67 @@ function formatDate(dateString: string) {
   return new Intl.DateTimeFormat('uz-UZ', { day: '2-digit', month: '2-digit', year: 'numeric' }).format(date)
 }
 
-function openResume(item: any) {
-  cvStore.data = item.data as CVData
-  cvStore.template = item.template as TemplateId
-  cvStore.cloudId = item.id
+const isFetching = ref(false)
 
-  // Set the step safely to show the loaded data
-  cvStore.step = 1
-  cvStore.maxStep = 7
-
-  router.push('/builder')
-}
-
-async function createNew() {
-  isChecking.value = true
+async function openResume(item: any) {
+  if (isFetching.value) return
+  isFetching.value = true
   try {
-    cvStore.reset()
+    const { data, error } = await supabase
+      .from('resumes')
+      .select('data')
+      .eq('id', item.id)
+      .single()
+
+    if (error) throw error
+    if (!data?.data) throw new Error("Ma'lumot topilmadi")
+    
+    // Set data to store
+    cvStore.data = data.data as CVData
+    cvStore.template = item.template as TemplateId
+    cvStore.cloudId = item.id
+
+    // Set the step safely to show the loaded data
+    cvStore.step = 1
+    cvStore.maxStep = 7
+
     router.push('/builder')
+  } catch (err) {
+    console.error(err)
+    alert("Rezyumeni yuklashda xatolik yuz berdi.")
   } finally {
-    isChecking.value = false
+    isFetching.value = false
   }
 }
 
-async function createNewStart() {
-  isCheckingStart.value = true
-  try {
-    cvStore.reset()
-    router.push('/builder')
-  } finally {
-    isCheckingStart.value = false
-  }
-}
-
-function handlePreview(item: any) {
+async function handlePreview(item: any) {
+  if (isFetching.value) return
   if (!limitStore.isPremiumPlan) {
     limitStore.openPremiumAccessDialog()
     return
   }
-  cvStore.data = item.data as CVData
-  cvStore.template = item.template as TemplateId
-  cvStore.cloudId = item.id
-  previewItem.value = item
+  
+  isFetching.value = true
+  try {
+    const { data, error } = await supabase
+      .from('resumes')
+      .select('data')
+      .eq('id', item.id)
+      .single()
+
+    if (error) throw error
+    if (!data?.data) throw new Error("Ma'lumot topilmadi")
+    
+    cvStore.data = data.data as CVData
+    cvStore.template = item.template as TemplateId
+    cvStore.cloudId = item.id
+    previewItem.value = item
+  } catch (err) {
+    console.error(err)
+    alert("Rezyumeni yuklashda xatolik yuz berdi.")
+  } finally {
+    isFetching.value = false
+  }
 }
 
 function closePreview() {
@@ -303,13 +330,14 @@ function closeDeleteModal() {
 }
 
 async function executeDelete() {
-  if (!deleteItem.value) return
+  if (!deleteItem.value || isDeleting.value) return
   isDeleting.value = true
 
   try {
     const item = deleteItem.value
     const { error } = await supabase.from('resumes').delete().eq('id', item.id)
     if (error) throw error
+    
     resumes.value = resumes.value.filter(r => r.id !== item.id)
 
     // If the deleted resume was currently loaded in store, reset it
@@ -322,6 +350,28 @@ async function executeDelete() {
     alert(t.value.myResumes.deleteError)
   } finally {
     isDeleting.value = false
+  }
+}
+
+async function createNew() {
+  if (isChecking.value) return
+  isChecking.value = true
+  try {
+    cvStore.reset()
+    router.push('/builder')
+  } finally {
+    isChecking.value = false
+  }
+}
+
+async function createNewStart() {
+  if (isCheckingStart.value) return
+  isCheckingStart.value = true
+  try {
+    cvStore.reset()
+    router.push('/builder')
+  } finally {
+    isCheckingStart.value = false
   }
 }
 </script>
