@@ -214,6 +214,10 @@
         "enableLink": "Havolani yoqish",
         "copyLink": "Nusxalash",
         "linkCopied": "Havola nusxalandi!",
+        "checkAvailability": "Tekshirish",
+        "slugAvailable": "Bu nom bo'sh!",
+        "slugTaken": "Bu nom band, boshqasini sinab ko'ring",
+        "invalidSlug": "Faqat harf, raqam va chiziqcha (-) mumkin",
         "sections": {
             "experience": "Ish tajribasi",
             "education": "Ta'lim",

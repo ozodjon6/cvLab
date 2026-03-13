@@ -38,6 +38,7 @@
         <p class="text-[11px] text-gray-500 dark:text-gray-400 mb-4">{{ t.customizer.publicLinkDesc }}</p>
         
         <div class="space-y-3">
+          <!-- Toggle Link -->
           <div class="flex items-center justify-between p-3 bg-white dark:bg-navy-900 border border-blue-200/50 dark:border-gray-700 rounded-xl shadow-sm">
             <span class="text-[12.5px] font-semibold text-gray-700 dark:text-gray-300">{{ t.customizer.enableLink }}</span>
             <button 
@@ -49,14 +50,63 @@
             </button>
           </div>
 
-          <div v-if="isPublic && currentSlug" class="flex items-center gap-2 p-1.5 pl-3 bg-white dark:bg-navy-800 border border-blue-200/50 dark:border-gray-700 rounded-xl overflow-hidden shadow-sm">
-            <span class="flex-1 text-[11px] font-medium text-gray-500 truncate select-all">cvlab.uz/r/{{ currentSlug }}</span>
-            <button 
-              @click="copyPublicLink" 
-              class="px-3 py-1.5 bg-blue-brand hover:bg-blue-600 text-white text-[11px] font-bold rounded-lg transition-colors shadow-sm"
-            >
-              {{ isCopied ? t.customizer.linkCopied : t.customizer.copyLink }}
-            </button>
+          <!-- Custom Slug Editor (Visible when public) -->
+          <div v-if="isPublic" class="space-y-2">
+             <div class="flex flex-col gap-2 p-3.5 bg-white dark:bg-navy-900 border border-blue-200/50 dark:border-gray-700 rounded-2xl shadow-sm transition-all focus-within:ring-2 focus-within:ring-blue-500/10 focus-within:border-blue-400">
+                <div class="flex items-center gap-2 overflow-hidden">
+                  <div class="flex items-center gap-1 text-gray-400 shrink-0">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+                    <span class="text-[11px] font-medium">cvlab.uz/r/</span>
+                  </div>
+                  <input 
+                    v-model="editableSlug"
+                    @input="onSlugInput"
+                    placeholder="username"
+                    class="flex-1 bg-transparent border-none p-0 text-[13px] font-bold text-gray-900 dark:text-white focus:ring-0 placeholder:text-gray-300 dark:placeholder:text-gray-700"
+                  />
+                  
+                  <button 
+                    v-if="editableSlug !== currentSlug"
+                    @click="checkAvailability"
+                    :disabled="isChecking || !editableSlug"
+                    class="relative shrink-0 px-3 py-1.5 bg-blue-600 text-white text-[10px] font-bold rounded-lg hover:bg-blue-700 transition-all disabled:opacity-50 min-w-[70px] flex items-center justify-center overflow-hidden"
+                  >
+                    <span v-if="!isChecking">{{ t.customizer.checkAvailability }}</span>
+                    <div v-else class="flex gap-1">
+                      <span class="w-1.5 h-1.5 bg-white rounded-full animate-bounce"></span>
+                      <span class="w-1.5 h-1.5 bg-white rounded-full animate-bounce [animation-delay:0.2s]"></span>
+                      <span class="w-1.5 h-1.5 bg-white rounded-full animate-bounce [animation-delay:0.4s]"></span>
+                    </div>
+                  </button>
+
+                  <button 
+                    v-else
+                    @click="copyPublicLink"
+                    class="shrink-0 w-8 h-8 rounded-lg flex items-center justify-center text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/40 transition-colors"
+                  >
+                    <svg v-if="!isCopied" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                    <svg v-else width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" class="text-green-500 animate-in zoom-in duration-300"><path d="M20 6L9 17l-5-5"/></svg>
+                  </button>
+                </div>
+                
+                <!-- Status Message -->
+                <div v-if="slugStatus !== 'idle'" class="flex items-center gap-1.5 mt-1 px-1 slide-in-from-top-1 animate-in duration-200">
+                  <div class="h-1 w-1 rounded-full" :class="{
+                    'bg-green-500': slugStatus === 'available',
+                    'bg-red-500': slugStatus === 'taken' || slugStatus === 'invalid'
+                  }"></div>
+                  <p class="text-[10px] font-semibold" :class="{
+                    'text-green-600 dark:text-green-400': slugStatus === 'available',
+                    'text-red-500': slugStatus === 'taken' || slugStatus === 'invalid'
+                  }">
+                    {{ 
+                      slugStatus === 'available' ? t.customizer.slugAvailable : 
+                      slugStatus === 'taken' ? t.customizer.slugTaken : 
+                      slugStatus === 'invalid' ? t.customizer.invalidSlug : '' 
+                    }}
+                  </p>
+                </div>
+             </div>
           </div>
         </div>
       </div>
@@ -78,7 +128,6 @@
             </span>
           </button>
           
-          <!-- Custom Color Picker -->
           <div class="relative group w-full aspect-square rounded-xl border-2 border-transparent">
              <input
               type="color"
@@ -86,8 +135,8 @@
               @input="onCustomColor"
               class="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10"
             />
-            <div class="absolute inset-1 rounded-lg flex items-center justify-center bg-gray-100 dark:bg-navy-800 text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-200 transition-colors">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 4v16m8-8H4"/></svg>
+            <div class="absolute inset-1 rounded-lg flex items-center justify-center bg-gray-100 dark:bg-navy-800 text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-200 transition-colors" :style="{ backgroundColor: currentColor }">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="mix-blend-difference text-white"><path d="M12 4v16m8-8H4"/></svg>
             </div>
           </div>
         </div>
@@ -132,21 +181,12 @@
             @dragover.prevent="onDragOver(idx)"
             @drop="onDrop"
             @dragend="onDragEnd"
-            class="group flex items-center gap-3 p-3 bg-white dark:bg-navy-900 border border-gray-100 dark:border-gray-800 rounded-xl transition-all duration-200"
-            :class="{ 
-              'ring-2 ring-blue-brand/50 border-blue-brand/50 scale-[1.02] shadow-lg z-10': dragOverIdx === idx,
-              'opacity-100': true
-            }"
+            class="group flex items-center gap-3 p-3 bg-white dark:bg-navy-900 border border-gray-100 dark:border-gray-800 rounded-xl transition-all duration-200 shadow-sm"
           >
-            <!-- Handle -->
             <div class="cursor-grab active:cursor-grabbing text-gray-300 dark:text-gray-600 group-hover:text-gray-400 transition-colors">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M8 9h8M8 15h8"/></svg>
             </div>
-            
-            <!-- Label -->
             <span class="flex-1 text-[12.5px] font-semibold text-gray-700 dark:text-gray-300">{{ getSectionLabel(sec) }}</span>
-
-            <!-- Move buttons (visible on hover) -->
             <div class="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
               <button @click.stop="moveUp(idx)" :disabled="idx === 0" class="w-6 h-6 flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-navy-800 text-gray-400 disabled:opacity-20">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M18 15l-6-6-6 6"/></svg>
@@ -168,60 +208,83 @@ import { storeToRefs } from 'pinia'
 import { useCVStore } from '@/stores/cv'
 import { useLimitStore } from '@/stores/limit'
 import { useLanguage } from '@/composables/useLanguage'
+import { supabase } from '@/lib/supabase'
 
 const store = useCVStore()
 const { template } = storeToRefs(store)
 const limitStore = useLimitStore()
 const { t } = useLanguage()
 
-// Locked for free/guest users
 const isLocked = computed(() => !limitStore.isPremiumPlan)
-
-// Logic for components
 const hasColorHeader = computed(() => template.value === 'modern' || template.value === 'bold')
 const isAcademicTemplate = computed(() => template.value === 'academic')
-
-const DEFAULT_ORDER = ['experience', 'education', 'projects', 'skills']
-
-const THEME_COLORS = [
-  { value: '#1A56DB', name: 'Blue' },
-  { value: '#0A2540', name: 'Navy' },
-  { value: '#059669', name: 'Emerald' },
-  { value: '#D97706', name: 'Amber' },
-  { value: '#DC2626', name: 'Red' },
-  { value: '#7C3AED', name: 'Violet' },
-  { value: '#0891B2', name: 'Cyan' },
-  { value: '#374151', name: 'Slate' },
-]
-
-const FONT_OPTIONS = [
-  { value: 'EB Garamond',      label: 'EB Garamond',    sampleText: 'Abc 123' },
-  { value: 'Inter',            label: 'Inter',         sampleText: 'Abc 123' },
-  { value: 'Roboto',           label: 'Roboto',        sampleText: 'Abc 123' },
-  { value: 'Georgia',          label: 'Georgia',       sampleText: 'Abc 123' },
-  { value: 'Outfit',           label: 'Outfit',        sampleText: 'Abc 123' },
-  { value: 'Plus Jakarta Sans', label: 'Jakarta Sans',  sampleText: 'Abc 123' },
-]
 
 const currentColor = computed(() => store.data.settings?.themeColor ?? '#1A56DB')
 const currentFont  = computed(() => isAcademicTemplate.value ? 'EB Garamond' : (store.data.settings?.fontFamily ?? 'Inter'))
 const isPublic     = computed(() => store.data.settings?.isPublic ?? false)
 const currentSlug   = computed(() => store.data.settings?.publicSlug ?? '')
 
+// Slug Logic
+const editableSlug = ref(currentSlug.value)
+const slugStatus = ref<'idle' | 'loading' | 'available' | 'taken' | 'invalid'>('idle')
+const isChecking = ref(false)
 const isCopied = ref(false)
+
+watch(currentSlug, (v) => { editableSlug.value = v })
+
+function onSlugInput() {
+  slugStatus.value = 'idle'
+  editableSlug.value = editableSlug.value.toLowerCase().replace(/[^a-z0-9-]/g, '')
+}
+
+async function checkAvailability() {
+  const slug = editableSlug.value.trim()
+  if (!slug) return
+  
+  if (slug.length < 3) {
+    slugStatus.value = 'invalid'
+    return
+  }
+
+  isChecking.value = true
+  slugStatus.value = 'loading'
+  
+  try {
+    // Check in Supabase
+    const { data: existing, error } = await supabase
+      .from('resumes')
+      .select('id')
+      .eq('slug', slug)
+      .not('id', 'eq', store.cloudId || '00000000-0000-0000-0000-000000000000') // Don't match self
+      .maybeSingle()
+
+    if (error) throw error
+
+    if (existing) {
+      slugStatus.value = 'taken'
+    } else {
+      slugStatus.value = 'available'
+      // Update store immediately if available and user wants
+      store.setSettings({ publicSlug: slug })
+    }
+  } catch (err) {
+    console.error('Error checking slug:', err)
+    slugStatus.value = 'idle'
+  } finally {
+    isChecking.value = false
+  }
+}
 
 function togglePublic() {
   const newVal = !isPublic.value
   let slug = currentSlug.value
   if (newVal && !slug) {
-    // Cleaner slug: firstName-lastName-random
     const fName = store.data.personal.firstName.toLowerCase().replace(/[^a-z0-9]/g, '')
     const lName = store.data.personal.lastName.toLowerCase().replace(/[^a-z0-9]/g, '')
     const base = `${fName}-${lName}`.replace(/^-+|-+$/g, '') || 'resume'
     const random = Math.random().toString(36).substring(2, 6)
     slug = `${base}-${random}`
   }
-  
   store.setSettings({ isPublic: newVal, publicSlug: slug })
 }
 
@@ -238,21 +301,13 @@ async function copyPublicLink() {
   }
 }
 
-function setColor(val: string) {
-  if (isLocked.value) return
-  store.setSettings({ themeColor: val })
-}
-function onCustomColor(e: Event) {
-  if (isLocked.value) return
-  const val = (e.target as HTMLInputElement).value
-  store.setSettings({ themeColor: val })
-}
-function setFont(val: string) {
-  if (isLocked.value || isAcademicTemplate.value) return
-  store.setSettings({ fontFamily: val })
-}
+// Settings handlers
+function setColor(val: string) { if (!isLocked.value) store.setSettings({ themeColor: val }) }
+function onCustomColor(e: Event) { if (!isLocked.value) store.setSettings({ themeColor: (e.target as HTMLInputElement).value }) }
+function setFont(val: string) { if (!isLocked.value && !isAcademicTemplate.value) store.setSettings({ fontFamily: val }) }
 
-// Drag & Drop
+// Drag & Drop (unchanged logic)
+const DEFAULT_ORDER = ['experience', 'education', 'projects', 'skills']
 const EXCLUDE_SECTIONS = ['languages']
 const filterOrder = (arr: string[]) => arr.filter(s => !EXCLUDE_SECTIONS.includes(s))
 const localSectionOrder = ref<string[]>(filterOrder(store.data.settings?.sectionOrder ?? DEFAULT_ORDER))
@@ -260,7 +315,6 @@ watch(() => store.data.settings?.sectionOrder, (v) => { if (v) localSectionOrder
 
 let dragIdx = -1
 const dragOverIdx = ref(-1)
-
 function onDragStart(idx: number) { if (!isLocked.value) dragIdx = idx }
 function onDragOver(idx: number)  { if (!isLocked.value) dragOverIdx.value = idx }
 function onDrop() {
@@ -273,26 +327,37 @@ function onDrop() {
   dragIdx = -1; dragOverIdx.value = -1
 }
 function onDragEnd() { dragOverIdx.value = -1 }
-
 function moveUp(idx: number) {
   if (isLocked.value || idx === 0) return
   const arr = [...localSectionOrder.value]
   ;[arr[idx - 1], arr[idx]] = [arr[idx], arr[idx - 1]]
-  localSectionOrder.value = arr
   store.setSettings({ sectionOrder: arr })
 }
 function moveDown(idx: number) {
   if (isLocked.value || idx === localSectionOrder.value.length - 1) return
   const arr = [...localSectionOrder.value]
   ;[arr[idx + 1], arr[idx]] = [arr[idx], arr[idx + 1]]
-  localSectionOrder.value = arr
   store.setSettings({ sectionOrder: arr })
 }
-
-type SectionKey = keyof typeof t.value.customizer.sections
 function getSectionLabel(sec: string): string {
-  return t.value.customizer.sections[sec as SectionKey] ?? sec
+  const keys = t.value.customizer.sections
+  return (keys as any)[sec] ?? sec
 }
+
+const THEME_COLORS = [
+  { value: '#1A56DB', name: 'Blue' }, { value: '#0A2540', name: 'Navy' },
+  { value: '#059669', name: 'Emerald' }, { value: '#D97706', name: 'Amber' },
+  { value: '#DC2626', name: 'Red' }, { value: '#7C3AED', name: 'Violet' },
+  { value: '#0891B2', name: 'Cyan' }, { value: '#374151', name: 'Slate' },
+]
+const FONT_OPTIONS = [
+  { value: 'EB Garamond', label: 'EB Garamond', sampleText: 'Abc 123' },
+  { value: 'Inter', label: 'Inter', sampleText: 'Abc 123' },
+  { value: 'Roboto', label: 'Roboto', sampleText: 'Abc 123' },
+  { value: 'Georgia', label: 'Georgia', sampleText: 'Abc 123' },
+  { value: 'Outfit', label: 'Outfit', sampleText: 'Abc 123' },
+  { value: 'Plus Jakarta Sans', label: 'Jakarta Sans', sampleText: 'Abc 123' },
+]
 </script>
 
 <style scoped>
